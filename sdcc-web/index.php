@@ -67,10 +67,28 @@
             
             <h2><a name="News"></a>News</h2>
 
-            <p><i><b>Jan 24th, 2020: SDCC 4.0.0 RC1 released.</b></i></p>
-            <p>SDCC 4.0.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+            <p><i><b>Jan 30th, 2019: SDCC 4.0.0  released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
+              HC08, STM8, Padauk and PIC microprocessors is now available
+              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
+              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
+            <p>SDCC 4.0.0 New Feature List:</p>
+            <ul>
+              <li>The pdk15 backend now passes the regression tests (both with and without --stack-auto), and is thus considered stable.</li>
+              <li>New in-development pdk13 backend for Padauk µC with 13-bit wide program memory.</li>
+              <li>C2X memccpy(), strdup(), strndup().</li>
+              <li>Better tail call optimization.</li>
+              <li>Many fixes in the pic14 backend.</li>
+              <li>C2X u8 character constants.</li>
+              <li>C2X bool, static_assert, alignof, alignas.</li>
+              <li>C2X attributes on statements.</li>
+              <li>C2X attribute declarations.</li>
+              <li>Support for extended ASCII characters in sdas, sdld.</li>
+              <li>Compiler support for UCNs and non-ASCII utf8 in identifiers.</li>
+            </ul>
+            <p>Numerous other new features and bug fixes are included as well.</p>
+            <p>You can download the release from:<br />
+              <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
 
             <!-- END NEWS -->
 
@@ -226,6 +244,11 @@
             <!-- START PAST_NEWS -->
 
             <h2><a name="Past_news"></a>Past news</h2>
+
+            <p><i><b>Jan 24th, 2020: SDCC 4.0.0 RC1 released.</b></i></p>
+            <p>SDCC 4.0.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
 
             <p><i><b>Apr 15th, 2019: SDCC 3.9.0  released.</b></i></p>
             <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
