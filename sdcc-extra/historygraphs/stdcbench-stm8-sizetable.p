@@ -18,5 +18,7 @@ set arrow from 10582, trans(21164) to 10582, trans(20864)
 set label "3.8.0" at 10582, trans(21164)
 set arrow from 11214, trans(20798) to 11214, trans(20498)
 set label "3.9.0" at 11214, trans(20798)
+set arrow from 11533, trans(20582) to 11533, trans(20282)
+set label "4.0.0" at 11533, trans(20582)
 plot "stdcbench-stm8-sizetable" using 1:(trans($4)) title "default", "stdcbench-stm8-sizetable" using 1:(trans($2)) title "size", "stdcbench-stm8-sizetable" using 1:(trans($3)) title "speed", 6750 lt rgb "white" lw 20 notitle
 

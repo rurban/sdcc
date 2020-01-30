@@ -11,5 +11,7 @@ set arrow from 10582, 960.692 to 10582, 959.692
 set label "3.8.0" at 10582, 960.692
 set arrow from 11214, 967.183 to 11214, 966.183
 set label "3.9.0" at 11214, 967.183
+set arrow from 11533, 961.614 to 11533, 960.614
+set label "4.0.0" at 11533, 961.614
 plot "whetstone-mcs51-scoretable" using 1:4 title "default", "whetstone-mcs51-scoretable" using 1:2 title "size", "whetstone-mcs51-scoretable" using 1:3 title "speed"
 

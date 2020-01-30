@@ -7,7 +7,7 @@
 >
 
 <title>Gnuplot</title>
-<desc>Produced by GNUPLOT 5.2 patchlevel 7 </desc>
+<desc>Produced by GNUPLOT 5.2 patchlevel 8 </desc>
 
 <g id="gnuplot_canvas">
 
@@ -131,7 +131,7 @@
 	<path stroke='black'  d='M114.4,399.4 L117.0,409.4 L119.6,399.4 M117.0,374.8 L117.0,409.4 M180.1,381.3 L182.7,391.3 L185.3,381.3
 		M182.7,356.7 L182.7,391.3 M291.7,52.4 L294.3,62.4 L296.9,52.4 M294.3,27.7 L294.3,62.4 M355.4,20.5
 		L357.6,28.7 L359.8,20.5 M357.6,0.1 L357.6,28.7 M470.2,19.5 L472.3,27.3 L474.4,19.5 M472.3,0.1
-		L472.3,27.3  '/></g>
+		L472.3,27.3 M528.1,19.5 L530.2,27.3 L532.3,19.5 M530.2,0.1 L530.2,27.3  '/></g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(342.7,471.3)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
 		<text><tspan font-family="Arial" >revision</tspan></text>
@@ -168,7 +168,7 @@
 		L371.1,57.5 L371.8,56.0 L373.2,63.4 L375.8,57.5 L392.7,57.5 L393.9,57.5 L394.7,57.5 L394.8,57.5
 		L395.0,57.5 L395.4,57.5 L397.2,57.5 L415.4,57.5 L426.2,57.5 L428.8,57.5 L449.3,57.5 L451.7,57.5
 		L460.7,55.3 L472.3,55.3 L480.7,55.3 L493.4,55.3 L494.3,55.6 L500.8,55.6 L512.5,55.6 L513.0,61.7
-		L514.6,58.2 L525.5,58.2 L525.9,55.3  '/></g>
+		L514.6,58.2 L525.5,58.2 L525.9,55.3 L530.2,55.3  '/></g>
 	</g>
 	<g id="gnuplot_plot_2" ><title>size</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -199,7 +199,7 @@
 		L371.1,71.0 L371.8,68.2 L373.2,72.6 L375.8,72.6 L392.7,72.6 L393.9,72.6 L394.7,72.6 L394.8,72.6
 		L395.0,72.6 L395.4,72.6 L397.2,72.6 L415.4,72.6 L426.2,72.2 L428.8,72.2 L449.3,72.2 L451.7,72.2
 		L460.7,73.3 L472.3,73.3 L480.7,73.3 L493.4,73.3 L494.3,73.3 L500.8,73.3 L512.5,73.3 L513.0,67.4
-		L514.6,75.4 L525.5,75.4 L525.9,68.4  '/></g>
+		L514.6,75.4 L525.5,75.4 L525.9,68.4 L530.2,68.4  '/></g>
 	</g>
 	<g id="gnuplot_plot_3" ><title>speed</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -230,7 +230,7 @@
 		L371.1,28.7 L371.8,26.8 L373.2,35.6 L375.8,29.7 L392.7,29.7 L393.9,29.7 L394.7,29.7 L394.8,29.7
 		L395.0,29.7 L395.4,29.7 L397.2,29.7 L415.4,29.7 L426.2,29.7 L428.8,29.7 L449.3,29.7 L451.7,29.7
 		L460.7,27.3 L472.3,27.3 L480.7,27.3 L493.4,27.3 L494.3,27.6 L500.8,27.6 L512.5,27.6 L513.0,34.3
-		L514.6,29.5 L525.5,29.5 L525.9,27.3  '/></g>
+		L514.6,29.5 L525.5,29.5 L525.9,27.3 L530.2,27.3  '/></g>
 	</g>
 <g fill="none" color="white" stroke="rgb( 86, 180, 233)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
