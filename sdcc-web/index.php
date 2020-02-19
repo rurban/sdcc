@@ -67,7 +67,7 @@
             
             <h2><a name="News"></a>News</h2>
 
-            <p><i><b>Jan 30th, 2020: SDCC 4.0.0  released.</b></i></p>
+            <p><i><b>Jan 30th, 2020: SDCC 4.0.0 released.</b></i></p>
             <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
               HC08, STM8, Padauk and PIC microprocessors is now available
               (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
