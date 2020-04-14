@@ -31,6 +31,8 @@
   <div class="submenu">
     <a href="http://sourceforge.net/project/showfiles.php?group_id=599"><i>SDCC File Releases</i></a><br />
     <a href="https://sourceforge.net/p/sdcc/code/HEAD/tree/trunk/sdcc/"><i>SDCC Subversion Repository</i></a><br />
+    <a href="https://sourceforge.net/p/sdcc/mailman/"><i>Mailing lists</i></a><br />
+    <a href="https://sourceforge.net/p/sdcc/_list/tickets"><i>Issue trackers</i></a><br />
     <a href="https://sourceforge.net/p/sdcc/discussion/"><i>SDCC Forum</i></a><br />
   </div>
   <br />
