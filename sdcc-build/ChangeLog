@@ -1,3 +1,8 @@
+2020-10-05 Philipp Klaus Krause <pkk AT spth.de>
+
+	* lib/variables.mk:
+	  Enable test of z80n, r2ka and r3ka ports.
+
 2019-10-21 Philipp Klaus Krause <pkk AT spth.de>
 
 	* lib/variables.mk:
