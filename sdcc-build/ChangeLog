@@ -1,3 +1,7 @@
+2021-01-05 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* lib/upload.mk: --perms not --perm
+
 2021-01-04 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* lib/upload.mk: configure upload group permissions directly with
