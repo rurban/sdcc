@@ -1,3 +1,7 @@
+2021-01-22 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* lib/variables.mk: switch to new dcf hub server
+
 2021-01-05 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* lib/upload.mk: --perms not --perm
