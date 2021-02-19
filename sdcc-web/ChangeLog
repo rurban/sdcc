@@ -1,5 +1,10 @@
 2020-09-23 Philipp Klaus Krause <pkk AT spth.de>
 
+	* index.php:
+	  Change state of pic targets from "in development" in "unmaintained".
+
+2020-09-23 Philipp Klaus Krause <pkk AT spth.de>
+
 	* left_menu.inc:
 	  Ohloh is no more, point link to sucessor project Open Hub instead.
 
