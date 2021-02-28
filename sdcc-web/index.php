@@ -67,28 +67,10 @@
             
             <h2><a name="News"></a>News</h2>
 
-            <p><i><b>Jan 30th, 2020: SDCC 4.0.0 released.</b></i></p>
-            <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
-              HC08, STM8, Padauk and PIC microprocessors is now available
-              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
-              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
-            <p>SDCC 4.0.0 New Feature List:</p>
-            <ul>
-              <li>The pdk15 backend now passes the regression tests (both with and without --stack-auto), and is thus considered stable.</li>
-              <li>New in-development pdk13 backend for Padauk µC with 13-bit wide program memory.</li>
-              <li>C2X memccpy(), strdup(), strndup().</li>
-              <li>Better tail call optimization.</li>
-              <li>Many fixes in the pic14 backend.</li>
-              <li>C2X u8 character constants.</li>
-              <li>C2X bool, static_assert, alignof, alignas.</li>
-              <li>C2X attributes on statements.</li>
-              <li>C2X attribute declarations.</li>
-              <li>Support for extended ASCII characters in sdas, sdld.</li>
-              <li>Compiler support for UCNs and non-ASCII utf8 in identifiers.</li>
-            </ul>
-            <p>Numerous other new features and bug fixes are included as well.</p>
-            <p>You can download the release from:<br />
-              <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
+            <p><i><b>Jan 27th, 2021: SDCC 4.1.0 RC1 released.</b></i></p>
+            <p>SDCC 4.1.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
 
             <!-- END NEWS -->
 
@@ -245,6 +227,29 @@
 
             <h2><a name="Past_news"></a>Past news</h2>
 
+            <p><i><b>Jan 30th, 2020: SDCC 4.0.0 released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
+              HC08, STM8, Padauk and PIC microprocessors is now available
+              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
+              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
+            <p>SDCC 4.0.0 New Feature List:</p>
+            <ul>
+              <li>The pdk15 backend now passes the regression tests (both with and without --stack-auto), and is thus considered stable.</li>
+              <li>New in-development pdk13 backend for Padauk µC with 13-bit wide program memory.</li>
+              <li>C2X memccpy(), strdup(), strndup().</li>
+              <li>Better tail call optimization.</li>
+              <li>Many fixes in the pic14 backend.</li>
+              <li>C2X u8 character constants.</li>
+              <li>C2X bool, static_assert, alignof, alignas.</li>
+              <li>C2X attributes on statements.</li>
+              <li>C2X attribute declarations.</li>
+              <li>Support for extended ASCII characters in sdas, sdld.</li>
+              <li>Compiler support for UCNs and non-ASCII utf8 in identifiers.</li>
+            </ul>
+            <p>Numerous other new features and bug fixes are included as well.</p>
+            <p>You can download the release from:<br />
+              <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
+
             <p><i><b>Jan 24th, 2020: SDCC 4.0.0 RC1 released.</b></i></p>
             <p>SDCC 4.0.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
               <a href="http://sourceforge.net/projects/sdcc/files/">
@@ -274,31 +279,6 @@
             <p>SDCC 3.9.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
               <a href="http://sourceforge.net/projects/sdcc/files/">
               http://sourceforge.net/projects/sdcc/files/</a>.</p>
-
-            <p><i><b>Sep 27th, 2018: SDCC 3.8.0  released.</b></i></p>
-            <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, TLCS-90,
-              HC08, STM8 and PIC microprocessors is now available
-              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
-              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
-            <p>SDCC 3.8.0 Feature List:</p>
-            <ul>
-              <li>Additional general utility function: bsearch().</li>
-              <li>Support for rematerialization in the stm8 backend reduces register pressure and stack usage.</li>
-              <li>Merged upstream GNU binutils 2.30</li>
-              <li>All Python code is now fully compatible with both Python 2.7 and Python 3.6, so Python 3 can be used instead of Python 2.</li>
-              <li>Regression testing for diagnostics.</li>
-              <li>Improved handling of local bool variables in the mcs51 backend substantially reduces code size.</li>
-              <li>Large memory model for stm8 for 24-bit codespace allows using more than 32KB of Flash for code.</li>
-              <li>New optimizations for calls to some standard library function (printf(), puts(), strcpy()).</li>
-              <li>The type of true and false from stdbool.h change from int to bool.</li>
-              <li>New C2X mode (--std-c2x, --std-sdcc2x, #pragma std_c2x) adds support for one-argument static_assert variant.</li>
-              <li>Intermingling of declarations and statements (ISO C99).</li>
-              <li>Support headers for AX8052 devices.</li>
-              <li>Adopted GCC 8.2 regression tests (execute part of the GCC C torture tests).</li>
-            </ul>
-            <p>Numerous other new features and bug fixes are included as well.</p>
-            <p>You can download the release from:<br />
-              <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
 
             <!-- END PAST_NEWS -->
 
