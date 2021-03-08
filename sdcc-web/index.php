@@ -67,10 +67,25 @@
             
             <h2><a name="News"></a>News</h2>
 
-            <p><i><b>Jan 27th, 2021: SDCC 4.1.0 RC1 released.</b></i></p>
-            <p>SDCC 4.1.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+            <p><i><b>Mar 8th, 2021: SDCC 4.1.0 released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
+              HC08, STM8, Padauk and PIC microprocessors is now available
+              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
+              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
+            <p>SDCC 4.1.0 New Feature List:</p>
+            <ul>
+              <li>New z80n port for the Spectrum Next CPU (a Z80 variant).
+              <li>Much better register allocation in the gbz80 backend.
+              <li>Workarounds for Rabbit wait state bugs in the r2k backend.
+              <li>New r2ka port to better support Rabbit 2000A, 2000B, 2000C, 3000.
+              <li>Default crt0 and --data-loc for Rabbits suitable for typical Rabbit hardware configurations, such as the RCMs.
+              <li>Many improvements in code generation for z80 and related ports.
+              <li>Rabbit register definition headers for Rabbit 2000, 2000A, 2000B, 2000C, 3000, 3000A.
+              <li> C23 digit separators.
+            </ul>
+            <p>Numerous other new features and bug fixes are included as well.</p>
+            <p>You can download the release from:<br />
+              <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
 
             <!-- END NEWS -->
 
@@ -226,6 +241,11 @@
             <!-- START PAST_NEWS -->
 
             <h2><a name="Past_news"></a>Past news</h2>
+
+            <p><i><b>Jan 27th, 2021: SDCC 4.1.0 RC1 released.</b></i></p>
+            <p>SDCC 4.1.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
 
             <p><i><b>Jan 30th, 2020: SDCC 4.0.0 released.</b></i></p>
             <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
