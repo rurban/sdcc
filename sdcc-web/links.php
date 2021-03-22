@@ -36,7 +36,7 @@
       <a href="http://www.emcu.it/">WWW.EMCU.IT</a> - resources<br />
       </p>
 
-      <h2>Links - Z80/Z180/Rabbit/GameBoy/TLCS-90</h2>
+      <h2>Links - Z80/Z180/Rabbit/SM83/TLCS-90</h2>
 
       <p>
       <a href="http://www.colecovision.eu/ColecoVision/development/">ColecoVision</a> - Tutorials and tools for ColecoVision development using SDCC<br />  

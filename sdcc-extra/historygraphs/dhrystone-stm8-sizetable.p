@@ -15,5 +15,7 @@ set arrow from 11214, 7247 to 11214, 7147
 set label "3.9.0" at 11214, 7247
 set arrow from 11533, 7112 to 11533, 7012
 set label "4.0.0" at 11533, 7112
+set arrow from 12085, 6984 to 12085, 6884
+set label "4.1.0" at 12085, 6984
 plot "dhrystone-stm8-sizetable" using 1:4 title "default", "dhrystone-stm8-sizetable" using 1:2 title "size", "dhrystone-stm8-sizetable" using 1:3 title "speed"
 

@@ -1,3 +1,8 @@
+2021-03-22 Philipp Klaus Krause <pkk AT spth.de>
+
+	* links.php:
+	  The GameBoy's CPU core is the SM83, also used in some Sharp microcontrollers.
+
 2021-03-08 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* index.php: NEWS: 4.1.0 released
