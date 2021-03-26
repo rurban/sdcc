@@ -1,3 +1,8 @@
+2021-03-27 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* components/sdcc.mk: re-enable parallel make in
+	  regression tests
+
 2021-01-22 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* lib/variables.mk: switch to new dcf hub server
