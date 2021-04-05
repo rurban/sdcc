@@ -1,3 +1,8 @@
+2021-04-06 Philipp Klaus Krause <pkk AT spth.de>
+
+	* local/freebsd-13-aarch64.mk:
+	  Configuration for FreeBSD 13 on Raspberry Pi 4.
+
 2021-03-27 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* components/sdcc.mk: re-enable parallel make in
