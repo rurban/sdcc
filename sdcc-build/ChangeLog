@@ -1,3 +1,9 @@
+2021-04-08 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* components/sdcc.mk: invoke make on each regression target
+	  separately so parallelism only occurs within test target.
+	  Reset wineserver between test targets
+
 2021-04-06 Philipp Klaus Krause <pkk AT spth.de>
 
 	* local/freebsd-13-aarch64.mk:
