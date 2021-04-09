@@ -98,7 +98,6 @@ endif
 
 sdcc-regression: sdcc sdcc-install sdcc-extra
 	echo "--- Regression testing started on `date` ---"
-	echo "" > $(REGTESTLOG)
 ifeq ($(CROSSCOMPILING), 1)
 	# mingw cross regression testing with wine
 	# uninstall the previous version

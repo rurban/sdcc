@@ -1,5 +1,9 @@
 2021-04-09 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
+	* components/sdcc.mk: just let tee create the test log
+
+2021-04-09 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
 	* components/sdcc.mk: append to regression test log
 
 2021-04-08 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
