@@ -98,6 +98,7 @@ endif
 
 sdcc-regression: sdcc sdcc-install sdcc-extra
 	echo "--- Regression testing started on `date` ---"
+	echo "" > $(REGTESTLOG)
 ifeq ($(CROSSCOMPILING), 1)
 	# mingw cross regression testing with wine
 	# uninstall the previous version
@@ -110,7 +111,7 @@ ifeq ($(CROSSCOMPILING), 1)
 		mkdir -p $(REGTESTDIR); \
 		rm -rf $(_SDCCDIR)/support/regression/gen $(_SDCCDIR)/support/regression/results; \
 		for i in $(CROSSREGTESTTARGETS) ; do \
-		  WINEDEBUG=fixme-all $(MAKE) $(MAKESILENTFLAG) $(MAKEJOBFLAGS) -C $(_SDCCDIR)/support/regression SDCC_HOME=$(BUILDDIR) SDCC_EXTRA_DIR=$(SRCDIR)/sdcc-extra $$i CROSSCOMPILING=$(CROSSCOMPILING) SDCC="$(WINE) sdcc" WINE=$(WINE) $(CC_FOR_BUILD_STR) 2>&1 | tee $(REGTESTLOG); \
+		  WINEDEBUG=fixme-all $(MAKE) $(MAKESILENTFLAG) $(MAKEJOBFLAGS) -C $(_SDCCDIR)/support/regression SDCC_HOME=$(BUILDDIR) SDCC_EXTRA_DIR=$(SRCDIR)/sdcc-extra $$i CROSSCOMPILING=$(CROSSCOMPILING) SDCC="$(WINE) sdcc" WINE=$(WINE) $(CC_FOR_BUILD_STR) 2>&1 | tee -a $(REGTESTLOG); \
 		  -wineserver -k; \
 		done; \
 		# WINEDEBUG=fixme-all $(MAKE) $(MAKESILENTFLAG) -C $(_SDCCDIR)/support/valdiag SDCC_HOME=$(BUILDDIR) SDCC_EXTRA_DIR=$(SRCDIR)/sdcc-extra test-ports CROSSCOMPILING=$(CROSSCOMPILING) SDCC="$(WINE) sdcc" WINE=$(WINE) $(CC_FOR_BUILD_STR) 2>&1 | tee -a $(REGTESTLOG); \
@@ -119,7 +120,7 @@ else
 	# perform regression tests
 	mkdir -p $(REGTESTDIR); \
 	for i in $(REGTESTTARGETS) ; do \
-	  $(MAKE) $(MAKESILENTFLAG) $(MAKEJOBFLAGS) -C $(_SDCCDIR)/support/regression SDCC_HOME=$(BUILDDIR) SDCC_EXTRA_DIR=$(SRCDIR)/sdcc-extra $$i 2>&1 | tee $(REGTESTLOG); \
+	  $(MAKE) $(MAKESILENTFLAG) $(MAKEJOBFLAGS) -C $(_SDCCDIR)/support/regression SDCC_HOME=$(BUILDDIR) SDCC_EXTRA_DIR=$(SRCDIR)/sdcc-extra $$i 2>&1 | tee -a $(REGTESTLOG); \
 	done; \
 	$(MAKE) $(MAKESILENTFLAG) -C $(_SDCCDIR)/support/valdiag SDCC_HOME=$(BUILDDIR) SDCC_EXTRA_DIR=$(SRCDIR)/sdcc-extra test-ports 2>&1 | tee -a $(REGTESTLOG)
 endif
