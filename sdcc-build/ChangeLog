@@ -1,3 +1,8 @@
+2021-04-10 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* components/sdcc.mk: ignore wineserver errors the shell script
+	  way, not the makefile way
+
 2021-04-09 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* components/sdcc.mk: just let tee create the test log

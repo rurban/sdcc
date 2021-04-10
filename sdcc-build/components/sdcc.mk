@@ -111,7 +111,7 @@ ifeq ($(CROSSCOMPILING), 1)
 		rm -rf $(_SDCCDIR)/support/regression/gen $(_SDCCDIR)/support/regression/results; \
 		for i in $(CROSSREGTESTTARGETS) ; do \
 		  WINEDEBUG=fixme-all $(MAKE) $(MAKESILENTFLAG) $(MAKEJOBFLAGS) -C $(_SDCCDIR)/support/regression SDCC_HOME=$(BUILDDIR) SDCC_EXTRA_DIR=$(SRCDIR)/sdcc-extra $$i CROSSCOMPILING=$(CROSSCOMPILING) SDCC="$(WINE) sdcc" WINE=$(WINE) $(CC_FOR_BUILD_STR) 2>&1 | tee -a $(REGTESTLOG); \
-		  -wineserver -k; \
+		  wineserver -k; || true \
 		done; \
 		# WINEDEBUG=fixme-all $(MAKE) $(MAKESILENTFLAG) -C $(_SDCCDIR)/support/valdiag SDCC_HOME=$(BUILDDIR) SDCC_EXTRA_DIR=$(SRCDIR)/sdcc-extra test-ports CROSSCOMPILING=$(CROSSCOMPILING) SDCC="$(WINE) sdcc" WINE=$(WINE) $(CC_FOR_BUILD_STR) 2>&1 | tee -a $(REGTESTLOG); \
 	fi
