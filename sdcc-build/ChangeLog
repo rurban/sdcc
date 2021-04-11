@@ -2,6 +2,7 @@
 
 	* components/sdcc.mk: ignore wineserver errors the shell script
 	  way, not the makefile way
+	* components/sdcc.mk: fix missing semicolon
 
 2021-04-09 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
