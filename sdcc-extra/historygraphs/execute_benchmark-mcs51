@@ -20,7 +20,7 @@ fi
 # Setup serial device
 stty --file $1 4800 cooked
 
-# Ensure that we don't get any leftover results from an old benchmark still running onthe device
+# Ensure that we don't get any leftover results from an old benchmark still running on the device
 if ! $EC2WRITEFLASH --port USB --hex hello-mcs51/hello.ihx --run &> /dev/null; then
 	echo "FAILED to write hello.ihx to device!"
 	exit 1
