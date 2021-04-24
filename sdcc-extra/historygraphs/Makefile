@@ -9,7 +9,7 @@
 # 4.1.0: 12085
 # Broken: 8984-9000, 9104 (bug #2280), 9106-9114 (whetstone build segfaults), 9379-9418 (SDCC build fails), 9424 (library build fails) 9477 (SDCC build fails), 9891-9946 (stdcbench build fails), 9958-9959 (whetstone build fails),  10233-10240 (stdcbench build segfaults), 10270 (stdcbench build segfaults), 10279-10340 (stdcbench build segfaults) 10408 (stdcbench build segfaults) 10426-10462 (coremark build fails) 11952 (library build fails).
 # Build of large-stack-auto lib for mcs51 was enabled in 9521.
-REVISIONS_R3KA = 12085 12098 12114 12121 12146 12159 12172 12211 12230 # Earlier than 11919 doesn't have a default crt0 that works for RCM boards. For 11919 and 11972, Dhrystone hangs.
+REVISIONS_R3KA = 12085 12098 12109 12114 12121 12146 12159 12172 12211 12230 # Earlier than 11919 doesn't have a default crt0 that works for RCM boards. For 11919 and 11972, Dhrystone hangs.
 REVISIONS_MCS51 = 9521 9540 9550 9568 9581 9589 9596 9601 9602 9603 9604 9618 9624 9632 9635 9636 9637 9638 9640 9645 9646 9649 9651 9653 9654 9659 9662 9664 9665 9666 9679 9707 9730 9740 9747 9751 9761 9764 9765 9766 9767 9773 9784 9790 9791 9793 9797 9803 9807 9808 9815 9818 9819 9820 9830 9832 9836 9879 9949 9953 9955 9956 9961 9962 9964 9965 9969 9976 9984 9994 9997 10000 10017 10048 10058 10069 10072 10077 10080 10108 10124 10147 10163 10165 10167 10174 10181 10182 10185 10192 10209 10211 10260 10345 10349 10350 10366 10367 10374 10463 10495 10510 10540 10558 10582 10592 10601 10605 10621 10640 10645 10656 10660 10668 10682 10775 10782 10786 10787 10788 10790 10800 10900 10960 10974 11087 11100 11150 11214 11260 11330 11335 11371 11435 11438 11447 11507 11509 11533 11586 11614 11615 11625 11630 11631 11637 11638 11722 11822 $(REVISIONS_R3KA) 
 REVISIONS = 9105 9120 9124 9127 9138 9157 9171 9175 9182 9187 9191 9193 9207 9208 9218 9233 9256 9275 9291 9307 9311 9319 9354 9376 9438 9442 9445 9452 9461 9478 9487 9492 9493 9498 $(REVISIONS_MCS51)
 
@@ -71,6 +71,7 @@ BENCHMARKS_DHRYSTONE_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCH
 BENCHMARKS_DHRYSTONE_MCS51_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_MCS51)))
 BENCHMARKS_DHRYSTONE_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_R3KA)))
 BENCHMARKS_COREMARK_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_STM8)))
+BENCHMARKS_COREMARK_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_R3KA)))
 BENCHMARKS_STDCBENCH_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_STM8)))
 BENCHMARKS_STDCBENCH_MCS51_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_MCS51)))
 BENCHMARKS_WHETSTONE_STM8_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_STM8)))
@@ -80,6 +81,7 @@ BENCHMARKS_DHRYSTONE_STM8_SCORES = $(patsubst %image.ihx, %score, $(filter $(BEN
 BENCHMARKS_DHRYSTONE_MCS51_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_MCS51)))
 BENCHMARKS_DHRYSTONE_R3KA_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_R3KA)))
 BENCHMARKS_COREMARK_STM8_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_STM8)))
+BENCHMARKS_COREMARK_R3KA_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_R3KA)))
 BENCHMARKS_STDCBENCH_STM8_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_STM8)))
 BENCHMARKS_STDCBENCH_MCS51_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_MCS51)))
 
@@ -92,26 +94,34 @@ clean:
 	echo $(BENCHMARKS_SIZES)
 
 # coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
-coremark-stm8: coremark_v1.0.tgz coremark-1.0.patch
+coremark-stm8: coremark_v1.0.tgz coremark-1.0-stm8.patch
 	rm -rf coremark_v1.0
 	tar -xzf coremark_v1.0.tgz
-	cp -r coremark_v1.0 coremark-stm8
-	cd coremark-stm8 && cp barebones/core_portme.? ./ && cat ../coremark-1.0.patch | patch -p1
+	mv coremark_v1.0 coremark-stm8
+	cd coremark-stm8 && cp barebones/core_portme.? ./ && cat ../coremark-1.0-stm8.patch | patch -p1
 	cp Makefile.coremark coremark-stm8/Makefile
 
 # stdcbench-0.6.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
 stdcbench-stm8: stdcbench-0.6.tar.gz stdcbench-0.6-stm8.patch
 	rm -rf stdcbench-0.6
 	tar -xzf stdcbench-0.6.tar.gz
-	cp -r stdcbench-0.6 stdcbench-stm8
+	mv stdcbench-0.6 stdcbench-stm8
 	cd stdcbench-stm8 && cp examples/Makefile.SDCC-STM8AF Makefile && cat ../stdcbench-0.6-stm8.patch | patch -p1
 
 # stdcbench-0.6.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
 stdcbench-mcs51: stdcbench-0.6.tar.gz stdcbench-0.6-mcs51.patch
 	rm -rf stdcbench-0.6
 	tar -xzf stdcbench-0.6.tar.gz
-	cp -r stdcbench-0.6 stdcbench-mcs51
+	mv stdcbench-0.6 stdcbench-mcs51
 	cd stdcbench-mcs51 && cp examples/Makefile.SDCC-C8051 Makefile && cat ../stdcbench-0.6-mcs51.patch | patch -p1
+
+# coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
+coremark-r3ka: coremark_v1.0.tgz coremark-1.0-r3ka.patch
+	rm -rf coremark_v1.0
+	tar -xzf coremark_v1.0.tgz
+	mv coremark_v1.0 coremark-r3ka
+	cd coremark-r3ka && cp barebones/core_portme.? ./ && cat ../coremark-1.0-r3ka.patch | patch -p1
+	cp Makefile.coremark coremark-r3ka/Makefile
 
 whetstone-stm8-size.svg: whetstone-stm8-sizetable whetstone-stm8-sizetable.p
 	gnuplot whetstone-stm8-sizetable.p
@@ -133,6 +143,9 @@ dhrystone-r3ka-size.svg: dhrystone-r3ka-sizetable dhrystone-r3ka-sizetable.p
 
 coremark-stm8-size.svg: coremark-stm8-sizetable coremark-stm8-sizetable.p
 	gnuplot coremark-stm8-sizetable.p
+
+coremark-r3ka-size.svg: coremark-r3ka-sizetable coremark-r3ka-sizetable.p
+	gnuplot coremark-r3ka-sizetable.p
 
 stdcbench-stm8-size.svg: stdcbench-stm8-sizetable stdcbench-stm8-sizetable.p
 	gnuplot stdcbench-stm8-sizetable.p
@@ -230,6 +243,15 @@ coremark-stm8-sizetable: $(BENCHMARKS_COREMARK_STM8_SIZES)
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
+coremark-r3ka-sizetable: $(BENCHMARKS_COREMARK_R3KA_SIZES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS_R3KA); do \
+		SIZE_SIZE=`cat coremark-r3ka-size-$$r/size`; \
+		SIZE_SPEED=`cat coremark-r3ka-speed-$$r/size`; \
+		SIZE_DEFAULT=`cat coremark-r3ka-default-$$r/size `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
 stdcbench-stm8-sizetable: $(BENCHMARKS_STDCBENCH_STM8_SIZES)
 	echo "#Revision size speed default" > $@
 	for r in $(REVISIONS); do \
@@ -311,6 +333,15 @@ coremark-stm8-scoretable: $(BENCHMARKS_COREMARK_STM8_SCORES)
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
+coremark-r3ka-scoretable: $(BENCHMARKS_COREMARK_R3KA_SCORES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS_R3KA); do \
+		SIZE_SIZE=`cat coremark-r3ka-size-$$r/score`; \
+		SIZE_SPEED=`cat coremark-r3ka-speed-$$r/score`; \
+		SIZE_DEFAULT=`cat coremark-r3ka-default-$$r/score `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
 stdcbench-stm8-scoretable: $(BENCHMARKS_STDCBENCH_STM8_SCORES)
 	echo "#Revision size speed default" > $@
 	for r in $(REVISIONS); do \
@@ -343,9 +374,9 @@ $(BENCHMARKS_3000): %/image.ihx: $$(BENCHMARK)-$$(TARGET) sdcc-$$(REVISION)/bin/
 	cp -r $(BENCHMARK)-$(TARGET) $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION)
 	if [ "$(TARGET)" = "mcs51" ] ; \
 	then \
-		cd $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION) && $(MAKE) SDCC="../sdcc-$(REVISION)/bin/sdcc" SDCCFLAGS="$(SDCCFLAGS) -I../sdcc-$(REVISION)/device/include -I../sdcc-$(REVISION)/device/include/$(TARGET) -L ../sdcc-$(REVISION)/device/lib/build/large-stack-auto"; \
+		cd $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION) && $(MAKE) SDCC="../sdcc-$(REVISION)/bin/sdcc" SDCCFLAGS="$(SDCCFLAGS) --nostdinc -I../sdcc-$(REVISION)/device/include -I../sdcc-$(REVISION)/device/include/$(TARGET) -L ../sdcc-$(REVISION)/device/lib/build/large-stack-auto"; \
 	else \
-		cd $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION) && $(MAKE) SDCC="../sdcc-$(REVISION)/bin/sdcc" SDCCFLAGS="$(SDCCFLAGS) -I../sdcc-$(REVISION)/device/include -L ../sdcc-$(REVISION)/device/lib/build/$(TARGET)"; \
+		cd $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION) && $(MAKE) SDCC="../sdcc-$(REVISION)/bin/sdcc" SDCCFLAGS="$(SDCCFLAGS) --nostdinc -I../sdcc-$(REVISION)/device/include -L ../sdcc-$(REVISION)/device/lib/build/$(TARGET)"; \
 	fi
 
 $(BENCHMARKS_SIZES): %/size: %/image.ihx
@@ -374,6 +405,9 @@ $(BENCHMARKS_DHRYSTONE_R3KA_SCORES): %/score: %/image.ihx
 
 $(BENCHMARKS_COREMARK_STM8_SCORES): %/score: %/image.ihx
 	echo "scale=3;" 60000 / `./execute_benchmark-stm8 /dev/ttyUSB0 $< | sed -e "s/Total ticks : //"` | bc > $@
+
+$(BENCHMARKS_COREMARK_R3KA_SCORES): %/score: %/image.ihx
+	echo "scale=3;" 1966080 / `./execute_benchmark-r3ka /dev/ttyUSB2 $< | sed -e "s/Total ticks : //"` | bc > $@
 
 $(BENCHMARKS_STDCBENCH_STM8_SCORES): %/score: %/image.ihx
 	./execute_benchmark-stm8 /dev/ttyUSB0 $< | sed -e "s/stdcbench final score: //" > $@
