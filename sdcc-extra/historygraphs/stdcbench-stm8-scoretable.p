@@ -3,6 +3,7 @@ set terminal svg size 640,480
 set style data lines
 set key bottom right
 set xlabel "revision"
+set ylabel "stdcbench score"
 trans(x) = x < 135 ? x : x - 70
 set yrange [100:145]
 set ytics ("100" 100, "110" 110, "120" 120, "200" 130, "210" 140)
@@ -20,5 +21,7 @@ set arrow from 11214, trans(222) to 11214, trans(217)
 set label "3.9.0" at 11214, trans(222)
 set arrow from 11533, trans(224) to 11533, trans(219)
 set label "4.0.0" at 11533, trans(224)
+set arrow from 12085, trans(233) to 12085, trans(228)
+set label "4.1.0" at 12085, trans(233)
 plot "stdcbench-stm8-scoretable" using 1:(trans($4)) title "default", "stdcbench-stm8-scoretable" using 1:(trans($2)) title "size", "stdcbench-stm8-scoretable" using 1:(trans($3)) title "speed", 125 lt rgb "white" lw 20 notitle
 

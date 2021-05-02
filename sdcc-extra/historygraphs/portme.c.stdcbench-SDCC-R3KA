@@ -1,5 +1,15 @@
+/* A portme.c for SDCC targeting the RCM3319 board
+
+   (c) 2021 Philipp Klaus Krause
+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any
+   later version. */
+
 #include <stdio.h>
-#include <stdint.h>
+
+#include "stdcbench.h"
 
 #define REG(addr, reg)	__sfr __at(addr) reg
 
@@ -22,6 +32,18 @@ REG(0xA9, TAT4R); // Timer A Time Constant 4 Register
 REG(0xC0, SADR);  // Serial Port A Data Register
 REG(0xC3, SASR);  // Serial Port A Status Register
 REG(0xC4, SACR);  // Serial Port A Control Register
+
+void stdcbench_error(const char *message)
+{
+	printf("ERROR: %s\n", message);
+}
+
+#include <stdio.h>
+#include <stdint.h>
+
+#if __STDC_VERSION__ < 201112L
+#define _Noreturn
+#endif
 
 void _sdcc_external_startup(void)
 {
@@ -47,14 +69,14 @@ void init(void)
 	SACR = 0x00;    // No interrupts, 8-bit async mode
 }
 
-unsigned long clock(void)
+stdcbench_clock_t stdcbench_clock(void)
 {
-	unsigned long clock0, clock1;
+	stdcbench_clock_t clock0, clock1;
 	do
 	{
 		RTC0R = 0;
-		clock0 = ((unsigned long)(RTC0R) << 0) | ((unsigned long)(RTC1R) << 8) | ((unsigned long)(RTC2R) << 16) | ((unsigned long)(RTC3R) << 24);
-		clock1 = ((unsigned long)(RTC0R) << 0) | ((unsigned long)(RTC1R) << 8) | ((unsigned long)(RTC2R) << 16) | ((unsigned long)(RTC3R) << 24);
+		clock0 = ((stdcbench_clock_t)(RTC0R) << 0) | ((stdcbench_clock_t)(RTC1R) << 8) | ((stdcbench_clock_t)(RTC2R) << 16) | ((stdcbench_clock_t)(RTC3R) << 24);
+		clock1 = ((stdcbench_clock_t)(RTC0R) << 0) | ((stdcbench_clock_t)(RTC1R) << 8) | ((stdcbench_clock_t)(RTC2R) << 16) | ((stdcbench_clock_t)(RTC3R) << 24);
 	} while (clock0 != clock1);
 	return(clock1);
 }
@@ -73,4 +95,27 @@ int putchar(int c)
 	return c;
 }
 #endif
+
+_Noreturn void main(void)
+{
+	unsigned long score;
+
+	init();
+		
+	printf("\n%s\n", stdcbench_name_version_string);
+
+	score = stdcbench();
+
+#ifdef C90BASE
+	printf("stdcbench c90base score: %lu\n", c90base_score);
+#endif
+#ifdef C90LIB
+	printf("stdcbench c90lib score: %lu\n", c90lib_score);
+#endif
+	printf("stdcbench final score: %lu\n", score);
+
+	printf("\x04");
+
+	for(;;);
+}
 

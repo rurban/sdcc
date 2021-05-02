@@ -3,6 +3,7 @@ set terminal svg size 640,480
 set style data lines
 set key bottom right
 set xlabel "revision"
+set ylabel "Coremark iterations / s"
 set arrow from 9256, 3.257 to 9256, 2.957
 set label "3.5.0" at 9256, 3.257
 set arrow from 9618, 3.384 to 9618, 2.984
@@ -15,5 +16,7 @@ set arrow from 11214, 6.231 to 11214, 5.931
 set label "3.9.0" at 11214, 6.231
 set arrow from 11533, 6.451 to 11533, 6.151
 set label "4.0.0" at 11533, 6.451
+set arrow from 12085, 6.567 to 12085, 6.167
+set label "4.1.0" at 12085, 6.567
 plot "coremark-stm8-scoretable" using 1:4 title "default", "coremark-stm8-scoretable" using 1:2 title "size", "coremark-stm8-scoretable" using 1:3 title "speed"
 

@@ -3,6 +3,7 @@ set terminal svg size 640,480
 set style data lines
 set key bottom right
 set xlabel "revision"
+set ylabel "Dhrystones per second"
 set arrow from 9618, 6070 to 9618, 6060
 set label "3.6.0" at 9618, 6070
 set arrow from 10233, 6073 to 10233, 6063
@@ -13,5 +14,7 @@ set arrow from 11214, 5978 to 11214, 5968
 set label "3.9.0" at 11214, 5978
 set arrow from 11533, 5963 to 11533, 5953
 set label "4.0.0" at 11533, 5963
+set arrow from 12085, 6000 to 12085, 5990
+set label "4.1.0" at 12085, 6000
 plot "dhrystone-mcs51-scoretable" using 1:4 title "default", "dhrystone-mcs51-scoretable" using 1:2 title "size", "dhrystone-mcs51-scoretable" using 1:3 title "speed"
 

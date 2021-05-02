@@ -3,6 +3,7 @@ set terminal svg size 640,480
 set style data lines
 set key bottom right
 set xlabel "revision"
+set ylabel "Dhrystones per second"
 set arrow from 9256, 4825 to 9256, 4225
 set label "3.5.0" at 9256, 4825
 set arrow from 9618, 5138 to 9618, 4538
@@ -15,5 +16,7 @@ set arrow from 11214, 11641 to 11214, 10841
 set label "3.9.0" at 11214, 11641
 set arrow from 11533, 11641 to 11533, 10841
 set label "4.0.0" at 11533, 11641
+set arrow from 12085, 11636 to 12085, 10836
+set label "4.1.0" at 12085, 11636
 plot "dhrystone-stm8-scoretable" using 1:4 title "default", "dhrystone-stm8-scoretable" using 1:2 title "size", "dhrystone-stm8-scoretable" using 1:3 title "speed"
 

@@ -5,6 +5,7 @@ WARNINGS:
 * Reproducing the graphs takes a lot of time and disk space!
 * Reproducing the stm8 benchmark score graphs requires the STM8AF board from the STM8A-Discovery, and sufficient access priviledges on the host system!
 * Reproducing the mcs51 benchmark score graphs requires the C8051 V2.1 board (C8051F120 variant), and sufficient access priviledges on the host system!
+* Reproducing the r3ka benchmark score graphs requires the RCM3319 board, and sufficient access priviledges on the host system!
 
 Files:
 
@@ -17,6 +18,8 @@ execute_benchmark-stm8:
 Execute a benchmark (Whetstone, Dhrystone or Coremark) on an STM8AF board and report the results line.
 execute_benchmark-mcs51:
 Execute a benchmark (Whetstone, Dhrystone or Coremark) on a C8051 V2.1 board and report the results line.
+execute_benchmark-r3ka:
+Execute a benchmark (Whetstone, Dhrystone or Coremark) on an RCM3319 board and report the results line.
 
 *.p:
 gnuplot command files to generate graphs from data files.
