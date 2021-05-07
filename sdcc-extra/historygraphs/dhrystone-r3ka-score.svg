@@ -164,7 +164,7 @@
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb(148,   0, 211)'  d='M555.48,368.40 L598.04,368.40 M82.70,241.53 L180.58,272.78 L232.19,272.78 L255.33,52.93 L258.89,44.85 L262.45,43.74
 		L269.56,43.74 L274.90,44.85 L283.80,44.85 L296.26,45.58 L340.75,45.58 L363.89,45.58 L387.02,62.86 L456.43,62.86
-		L490.24,62.49 L515.16,62.49 L540.07,61.02 L557.87,59.18  '/></g>
+		L490.24,62.49 L515.16,62.49 L540.07,61.02 L557.87,59.18 L614.82,49.63  '/></g>
 	</g>
 	<g id="gnuplot_plot_2" ><title>size</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -175,7 +175,7 @@
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb(  0, 158, 115)'  d='M555.48,386.40 L598.04,386.40 M82.70,359.90 L180.58,386.37 L232.19,386.37 L255.33,200.72 L258.89,192.27 L262.45,191.16
 		L269.56,191.16 L274.90,192.27 L283.80,192.27 L296.26,192.63 L340.75,192.63 L363.89,192.63 L387.02,207.34 L456.43,207.34
-		L490.24,206.60 L515.16,206.60 L540.07,205.87 L557.87,204.03  '/></g>
+		L490.24,206.60 L515.16,206.60 L540.07,205.87 L557.87,204.03 L614.82,196.31  '/></g>
 	</g>
 	<g id="gnuplot_plot_3" ><title>speed</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -186,7 +186,7 @@
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb( 86, 180, 233)'  d='M555.48,404.40 L598.04,404.40 M82.70,241.53 L180.58,272.78 L232.19,272.78 L255.33,49.99 L258.89,58.82 L262.45,57.35
 		L269.56,57.35 L274.90,58.82 L283.80,58.82 L296.26,59.18 L340.75,59.18 L363.89,59.18 L387.02,76.46 L456.43,76.46
-		L490.24,76.10 L515.16,76.10 L540.07,74.62 L557.87,72.79  '/></g>
+		L490.24,76.10 L515.16,76.10 L540.07,74.62 L557.87,72.79 L614.82,63.60  '/></g>
 	</g>
 <g fill="none" color="white" stroke="rgb( 86, 180, 233)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>

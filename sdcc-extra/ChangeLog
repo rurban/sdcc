@@ -1,3 +1,14 @@
+2021-05-07 Philipp Klaus Krause <pkk AT spth.de>
+
+	* historygraphs/Makefile,
+	  historygraphs/*.svg:
+	  Update graphs.
+
+2021-05-02 Philipp Klaus Krause <pkk AT spth.de>
+
+	* historygraphs/*
+	  stdcbench and Coremark graphs for r3ka.
+
 2021-04-24 Philipp Klaus Krause <pkk AT spth.de>
 
 	* historygraphs/Makefile,

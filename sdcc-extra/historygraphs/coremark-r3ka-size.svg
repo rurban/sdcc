@@ -144,7 +144,7 @@
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb(148,   0, 211)'  d='M555.48,36.01 L598.04,36.01 M91.06,129.51 L187.41,124.31 L238.20,124.31 L260.98,164.75 L264.48,74.34 L267.98,41.98
 		L274.99,41.98 L280.25,45.74 L289.00,44.87 L301.27,54.98 L345.06,63.65 L367.83,65.09 L390.60,65.67 L458.92,65.67
-		L492.20,116.51 L516.72,147.41 L541.25,272.49 L558.77,302.82  '/></g>
+		L492.20,116.51 L516.72,147.41 L541.25,272.49 L558.77,302.82 L614.82,312.35  '/></g>
 	</g>
 	<g id="gnuplot_plot_2" ><title>size</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -155,7 +155,7 @@
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb(  0, 158, 115)'  d='M555.48,54.01 L598.04,54.01 M91.06,220.49 L187.41,208.65 L238.20,208.65 L260.98,260.93 L264.48,179.19 L267.98,112.75
 		L274.99,112.75 L280.25,116.51 L289.00,115.64 L301.27,126.62 L345.06,129.51 L367.83,130.95 L390.60,131.53 L458.92,131.53
-		L492.20,181.50 L516.72,190.16 L541.25,314.66 L558.77,350.48  '/></g>
+		L492.20,181.50 L516.72,190.16 L541.25,314.66 L558.77,350.48 L614.82,360.01  '/></g>
 	</g>
 	<g id="gnuplot_plot_3" ><title>speed</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -166,7 +166,7 @@
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb( 86, 180, 233)'  d='M555.48,72.01 L598.04,72.01 M91.06,160.70 L187.41,155.79 L238.20,155.79 L260.98,178.90 L264.48,153.48 L267.98,113.04
 		L274.99,113.04 L280.25,116.51 L289.00,115.64 L301.27,125.75 L345.06,134.71 L367.83,136.15 L390.60,136.73 L458.92,136.73
-		L492.20,188.14 L516.72,219.05 L541.25,349.90 L558.77,379.94  '/></g>
+		L492.20,188.14 L516.72,219.05 L541.25,349.90 L558.77,379.94 L614.82,388.32  '/></g>
 	</g>
 <g fill="none" color="white" stroke="rgb( 86, 180, 233)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>

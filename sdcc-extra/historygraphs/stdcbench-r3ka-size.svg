@@ -138,7 +138,7 @@
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb(148,   0, 211)'  d='M555.48,36.01 L598.04,36.01 M91.06,44.30 L187.41,42.95 L238.20,42.95 L260.98,115.40 L516.72,183.47 L541.25,229.64
-		L558.77,240.09  '/></g>
+		L558.77,240.09 L614.82,224.59  '/></g>
 	</g>
 	<g id="gnuplot_plot_2" ><title>size</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -148,7 +148,7 @@
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb(  0, 158, 115)'  d='M555.48,54.01 L598.04,54.01 M91.06,185.49 L187.41,184.15 L238.20,184.15 L260.98,253.90 L516.72,312.88 L541.25,370.17
-		L558.77,380.61  '/></g>
+		L558.77,380.61 L614.82,365.11  '/></g>
 	</g>
 	<g id="gnuplot_plot_3" ><title>speed</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -158,7 +158,7 @@
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='rgb( 86, 180, 233)'  d='M555.48,72.01 L598.04,72.01 M91.06,148.09 L187.41,145.73 L238.20,145.73 L260.98,185.16 L516.72,237.05 L541.25,251.21
-		L558.77,263.00  '/></g>
+		L558.77,263.00 L614.82,284.23  '/></g>
 	</g>
 <g fill="none" color="white" stroke="rgb( 86, 180, 233)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
