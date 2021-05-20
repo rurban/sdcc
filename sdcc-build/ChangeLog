@@ -1,3 +1,8 @@
+2021-05-20 Philipp Klaus Krause <pkk AT spth.de>
+
+	* lib/variables.mk:
+	  Test z180 port with --reserve-regs-iy.
+
 2021-04-10 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* components/sdcc.mk: ignore wineserver errors the shell script
