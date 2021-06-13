@@ -7,19 +7,19 @@
 # 3.9.0: 11214
 # 4.0.0: 11533
 # 4.1.0: 12085
-# Broken: 8984-9000, 9104 (bug #2280), 9106-9114 (whetstone build segfaults), 9379-9418 (SDCC build fails), 9424 (library build fails) 9477 (SDCC build fails), 9891-9946 (stdcbench build fails), 9958-9959 (whetstone build fails),  10233-10270 (stdcbench build segfaults), 10279-10340 (stdcbench build segfaults) 10408 (stdcbench build segfaults) 10426-10462 (coremark build fails) 11952 (library build fails).
+# Broken: 8984-9000, 9104 (bug #2280), 9106-9114 (whetstone build segfaults), 9379-9418 (SDCC build fails), 9424 (library build fails) 9477 (SDCC build fails), 9891-9946 (stdcbench build fails), 9958-10147 (Dhrystone z80 build fails) 10233-10270 (stdcbench build segfaults), 10279-10340 (stdcbench build segfaults) 10408 (stdcbench build segfaults) 10426-10462 (coremark build fails) 11952 (library build fails).
 # Build of large-stack-auto lib for mcs51 was enabled in 9521.
-REVISIONS_R3KA_STDCBENCH_POST = 12244 12258 12268 12300 12392 # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
+REVISIONS_R3KA_STDCBENCH_POST = 12244 12258 12268 12300 12392 12415 12430 # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
 REVISIONS_R3KA_STDCBENCH = 12001 12056 12085 12098 $(REVISIONS_R3KA_STDCBENCH_POST) # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
 REVISIONS_R3KA = 12001 12056 12085 12098 12100 12102 12106 12109 12114 12121 12146 12159 12172 12211 12230 $(REVISIONS_R3KA_STDCBENCH_POST) # Earlier than 11919 doesn't have a default crt0 that works for RCM boards. For 11919 and 11972, Dhrystone hangs.
-REVISIONS_MCS51 = 9521 9540 9550 9568 9581 9589 9596 9601 9602 9603 9604 9618 9624 9632 9635 9636 9637 9638 9640 9645 9646 9649 9651 9653 9654 9659 9662 9664 9665 9666 9679 9707 9730 9740 9747 9751 9761 9764 9765 9766 9767 9773 9784 9790 9791 9793 9797 9803 9807 9808 9815 9818 9819 9820 9830 9832 9836 9879 9949 9953 9955 9956 9961 9962 9964 9965 9969 9976 9984 9994 9997 10000 10017 10048 10058 10069 10072 10077 10080 10108 10124 10147 10163 10165 10167 10174 10181 10182 10185 10192 10209 10211 10345 10349 10350 10366 10367 10374 10463 10495 10510 10540 10558 10582 10592 10601 10605 10621 10640 10645 10656 10660 10668 10682 10775 10782 10786 10787 10788 10790 10800 10900 10960 10974 11087 11100 11150 11214 11260 11330 11335 11371 11435 11438 11447 11507 11509 11533 11586 11614 11615 11625 11630 11631 11637 11638 11722 11822 $(REVISIONS_R3KA)
+REVISIONS_MCS51 = 9521 9540 9550 9568 9581 9589 9596 9601 9602 9603 9604 9618 9624 9632 9635 9636 9637 9638 9640 9645 9646 9649 9651 9653 9654 9659 9662 9664 9665 9666 9679 9707 9730 9740 9747 9751 9761 9764 9765 9766 9767 9773 9784 9790 9791 9793 9797 9803 9807 9808 9815 9818 9819 9820 9830 9832 9836 9879 9949 9953 9955 9956 9961 10163 10165 10167 10174 10181 10182 10185 10192 10209 10211 10345 10349 10350 10366 10367 10374 10463 10495 10510 10540 10558 10582 10592 10601 10605 10621 10640 10645 10656 10660 10668 10682 10775 10782 10786 10787 10788 10790 10800 10900 10960 10974 11087 11100 11150 11214 11260 11330 11335 11371 11435 11438 11447 11507 11509 11533 11586 11614 11615 11625 11630 11631 11637 11638 11722 11822 $(REVISIONS_R3KA)
 REVISIONS = 9105 9120 9124 9127 9138 9157 9171 9175 9182 9187 9191 9193 9207 9208 9218 9233 9256 9275 9291 9307 9311 9319 9354 9376 9438 9442 9445 9452 9461 9478 9487 9492 9493 9498 $(REVISIONS_MCS51)
 
 BENCHMARKS = whetstone dhrystone coremark stdcbench
 
 GOALS = size speed default
 
-TARGETS = stm8 mcs51 r3ka
+TARGETS = stm8 mcs51 r3ka z80
 
 COMPILERS = $(foreach revision, $(REVISIONS), sdcc-$(revision)/bin/sdcc)
 
@@ -42,6 +42,9 @@ BENCHMARKS_R3KA = $(foreach benchmark, $(BENCHMARKS), $(foreach goal, $(GOALS), 
 $(BENCHMARKS_R3KA): TARGET = r3ka
 $(BENCHMARKS_R3KA): SDCCFLAGS += -mr3ka
 BENCHMARKS_R3KA_STDCBENCH = $(foreach benchmark, $(BENCHMARKS), $(foreach goal, $(GOALS), $(foreach revision, $(REVISIONS_R3KA_STDCBENCH), $(benchmark)-r3ka-$(goal)-$(revision)/image.ihx)))
+BENCHMARKS_Z80 = $(foreach benchmark, $(BENCHMARKS), $(foreach goal, $(GOALS), $(foreach revision, $(REVISIONS), $(benchmark)-z80-$(goal)-$(revision)/image.ihx)))
+$(BENCHMARKS_Z80): TARGET = z80
+$(BENCHMARKS_Z80): SDCCFLAGS += -mz80
 
 BENCHMARKS_DEFAULT = $(foreach benchmark, $(BENCHMARKS), $(foreach target, $(TARGETS), $(foreach revision, $(REVISIONS), $(benchmark)-$(target)-default-$(revision)/image.ihx)))
 $(BENCHMARKS_DEFAULT): GOAL = default
@@ -70,9 +73,11 @@ BENCHMARKS_SCORES = $(BENCHMARKS_3000:image.ihx=score)
 BENCHMARKS_WHETSTONE_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_STM8)))
 BENCHMARKS_WHETSTONE_MCS51_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_MCS51)))
 BENCHMARKS_WHETSTONE_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_R3KA)))
+BENCHMARKS_WHETSTONE_Z80_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_Z80)))
 BENCHMARKS_DHRYSTONE_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_STM8)))
 BENCHMARKS_DHRYSTONE_MCS51_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_MCS51)))
 BENCHMARKS_DHRYSTONE_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_R3KA)))
+BENCHMARKS_DHRYSTONE_Z80_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_Z80)))
 BENCHMARKS_COREMARK_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_STM8)))
 BENCHMARKS_COREMARK_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_R3KA)))
 BENCHMARKS_STDCBENCH_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_STM8)))
@@ -93,7 +98,7 @@ BENCHMARKS_STDCBENCH_R3KA_SCORES = $(patsubst %image.ihx, %score, $(filter $(BEN
 .PHONY: all clean
 
 # Do not include Coremark (non-free) or score graphs (require STM8AF / C8051 V2.1 C8051F120 / RCM3319 boards) in all target.
-all: whetstone-stm8-size.svg whetstone-mcs51-size.svg whetstone-r3ka-size.svg dhrystone-stm8-size.svg dhrystone-mcs51-size.svg dhrystone-r3ka-size.svg stdcbench-stm8-size.svg stdcbench-mcs51-size.svg
+all: whetstone-stm8-size.svg whetstone-mcs51-size.svg whetstone-r3ka-size.svg dhrystone-stm8-size.svg dhrystone-mcs51-size.svg dhrystone-r3ka-size.svg dhrystone-z80-size.svg stdcbench-stm8-size.svg stdcbench-mcs51-size.svg
 
 clean:
 	echo $(BENCHMARKS_SIZES)
@@ -156,6 +161,9 @@ dhrystone-mcs51-size.svg: dhrystone-mcs51-sizetable dhrystone-mcs51-sizetable.p
 dhrystone-r3ka-size.svg: dhrystone-r3ka-sizetable dhrystone-r3ka-sizetable.p
 	gnuplot dhrystone-r3ka-sizetable.p
 
+dhrystone-z80-size.svg: dhrystone-z80-sizetable dhrystone-z80-sizetable.p
+	gnuplot dhrystone-z80-sizetable.p
+	
 coremark-stm8-size.svg: coremark-stm8-sizetable coremark-stm8-sizetable.p
 	gnuplot coremark-stm8-sizetable.p
 
@@ -255,6 +263,15 @@ dhrystone-r3ka-sizetable: $(BENCHMARKS_DHRYSTONE_R3KA_SIZES)
 		SIZE_SIZE=`cat dhrystone-r3ka-size-$$r/size`; \
 		SIZE_SPEED=`cat dhrystone-r3ka-speed-$$r/size`; \
 		SIZE_DEFAULT=`cat dhrystone-r3ka-default-$$r/size `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
+dhrystone-z80-sizetable: $(BENCHMARKS_DHRYSTONE_Z80_SIZES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS); do \
+		SIZE_SIZE=`cat dhrystone-z80-size-$$r/size`; \
+		SIZE_SPEED=`cat dhrystone-z80-speed-$$r/size`; \
+		SIZE_DEFAULT=`cat dhrystone-z80-default-$$r/size `; \
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
@@ -418,7 +435,7 @@ $(BENCHMARKS_3000): %/image.ihx: $$(BENCHMARK)-$$(TARGET) sdcc-$$(REVISION)/bin/
 	then \
 		cd $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION) && $(MAKE) SDCC="../sdcc-$(REVISION)/bin/sdcc" SDCCFLAGS="$(SDCCFLAGS) --nostdinc -I../sdcc-$(REVISION)/device/include -I../sdcc-$(REVISION)/device/include/$(TARGET) -L ../sdcc-$(REVISION)/device/lib/build/large-stack-auto"; \
 	else \
-		cd $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION) && $(MAKE) SDCC="../sdcc-$(REVISION)/bin/sdcc" SDCCFLAGS="$(SDCCFLAGS) --nostdinc -I../sdcc-$(REVISION)/device/include -L ../sdcc-$(REVISION)/device/lib/build/$(TARGET)"; \
+		cd $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION) && $(MAKE) SDAS="../sdcc-$(REVISION)/bin/sdas$(TARGET)" SDCC="../sdcc-$(REVISION)/bin/sdcc" SDCCFLAGS="$(SDCCFLAGS) --nostdinc -I../sdcc-$(REVISION)/device/include -L ../sdcc-$(REVISION)/device/lib/build/$(TARGET)"; \
 	fi
 
 $(BENCHMARKS_SIZES): %/size: %/image.ihx
