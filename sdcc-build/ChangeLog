@@ -1,3 +1,8 @@
+2021-06-13 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* lib/variables.mk: cycle through regression test targets every
+	  3 days instead of every 2 days to reduce load
+
 2021-05-20 Philipp Klaus Krause <pkk AT spth.de>
 
 	* lib/variables.mk:
