@@ -1,3 +1,10 @@
+2021-06-15 Philipp Klaus Krause <pkk AT spth.de>
+
+	* historygraphs/dhrystone-mcs51/stm8l.h,
+	  historygraphs/dhrystone-r3ka/stm8l.h,
+	  historygraphs/dhrystone-z80/stm8l.h:
+	  Remove leftover stm8 file.
+
 2021-06-14 Philipp Klaus Krause <pkk AT spth.de>
 
 	* historygraphs/dhrystone-z80,
