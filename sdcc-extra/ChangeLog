@@ -4,6 +4,8 @@
 	  historygraphs/execute_benchmark-z80,
 	  historygraphs/Makefile:
 	  Add Whetstone size graph for z80.
+	* dhrystone-z80-size.svg:
+	  Add Dhrystone size graph for z80.
 
 2021-06-15 Philipp Klaus Krause <pkk AT spth.de>
 
