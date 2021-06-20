@@ -188,6 +188,9 @@ whetstone-mcs51-score.svg: whetstone-mcs51-scoretable whetstone-mcs51-scoretable
 whetstone-r3ka-score.svg: whetstone-r3ka-scoretable whetstone-r3ka-scoretable.p
 	gnuplot whetstone-r3ka-scoretable.p
 
+whetstone-z80-size.svg: whetstone-z80-sizetable whetstone-z80-sizetable.p
+	gnuplot whetstone-z80-sizetable.p
+
 dhrystone-stm8-score.svg: dhrystone-stm8-scoretable dhrystone-stm8-scoretable.p
 	gnuplot dhrystone-stm8-scoretable.p
 
@@ -236,6 +239,15 @@ whetstone-r3ka-sizetable: $(BENCHMARKS_WHETSTONE_R3KA_SIZES)
 		SIZE_SIZE=`cat whetstone-r3ka-size-$$r/size`; \
 		SIZE_SPEED=`cat whetstone-r3ka-speed-$$r/size`; \
 		SIZE_DEFAULT=`cat whetstone-r3ka-default-$$r/size `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
+whetstone-z80-sizetable: $(BENCHMARKS_WHETSTONE_Z80_SIZES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS); do \
+		SIZE_SIZE=`cat whetstone-z80-size-$$r/size`; \
+		SIZE_SPEED=`cat whetstone-z80-speed-$$r/size`; \
+		SIZE_DEFAULT=`cat whetstone-z80-default-$$r/size `; \
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
@@ -293,6 +305,15 @@ coremark-r3ka-sizetable: $(BENCHMARKS_COREMARK_R3KA_SIZES)
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
+coremark-z80-sizetable: $(BENCHMARKS_COREMARK_Z80_SIZES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS); do \
+		SIZE_SIZE=`cat coremark-z80-size-$$r/size`; \
+		SIZE_SPEED=`cat coremark-z80-speed-$$r/size`; \
+		SIZE_DEFAULT=`cat coremark-z80-default-$$r/size `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
 stdcbench-stm8-sizetable: $(BENCHMARKS_STDCBENCH_STM8_SIZES)
 	echo "#Revision size speed default" > $@
 	for r in $(REVISIONS); do \
@@ -317,6 +338,15 @@ stdcbench-r3ka-sizetable: $(BENCHMARKS_STDCBENCH_R3KA_SIZES)
 		SIZE_SIZE=`cat stdcbench-r3ka-size-$$r/size`; \
 		SIZE_SPEED=`cat stdcbench-r3ka-speed-$$r/size`; \
 		SIZE_DEFAULT=`cat stdcbench-r3ka-default-$$r/size `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
+stdcbench-z80-sizetable: $(BENCHMARKS_STDCBENCH_Z80_SIZES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS); do \
+		SIZE_SIZE=`cat stdcbench-z80-size-$$r/size`; \
+		SIZE_SPEED=`cat stdcbench-z80-speed-$$r/size`; \
+		SIZE_DEFAULT=`cat stdcbench-z80-default-$$r/size `; \
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
@@ -430,7 +460,7 @@ $(COMPILERS): sdcc-%/bin/sdcc:
 .SECONDEXPANSION:
 $(BENCHMARKS_3000): %/image.ihx: $$(BENCHMARK)-$$(TARGET) sdcc-$$(REVISION)/bin/sdcc
 	rm -rf $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION)
-	cp -r $(BENCHMARK)-$(TARGET) $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION)
+	cp --reflink=auto -r $(BENCHMARK)-$(TARGET) $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION)
 	if [ "$(TARGET)" = "mcs51" ] ; \
 	then \
 		cd $(BENCHMARK)-$(TARGET)-$(GOAL)-$(REVISION) && $(MAKE) SDCC="../sdcc-$(REVISION)/bin/sdcc" SDCCFLAGS="$(SDCCFLAGS) --nostdinc -I../sdcc-$(REVISION)/device/include -I../sdcc-$(REVISION)/device/include/$(TARGET) -L ../sdcc-$(REVISION)/device/lib/build/large-stack-auto"; \
