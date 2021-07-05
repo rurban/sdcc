@@ -9,7 +9,7 @@
 # 4.1.0: 12085
 # Broken: 8984-9000, 9104 (bug #2280), 9106-9114 (whetstone build segfaults), 9379-9418 (SDCC build fails), 9424 (library build fails) 9477 (SDCC build fails), 9891-9946 (stdcbench build fails), 9958-10147 (Dhrystone z80 build fails) 10233-10270 (stdcbench build segfaults), 10279-10340 (stdcbench build segfaults) 10408 (stdcbench build segfaults) 10426-10462 (coremark build fails) 11952 (library build fails).
 # Build of large-stack-auto lib for mcs51 was enabled in 9521.
-REVISIONS_R3KA_STDCBENCH_POST = 12244 12258 12268 12300 12392 12415 12430 12464 12488 12508 # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
+REVISIONS_R3KA_STDCBENCH_POST = 12244 12258 12268 12300 12392 12415 12430 12450 12464 12488 12495 12508 # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
 REVISIONS_R3KA_STDCBENCH = 12001 12056 12085 12098 $(REVISIONS_R3KA_STDCBENCH_POST) # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
 REVISIONS_R3KA = 12001 12056 12085 12098 12100 12102 12106 12109 12114 12121 12146 12159 12172 12211 12230 $(REVISIONS_R3KA_STDCBENCH_POST) # Earlier than 11919 doesn't have a default crt0 that works for RCM boards. For 11919 and 11972, Dhrystone hangs.
 REVISIONS_MCS51 = 9521 9540 9550 9568 9581 9589 9596 9601 9602 9603 9604 9618 9624 9632 9635 9636 9637 9638 9640 9645 9646 9649 9651 9653 9654 9659 9662 9664 9665 9666 9679 9707 9730 9740 9747 9751 9761 9764 9765 9766 9767 9773 9784 9790 9791 9793 9797 9803 9807 9808 9815 9818 9819 9820 9830 9832 9836 9879 9949 9953 9955 9956 9961 10163 10165 10167 10174 10181 10182 10185 10192 10209 10211 10345 10349 10350 10366 10367 10374 10463 10495 10510 10540 10558 10582 10592 10601 10605 10621 10640 10645 10656 10660 10668 10682 10775 10782 10786 10787 10788 10790 10800 10900 10960 10974 11087 11100 11150 11214 11260 11330 11335 11371 11435 11438 11447 11507 11509 11533 11586 11614 11615 11625 11630 11631 11637 11638 11722 11822 $(REVISIONS_R3KA)
@@ -144,6 +144,15 @@ stdcbench-r3ka: stdcbench-0.7.tar.gz Makefile.stdcbench-SDCC-R3KA portme.h.stdcb
 	cp Makefile.stdcbench-SDCC-R3KA stdcbench-r3ka/Makefile
 	cp portme.h.stdcbench-SDCC-R3KA stdcbench-r3ka/examples/portme.h.SDCC-R3KA
 	cp portme.c.stdcbench-SDCC-R3KA stdcbench-r3ka/examples/portme.c.SDCC-R3KA
+
+# coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
+coremark-z80: coremark_v1.0.tgz coremark-1.0-z80.patch
+	rm -rf coremark_v1.0
+	tar -xzf coremark_v1.0.tgz
+	mv coremark_v1.0 coremark-z80
+	cd coremark-z80 && cp barebones/core_portme.? ./ && cat ../coremark-1.0-z80.patch | patch -p1
+	cp Makefile.coremark-z80 coremark-z80/Makefile
+	cp crt.0.s.coremark-SDCC-Z80 coremark-z80/crt0.s
 
 # stdcbench-0.7.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
 # Using custom Makefile, portme.h, portme.c, since stdcbench 0.7 doesn't come with one suitable for the Rabbit 3000A.

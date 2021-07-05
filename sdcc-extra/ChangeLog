@@ -1,3 +1,11 @@
+2021-07-05 Philipp Klaus Krause <pkk AT spth.de>
+
+	* historygraphs/Makefile.coremark-z80,
+	  historygraphs/coremark-1.0-z80.patch,
+	  historygraphs/crt.0.s.coremark-SDCC-Z80,
+	  historygraphs/Makefile:
+	  Infrastructure for Coremark for z80.
+
 2021-06-28 Philipp Klaus Krause <pkk AT spth.de>
 
 	* historygraphs/dhrystone-z80-size.svg,
