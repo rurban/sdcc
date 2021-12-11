@@ -5,8 +5,8 @@ set key bottom right
 set xlabel "revision"
 set ylabel "stdcbench score"
 trans(x) = x < 135 ? x : x - 70
-set yrange [100:145]
-set ytics ("100" 100, "110" 110, "120" 120, "200" 130, "210" 140)
+set yrange [100:175]
+set ytics ("100" 100, "110" 110, "120" 120, "200" 130, "210" 140, "220" 150, "230" 160, "240" 170)
 set arrow from graph 0, first 125 to graph 1, first 125 nohead lt 500 lw 20 lc bgnd
 set label "c90lib module enabled" at 10221, 125 front
 set arrow from 9256, 111 to 9256, 106

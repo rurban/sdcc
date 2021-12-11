@@ -1,3 +1,9 @@
+2021-12-11 Philipp Klaus Krause <pkk AT spth.de>
+
+	* historygraphs/Makefile,
+	  historygraphs/*.svg:
+	  Update graphs.
+
 2021-07-05 Philipp Klaus Krause <pkk AT spth.de>
 
 	* historygraphs/Makefile.coremark-z80,

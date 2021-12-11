@@ -1,7 +1,8 @@
 Gemeinsame Unterverzeichnisse: coremark_v1.0/barebones und coremark-z80/barebones.
+Nur in coremark_v1.0: coremark-1.0-z80.patch.
 diff -u coremark_v1.0/core_portme.c coremark-z80/core_portme.c
---- coremark_v1.0/core_portme.c	2021-07-05 11:07:53.255498247 +0200
-+++ coremark-z80/core_portme.c	2021-07-05 11:07:43.243415751 +0200
+--- coremark_v1.0/core_portme.c	2021-07-05 11:44:20.727282106 +0200
++++ coremark-z80/core_portme.c	2021-07-05 11:43:58.622525621 +0200
 @@ -5,9 +5,13 @@
  	Author : Shay Gal-On, EEMBC
  	Legal : TODO!
@@ -16,7 +17,7 @@ diff -u coremark_v1.0/core_portme.c coremark-z80/core_portme.c
  #if VALIDATION_RUN
  	volatile ee_s32 seed1_volatile=0x3415;
  	volatile ee_s32 seed2_volatile=0x3415;
-@@ -30,20 +34,22 @@
+@@ -30,20 +34,21 @@
  	e.g. Read value from on board RTC, read value from cpu clock cycles performance counter etc. 
  	Sample implementation for standard time.h and windows.h definitions included.
  */
@@ -34,7 +35,6 @@ diff -u coremark_v1.0/core_portme.c coremark-z80/core_portme.c
 +#define NSECS_PER_SEC CLOCKS_PER_SEC
 +unsigned long clock(void);
 +//#define CORETIMETYPE clock_t 
-+#define CORETIMETYPE unsigned long
 +#define GETMYTIME(_t) (*_t=clock())
  #define MYTIMEDIFF(fin,ini) ((fin)-(ini))
  #define TIMER_RES_DIVIDER 1
@@ -44,7 +44,7 @@ diff -u coremark_v1.0/core_portme.c coremark-z80/core_portme.c
  
  /** Define Host specific (POSIX), or target specific global time variables. */
  static CORETIMETYPE start_time_val, stop_time_val;
-@@ -92,13 +98,16 @@
+@@ -92,13 +97,16 @@
  
  ee_u32 default_num_contexts=1;
  
@@ -62,7 +62,7 @@ diff -u coremark_v1.0/core_portme.c coremark-z80/core_portme.c
  	if (sizeof(ee_ptr_int) != sizeof(ee_u8 *)) {
  		ee_printf("ERROR! Please define ee_ptr_int to a type that holds a pointer!\n");
  	}
-@@ -115,4 +124,67 @@
+@@ -115,4 +123,67 @@
  	p->portable_id=0;
  }
  
@@ -131,8 +131,8 @@ diff -u coremark_v1.0/core_portme.c coremark-z80/core_portme.c
 +#endif
  
 diff -u coremark_v1.0/core_portme.h coremark-z80/core_portme.h
---- coremark_v1.0/core_portme.h	2021-07-05 11:07:53.255498247 +0200
-+++ coremark-z80/core_portme.h	2021-07-05 11:06:26.294839095 +0200
+--- coremark_v1.0/core_portme.h	2021-07-05 11:44:20.727282106 +0200
++++ coremark-z80/core_portme.h	2021-07-05 11:08:00.831561745 +0200
 @@ -16,21 +16,21 @@
  	Define to 1 if the platform supports floating point.
  */
@@ -251,7 +251,7 @@ Gemeinsame Unterverzeichnisse: coremark_v1.0/linux und coremark-z80/linux.
 Gemeinsame Unterverzeichnisse: coremark_v1.0/linux64 und coremark-z80/linux64.
 diff -u coremark_v1.0/Makefile coremark-z80/Makefile
 --- coremark_v1.0/Makefile	2009-07-10 19:48:43.000000000 +0200
-+++ coremark-z80/Makefile	2021-07-05 11:06:26.298839123 +0200
++++ coremark-z80/Makefile	2021-07-05 11:08:00.831561745 +0200
 @@ -1,141 +1,19 @@
 -#Author : Shay Gal-On, EEMBC
 -#

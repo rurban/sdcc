@@ -3,9 +3,9 @@ set terminal svg size 640,480
 set style data lines
 set xlabel "revision"
 set ylabel "size [B]"
-trans(x) = x < 6750 ? x : x - 13000
-set yrange [6000:9000]
-set ytics ("6000" 6000, "6500" 6500, "20000" 7000, "20500" 7500, "21000" 8000, "21500" 8500, "22000" 9000)
+trans(x) = x < 6750 ? x : x - 12000
+set yrange [6000:10000]
+set ytics ("6000" 6000, "6500" 6500, "19000" 7000, "19500" 7500, "20000" 8000, "20500" 8500, "21000" 9000, "21500" 9500, "22000" 10000)
 set arrow from graph 0, first 6750 to graph 1, first 6750 nohead lt 500 lw 20 lc bgnd
 set label "c90lib module enabled" at 10221, 6750 front
 set arrow from 9256, 6597 to 9256, 6297 front
