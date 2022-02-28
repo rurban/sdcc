@@ -18,6 +18,31 @@
 
       <h2>Previous NEWS</h2>
 
+            <p><i><b>Apr 15th, 2019: SDCC 3.9.0  released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
+              HC08, STM8, Padauk and PIC microprocessors is now available
+              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
+              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
+            <p>SDCC 3.9.0 Feature List:</p>
+            <ul>
+              <li>Support for struct / union assignment.</li>
+              <li>Optimizations in the stm8 backend relevant to soft float increase Whetstone score by two thirds.</li>
+              <li>Improvements in rematerialization in the stm8 backend improve code generation for struct, union and arrays.</li>
+              <li>New stack allocator reduces stack space usage for the stm8, z80, z180, gbz80, r2k, r3ka, tlcs90 backends.</li>
+              <li>New ez80_z80 backend for eZ80 in Z80 mode.</li>
+              <li>Removed deprecated sdcclib utility.</li>
+              <li>New pdk14 backend for Padauk µC with 14-bit wide program memory.</li>
+              <li>New in-development pdk15 backend for Padauk µC with 15-bit wide program memory.</li>
+            </ul>
+            <p>Numerous other new features and bug fixes are included as well.</p>
+            <p>You can download the release from:<br />
+              <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
+
+            <p><i><b>Apr 8th, 2019: SDCC 3.9.0 RC1 released.</b></i></p>
+            <p>SDCC 3.9.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+
             <p><i><b>Sep 27th, 2018: SDCC 3.8.0  released.</b></i></p>
             <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, TLCS-90,
               HC08, STM8 and PIC microprocessors is now available
