@@ -23,9 +23,9 @@
               targets the <b><i>Intel MCS51 </i></b> based microprocessors <b><i>(8031, 8032, 8051, 8052, etc.)</i></b>,
               <b><i>Maxim</i></b> (formerly <b><i>Dallas</i></b>) <b><i>DS80C390</i></b> variants,
               <b><i>Freescale</i></b> (formerly <b><i>Motorola</i></b>) <b><i>HC08</i></b> based <b><i>(hc08, s08)</i></b>,
-              <b><i>Zilog Z80</i></b> based MCUs <b><i>(z80, z180, gbz80, Rabbit 2000/3000, Rabbit 3000A, TLCS-90)</i></b>, <b><i>Padauk (pdk14, pdk15)</b></i> and
+              <b><i>Zilog Z80</i></b> based MCUs <b><i>(Z80, Z180, SM83, Rabbit 2000, 2000A, 3000A, TLCS-90)</i></b>, <b><i>Padauk (pdk14, pdk15)</b></i> and
               <b><i>STMicroelectronics STM8</i></b>.
-              Work is in progress on supporting the <b><i>Padauk pdk13</b></i> target; <b><i>Microchip PIC16</i></b> and <b><i>PIC18</i></b>
+              Work is in progress on supporting the <b><i>Padauk pdk13</b></i> and <b><i>MOS 6502</b></i> targets; <b><i>Microchip PIC16</i></b> and <b><i>PIC18</i></b>
               targets are unmaintained. SDCC can be retargeted for other microprocessors.</p>
            <p>SDCC suite is a collection of several components derived from different sources with
               different FOSS licenses. SDCC compiler suite include:</p>
@@ -114,8 +114,8 @@
 
             <p>See the <a href="https://sourceforge.net/projects/sdcc/files/">
               Sourceforge download page</a> for the last released version including source and
-              binary packages for <b>Linux - x86</b>, <b>Microsoft Windows - x86</b>,
-              <b>Microsoft Windows - x86_64</b> and <b>Mac OS X - ppc and i386</b>.</p>
+              binary packages for <b>Linux - amd64</b>, <b>Microsoft Windows - x86</b>,
+              <b>Microsoft Windows - amd64</b> and <b>Mac OS X - ppc and amd64</b>.</p>
             <p>Major Linux distributions take care of SDCC installation packages themselves
               and you will find SDCC in their repositories. Unfortunately SDCC packages included
               in Linux disributions are often outdated. In this case users are encouraged to compile
@@ -123,18 +123,10 @@
               the pre-compiled binaries from
               <a href="https://sourceforge.net/projects/sdcc/files/">
               Sourceforge download page</a>.</p>
-            <p>SDCC is known to compile from the source code also on the following platforms:</p>
+            <p>In addition, SDCC should compile on any modern Unix-like OS; the following are included in automated regression testing, like the release packages:</p>
             <ul>
-              <li>Linux - x86_64</li>
-              <li>Linux - Alpha</li>
-              <li>Linux - IBM Power5</li>
-              <li>NetBSD - i386</li>
-              <li>NetBSD - Sparc64</li>
-              <li>FreeBSD - i386</li>
-              <li>SUN Solaris - i386</li>
-              <li>SUN Solaris - Sparc</li>
-              <li>Rasbian (Debian for Raspberry Pi) - ARMv6</li>
-              <li>Debian - ARMv7-a</li>
+              <li>Linux - x86</li>
+              <li>FreeBSD - aarch64</li>
             </ul>
             <p>SDCC is always under active development. Please consider
               <a href="snap.php">downloading one of the snapshot builds</a>
