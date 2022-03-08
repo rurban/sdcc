@@ -1,4 +1,10 @@
-2021-02-03 Philipp Klaus Krause <krauseph@informatik.uni-freiburg.de>
+2022-03-08 Philipp Klaus Krause <krauseph@informatik.uni-freiburg.de>
+
+	* historygraphs/Makefile,
+	  historygraphs/*.svg:
+	  Update graphs.
+
+2022-02-03 Philipp Klaus Krause <krauseph@informatik.uni-freiburg.de>
 
 	* historygraphs/Makefile,
 	  historygraphs/*.svg:

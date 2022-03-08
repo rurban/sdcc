@@ -5,5 +5,7 @@ set xlabel "revision"
 set ylabel "size [B]"
 set arrow from 12085, 15990 to 12085, 15940
 set label "4.1.0" at 12085, 15990
+set arrow from 13131, 14918 to 13131, 14868
+set label "4.2.0" at 13131, 14918
 plot "coremark-r3ka-sizetable" using 1:4 title "default", "coremark-r3ka-sizetable" using 1:2 title "size", "coremark-r3ka-sizetable" using 1:3 title "speed"
 
