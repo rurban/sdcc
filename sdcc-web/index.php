@@ -67,35 +67,35 @@
             
             <h2><a name="News"></a>News</h2>
 
-            <p><i><b>Feb 27th, 2022: SDCC 4.2.0 RC2 released.</b></i></p>
-            <p>SDCC 4.2.0 Release Candidate 2 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
-
-            <p><i><b>Feb 22nd, 2022: SDCC 4.2.0 RC1 released.</b></i></p>
-            <p>SDCC 4.2.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
-
-            <p><i><b>Mar 8th, 2021: SDCC 4.1.0 released.</b></i></p>
-            <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
-              HC08, STM8, Padauk and PIC microprocessors is now available
+            <p><i><b>Mar 8th, 2022: SDCC 4.2.0 released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, 6502, Padauk and PIC microprocessors is now available.
               (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
               Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
-            <p>SDCC 4.1.0 New Feature List:</p>
+            <p>SDCC 4.2.0 New Feature List:</p>
             <ul>
-              <li>New z80n port for the Spectrum Next CPU (a Z80 variant).
-              <li>Much better register allocation in the gbz80 backend.
-              <li>Workarounds for Rabbit wait state bugs in the r2k backend.
-              <li>New r2ka port to better support Rabbit 2000A, 2000B, 2000C, 3000.
-              <li>Default crt0 and --data-loc for Rabbits suitable for typical Rabbit hardware configurations, such as the RCMs.
-              <li>Many improvements in code generation for z80 and related ports.
-              <li>Rabbit register definition headers for Rabbit 2000, 2000A, 2000B, 2000C, 3000, 3000A.
-              <li> C23 digit separators.
+              <li>C23 memset_explicit</li>
+              <li>Support for --oldralloc has been removed from the z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
+              <li>gbz80 port now uses more efficient block-initalization of global variables (users of a custom crt0 need to adapt theirs).</li>
+              <li>Full support for __z88dk_callee for the z80, z180, gbz80, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka, stm8 backends.</li>
+              <li>Support for __raisonance, __iar and __cosmic calling conventions for stm8.</li>
+              <li>Support for a new __sdcccall(1) calling convention in the stm8 port AS NEW DEFAULT.</li>
+              <li>Support for a new __sdcccall(1) calling convention in the gbz80 port AS NEW DEFAULT.</li>
+              <li>Support for a new __sdcccall(1) calling convention in the z80, z80n and z180 ports AS NEW DEFAULT.</li>
+              <li>Support for a new __sdcccall(1) calling convention in the r2k, r2ka, r3k, tlcs90 and ez80_z80 ports.</li>
+              <li>Removed support for --profile for gbz80, z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
+              <li>The z80n port Z80N Core minimum version has been raised from 1.0 to 2.0.</li>
+              <li>Improved rematerialization support in the stm8, gbz80, z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
+              <li>The gbz80 port was renamed to sm83.</li>
+              <li>New in-development mos6502 port.</li>
             </ul>
             <p>Numerous other new features and bug fixes are included as well.</p>
             <p>You can download the release from:<br />
               <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
+
+            <p><i><b>Feb 27th, 2022: SDCC 4.2.0 RC2 released.</b></i></p>
+            <p>SDCC 4.2.0 Release Candidate 2 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
 
             <!-- END NEWS -->
 
@@ -244,38 +244,30 @@
 
             <h2><a name="Past_news"></a>Past news</h2>
 
-            <p><i><b>Jan 27th, 2021: SDCC 4.1.0 RC1 released.</b></i></p>
-            <p>SDCC 4.1.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
+            <p><i><b>Feb 22nd, 2022: SDCC 4.2.0 RC1 released.</b></i></p>
+            <p>SDCC 4.2.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
               <a href="http://sourceforge.net/projects/sdcc/files/">
               http://sourceforge.net/projects/sdcc/files/</a>.</p>
 
-            <p><i><b>Jan 30th, 2020: SDCC 4.0.0 released.</b></i></p>
+            <p><i><b>Mar 8th, 2021: SDCC 4.1.0 released.</b></i></p>
             <p>A new release of SDCC, the portable optimizing compiler for 8051, DS390, Z80, Z180, Rabbit 2000, GBZ80, eZ80, TLCS-90,
               HC08, STM8, Padauk and PIC microprocessors is now available
               (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
               Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
-            <p>SDCC 4.0.0 New Feature List:</p>
+            <p>SDCC 4.1.0 New Feature List:</p>
             <ul>
-              <li>The pdk15 backend now passes the regression tests (both with and without --stack-auto), and is thus considered stable.</li>
-              <li>New in-development pdk13 backend for Padauk µC with 13-bit wide program memory.</li>
-              <li>C2X memccpy(), strdup(), strndup().</li>
-              <li>Better tail call optimization.</li>
-              <li>Many fixes in the pic14 backend.</li>
-              <li>C2X u8 character constants.</li>
-              <li>C2X bool, static_assert, alignof, alignas.</li>
-              <li>C2X attributes on statements.</li>
-              <li>C2X attribute declarations.</li>
-              <li>Support for extended ASCII characters in sdas, sdld.</li>
-              <li>Compiler support for UCNs and non-ASCII utf8 in identifiers.</li>
+              <li>New z80n port for the Spectrum Next CPU (a Z80 variant).</li>
+              <li>Much better register allocation in the gbz80 backend.</li>
+              <li>Workarounds for Rabbit wait state bugs in the r2k backend.</li>
+              <li>New r2ka port to better support Rabbit 2000A, 2000B, 2000C, 3000.</li>
+              <li>Default crt0 and --data-loc for Rabbits suitable for typical Rabbit hardware configurations, such as the RCMs.</li>
+              <li>Many improvements in code generation for z80 and related ports.</li>
+              <li>Rabbit register definition headers for Rabbit 2000, 2000A, 2000B, 2000C, 3000, 3000A.</li>
+              <li> C23 digit separators.</li>
             </ul>
             <p>Numerous other new features and bug fixes are included as well.</p>
             <p>You can download the release from:<br />
               <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
-
-            <p><i><b>Jan 24th, 2020: SDCC 4.0.0 RC1 released.</b></i></p>
-            <p>SDCC 4.0.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
 
             <!-- END PAST_NEWS -->
 
