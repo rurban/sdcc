@@ -1,3 +1,8 @@
+2022-03-16 Philipp Klaus Krause <pkk AT spth.de>
+
+	* lib/variables.mk:
+	  Test mos6502 port.
+
 2021-06-13 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* lib/variables.mk: cycle through regression test targets every
