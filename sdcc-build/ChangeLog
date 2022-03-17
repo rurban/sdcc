@@ -1,3 +1,9 @@
+2022-03-17 Philipp Klaus Krause <pkk AT spth.de>
+
+	* lib/variables.mk,
+	  local/freebsd-13-aarch64.mk:
+	  Allow compile farm machines to opt into full regression testing.
+
 2021-03-17 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* lib/variables.mk: update DCF hub server

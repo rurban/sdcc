@@ -12,3 +12,7 @@ TARGETCFLAGS = "-O2 -I/usr/local/include"
 TARGETCPPFLAGS = "-I/usr/local/include"
 TARGETLDFLAGS = "-L/usr/local/lib"
 
+# This machine doesn't do much other than testing SDCC, so it might as well do that all day long
+CROSSREGTESTTARGETS = $(FULL_CROSSREGTESTTARGETS)
+REGTESTTARGETS = $(FULL_REGTESTTARGETS)
+
