@@ -18,7 +18,7 @@ do-upload:
 	if test -n "$$FILE_LIST"; \
 	then \
 	  echo "--- rsync upload started on `date` ---"; \
-	  rsync --chmod=Dg+wx,Fg+w --perms --relative --include='*.exe' -e "ssh -p $(DCFPORT)" --size-only $$FILE_LIST $(_DCFSNAPSHOTDEST) && \
+	  rsync --chmod=Dg+wx,Fg+w --perms --relative --include='*.exe' -e "ssh -p $(DCFPORT) -o StrictHostKeyChecking=no" --size-only $$FILE_LIST $(_DCFSNAPSHOTDEST) && \
 	  { \
 	    rm -rf $(HTDOCSDIR)/*; \
 	  }; \

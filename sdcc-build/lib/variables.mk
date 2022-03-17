@@ -24,8 +24,8 @@ SNAPSHOTID = $(BUILDDATE)-$(SDCC_REVISION)
 LOCAL_MK = $(HOME)/.sdcc_builder/local
 
 # DCF server host, user and path
-# dcfhub.ivorytower.norman.ok.us
-DCFHOST = 204.27.60.101
+# dcfhub2.ivorytower.norman.ok.us
+DCFHOST = 108.59.196.102
 DCFPORT = 22
 DCFUSER = $(HOSTNAME)
 DCFHTDOCSDIR = /home/$(HOSTNAME)/htdocs/

@@ -1,3 +1,8 @@
+2021-03-17 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* lib/variables.mk: update DCF hub server
+	* lib/upload.mk: accept new DCF hub host key automatically
+
 2022-03-16 Philipp Klaus Krause <pkk AT spth.de>
 
 	* lib/variables.mk:
