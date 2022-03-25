@@ -1,3 +1,8 @@
+2022-03-25 Philipp Klaus Krause <pkk AT spth.de>
+
+	* lib/variables.mk:
+	  Test use of undocumented Z80 instructions.
+
 2022-03-17 Philipp Klaus Krause <pkk AT spth.de>
 
 	* lib/variables.mk,

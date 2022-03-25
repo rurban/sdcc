@@ -61,11 +61,11 @@ SVN_ROOT = svn://svn.code.sf.net/p/sdcc/code
 #  REGTESTTARGETS_2_1: These will be tested on (day mod 3)==1
 #  REGTESTTARGETS_2_2: These will be tested on (day mod 3)==2
 #
-# Individual machines can opt to test all ports each day by overwriting REGTESTARGETS by FULL_REGTESTTARGETS and CROSSREGTESTTARGETS by FULL_CROSSREGTESTTARGETS in their $(HOSTNAME).mk
+# Individual machines can opt to test all ports each day by overwriting REGTESTARGETS with FULL_REGTESTTARGETS and CROSSREGTESTTARGETS with FULL_CROSSREGTESTTARGETS in their $(HOSTNAME).mk
 REGTESTTARGETS_1_0 = test-ds390
-REGTESTTARGETS_2_0 = test-mcs51-medium test-mcs51-stack-auto test-hc08 test-ucz80 test-ez80-z80 test-ucr2ka test-stm8-large test-pdk15-stack-auto test-uc6502
-REGTESTTARGETS_2_1 = test-mcs51-small test-mcs51-large-stack-auto test-s08 test-ucz80n test-ucr2k test-stm8 test-ucz80-resiy test-pdk15 # add test-uc65c02 here when it works
-REGTESTTARGETS_2_2 = test-mcs51-large test-mcs51-huge test-ucgbz80 test-ucz180 test-tlcs90 test-ucr3ka test-pdk14 test-ucz180-resiy # test-uc6502-stack-auto enable when it passes
+REGTESTTARGETS_2_0 = test-mcs51-medium test-mcs51-stack-auto       test-hc08 test-ucz80 test-ez80-z80                               test-ucr2ka test-stm8-large test-pdk15-stack-auto test-uc6502
+REGTESTTARGETS_2_1 = test-mcs51-small  test-mcs51-large-stack-auto test-s08  test-ucz80-resiy test-ucz180 test-ucz80-undoc          test-ucr2k  test-stm8       test-pdk15            # add test-uc65c02 here when it works
+REGTESTTARGETS_2_2 = test-mcs51-large  test-mcs51-huge                       test-ucz80n test-ucz180-resiy test-ucgbz80 test-tlcs90 test-ucr3ka                 test-pdk14            # test-uc6502-stack-auto enable when it passes
 DAYMOD = $(shell date +%j | awk '{print $$0%3}')
 ifeq ($(strip $(DAYMOD)),0)
 THIRD_CROSSREGTESTTARGETS = $(REGTESTTARGETS_1_0) $(REGTESTTARGETS_2_0)
