@@ -89,11 +89,7 @@ CC_FOR_BUILD_STR = CC_FOR_BUILD=$(CC_FOR_BUILD)
 endif
 
 ifeq ($(CROSSCOMPILING), 1)
-ifeq ($(TARGETOS), x86_64-w64-mingw32)
-  WINE = wine64
-else
-  WINE = wine
-endif
+  WINE = wineconsole
 endif
 
 sdcc-regression: sdcc sdcc-install sdcc-extra

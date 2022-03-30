@@ -1,3 +1,8 @@
+2022-03-30 Philipp Klaus Krause <pkk AT spth.de>
+
+	* components/sdcc.mk:
+	  Use wineconsole instead of wine to invoke wine (to silence error messages when there is no display server, bug #3366).
+
 2022-03-25 Philipp Klaus Krause <pkk AT spth.de>
 
 	* lib/variables.mk:
