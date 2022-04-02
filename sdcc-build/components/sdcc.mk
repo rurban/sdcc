@@ -89,7 +89,7 @@ CC_FOR_BUILD_STR = CC_FOR_BUILD=$(CC_FOR_BUILD)
 endif
 
 ifeq ($(CROSSCOMPILING), 1)
-  WINE = wineconsole
+  WINE = wine
 endif
 
 sdcc-regression: sdcc sdcc-install sdcc-extra
