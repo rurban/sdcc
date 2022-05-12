@@ -1,3 +1,8 @@
+2022-05-12 Philipp Klaus Krause <krauseph@informatik.uni-freiburg.de>
+
+	* historygraphs/execute_benchmark-r3ka:
+	  Mark r3ka benchmark execution script as executable.
+
 2022-03-08 Philipp Klaus Krause <krauseph@informatik.uni-freiburg.de>
 
 	* historygraphs/Makefile,
