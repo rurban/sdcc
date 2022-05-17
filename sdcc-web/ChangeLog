@@ -1,17 +1,22 @@
-2020-03-08 Philipp Klaus Krause <pkk AT spth.de>
+2020-05-17 Philipp Klaus Krause <pkk AT spth.de>
+
+	* snapshots.desc:
+	  Bring compile farm machine descriptions into repo.
+
+2022-03-08 Philipp Klaus Krause <pkk AT spth.de>
 
 	* index.php,
 	  previous.php:
 	  Announce SDCC 4.2.0 release.
 
-2020-02-28 Philipp Klaus Krause <pkk AT spth.de>
+2022-02-28 Philipp Klaus Krause <pkk AT spth.de>
 
 	* index.php,
 	  previous.php:
 	  Added News - SDCC 4.2.0 RC2,
 	  updated decription.
 
-2020-02-22 Philipp Klaus Krause <pkk AT spth.de>
+2022-02-22 Philipp Klaus Krause <pkk AT spth.de>
 
 	* index.php:
 	  Added News - SDCC 4.2.0 RC1.
