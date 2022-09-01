@@ -1,3 +1,8 @@
+2022-09-01 Philipp Klaus Krause <pkk AT spth.de>
+
+	* lib/doc-archive.mk:
+	  Fix bug #3345.
+
 2022-04-03 Philipp Klaus Krause <pkk AT spth.de>
 
 	* lib/variables.mk:
