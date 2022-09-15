@@ -1,3 +1,9 @@
+2022-09-15 Philipp Klaus Krause <krauseph@informatik.uni-freiburg.de>
+
+	* historygraphs/Makefile,
+	  historygraphs/*.svg:
+	  Update graphs.
+
 2022-05-12 Philipp Klaus Krause <krauseph@informatik.uni-freiburg.de>
 
 	* historygraphs/execute_benchmark-r3ka:

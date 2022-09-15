@@ -8,12 +8,12 @@
 # 4.0.0: 11533
 # 4.1.0: 12085
 # 4.2.0: 13131
-# Broken: 8984-9000, 9104 (bug #2280), 9106-9114 (whetstone build segfaults), 9379-9418 (SDCC build fails), 9424 (library build fails) 9477 (SDCC build fails), 9891-9946 (stdcbench build fails), 9958-10147 (Dhrystone z80 build fails) 10233-10270 (stdcbench build segfaults), 10279-10340 (stdcbench build segfaults) 10408 (stdcbench build segfaults) 10426-10462 (coremark build fails) 10682 (library build fails for mcs51) 11952 (library build fails).
+# Broken: 8984-9000, 9104 (bug #2280), 9106-9114 (whetstone build segfaults), 9379-9418 (SDCC build fails), 9424 (library build fails) 9477 (SDCC build fails), 9891-9946 (stdcbench build fails), 9958-10147 (Dhrystone z80 build fails) 10233-10270 (stdcbench build segfaults), 10185-10340 (stdcbench build segfaults) 10408 (stdcbench build segfaults) 10426-10462 (coremark build fails) 10682 (library build fails for mcs51) 11952 (library build fails).
 # Build of large-stack-auto lib for mcs51 was enabled in 9521.
-REVISIONS_R3KA_STDCBENCH_POST = 12392 12415 12430 12450 12464 12488 12495 12508 12642 12673 12689 12692 12746 12784 12795 12827 12862 12875 12891 12900 12969 13131 13200 13300 # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243. For 12121-12300, Coremark fails for z80.
+REVISIONS_R3KA_STDCBENCH_POST = 12392 12415 12430 12450 12464 12488 12495 12508 12642 12673 12689 12692 12746 12784 12795 12827 12862 12875 12891 12900 12969 13131 13200 13300 13495 13689 # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243. For 12121-12300, Coremark fails for z80.
 REVISIONS_R3KA_STDCBENCH = 12001 12056 12085 12098 $(REVISIONS_R3KA_STDCBENCH_POST) # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
 REVISIONS_R3KA = 12001 12056 12085 12098 12100 12102 12106 12109 12114 $(REVISIONS_R3KA_STDCBENCH_POST) # Earlier than 11919 doesn't have a default crt0 that works for RCM boards. For 11919 and 11972, Dhrystone hangs. For 12121-12300, Coremark fails for z80.
-REVISIONS_MCS51 = 9521 9540 9550 9568 9581 9589 9596 9601 9602 9603 9604 9618 9624 9632 9635 9636 9637 9638 9640 9645 9646 9649 9651 9653 9654 9659 9662 9664 9665 9666 9679 9707 9730 9740 9747 9751 9761 9764 9765 9766 9767 9773 9784 9790 9791 9793 9797 9803 9807 9808 9815 9818 9819 9820 9830 9832 9836 9879 9949 9953 9955 9956 9961 10163 10165 10167 10174 10181 10182 10185 10192 10209 10211 10345 10349 10350 10366 10367 10374 10463 10495 10510 10540 10558 10582 10592 10601 10605 10621 10640 10645 10656 10660 10668 10775 10782 10786 10787 10788 10790 10800 10900 10960 10974 11087 11100 11150 11214 11260 11330 11335 11371 11435 11438 11447 11507 11509 11533 11586 11614 11615 11625 11630 11631 11637 11638 11722 11822 $(REVISIONS_R3KA)
+REVISIONS_MCS51 = 9521 9540 9550 9568 9581 9589 9596 9601 9602 9603 9604 9618 9624 9632 9635 9636 9637 9638 9640 9645 9646 9649 9651 9653 9654 9659 9662 9664 9665 9666 9679 9707 9730 9740 9747 9751 9761 9764 9765 9766 9767 9773 9784 9790 9791 9793 9797 9803 9807 9808 9815 9818 9819 9820 9830 9832 9836 9879 9949 9953 9955 9956 9961 10163 10165 10167 10174 10181 10182 10345 10349 10350 10366 10367 10374 10463 10495 10510 10540 10558 10582 10592 10601 10605 10621 10640 10645 10656 10660 10668 10775 10782 10786 10787 10788 10790 10800 10900 10960 10974 11087 11100 11150 11214 11260 11330 11335 11371 11435 11438 11447 11507 11509 11533 11586 11614 11615 11625 11630 11631 11637 11638 11722 11822 $(REVISIONS_R3KA)
 REVISIONS = 9105 9120 9124 9127 9138 9157 9171 9175 9182 9187 9191 9193 9207 9208 9218 9233 9256 9275 9291 9307 9311 9319 9354 9376 9438 9442 9445 9452 9461 9478 9487 9492 9493 9498 $(REVISIONS_MCS51)
 
 BENCHMARKS = whetstone dhrystone coremark stdcbench
@@ -108,7 +108,7 @@ clean:
 
 # coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
 coremark-stm8: coremark_v1.0.tgz coremark-1.0-stm8.patch
-	rm -rf coremark_v1.0
+	rm -rf coremark_v1.0 coremark-stm8
 	tar -xzf coremark_v1.0.tgz
 	mv coremark_v1.0 coremark-stm8
 	cd coremark-stm8 && cp barebones/core_portme.? ./ && cat ../coremark-1.0-stm8.patch | patch -p1
@@ -116,21 +116,21 @@ coremark-stm8: coremark_v1.0.tgz coremark-1.0-stm8.patch
 
 # stdcbench-0.7.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
 stdcbench-stm8: stdcbench-0.7.tar.gz stdcbench-0.6-stm8.patch
-	rm -rf stdcbench-0.7
+	rm -rf stdcbench-0.7 stdcbench-stm8
 	tar -xzf stdcbench-0.7.tar.gz
 	mv stdcbench-0.7 stdcbench-stm8
 	cd stdcbench-stm8 && cp examples/Makefile.SDCC-STM8AF Makefile && cat ../stdcbench-0.6-stm8.patch | patch -p1
 
 # stdcbench-0.6.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
 stdcbench-mcs51: stdcbench-0.7.tar.gz stdcbench-0.6-mcs51.patch
-	rm -rf stdcbench-0.7
+	rm -rf stdcbench-0.7 stdcbench-mcs51
 	tar -xzf stdcbench-0.7.tar.gz
 	mv stdcbench-0.7 stdcbench-mcs51
 	cd stdcbench-mcs51 && cp examples/Makefile.SDCC-C8051 Makefile && cat ../stdcbench-0.6-mcs51.patch | patch -p1
 
 # coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
 coremark-r3ka: coremark_v1.0.tgz coremark-1.0-r3ka.patch
-	rm -rf coremark_v1.0
+	rm -rf coremark_v1.0 coremark-r3ka
 	tar -xzf coremark_v1.0.tgz
 	mv coremark_v1.0 coremark-r3ka
 	cd coremark-r3ka && cp barebones/core_portme.? ./ && cat ../coremark-1.0-r3ka.patch | patch -p1
@@ -139,7 +139,7 @@ coremark-r3ka: coremark_v1.0.tgz coremark-1.0-r3ka.patch
 # stdcbench-0.7.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
 # Using custom Makefile, portme.h, portme.c, since stdcbench 0.7 doesn't come with one suitable for the Rabbit 3000A.
 stdcbench-r3ka: stdcbench-0.7.tar.gz Makefile.stdcbench-SDCC-R3KA portme.h.stdcbench-SDCC-R3KA portme.c.stdcbench-SDCC-R3KA
-	rm -rf stdcbench-0.7
+	rm -rf stdcbench-0.7 stdcbench-r3ka
 	tar -xzf stdcbench-0.7.tar.gz
 	mv stdcbench-0.7 stdcbench-r3ka
 	cp Makefile.stdcbench-SDCC-R3KA stdcbench-r3ka/Makefile
@@ -148,7 +148,7 @@ stdcbench-r3ka: stdcbench-0.7.tar.gz Makefile.stdcbench-SDCC-R3KA portme.h.stdcb
 
 # coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
 coremark-z80: coremark_v1.0.tgz coremark-1.0-z80.patch
-	rm -rf coremark_v1.0
+	rm -rf coremark_v1.0 coremark-z80
 	tar -xzf coremark_v1.0.tgz
 	mv coremark_v1.0 coremark-z80
 	cd coremark-z80 && cp barebones/core_portme.? ./ && cat ../coremark-1.0-z80.patch | patch -p1
@@ -156,9 +156,9 @@ coremark-z80: coremark_v1.0.tgz coremark-1.0-z80.patch
 	cp crt.0.s.coremark-SDCC-Z80 coremark-z80/crt0.s
 
 # stdcbench-0.7.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
-# Using custom Makefile, portme.h, portme.c, since stdcbench 0.7 doesn't come with one suitable for the Rabbit 3000A.
+# Using custom Makefile, portme.h, portme.c, since stdcbench 0.7 doesn't come with one suitable for the Z80-MBC2.
 stdcbench-z80: stdcbench-0.7.tar.gz Makefile.stdcbench-SDCC-Z80 portme.h.stdcbench-SDCC-Z80 portme.c.stdcbench-SDCC-Z80 crt.0.s.stdcbench-SDCC-Z80
-	rm -rf stdcbench-0.7
+	rm -rf stdcbench-0.7 stdcbench-z80
 	tar -xzf stdcbench-0.7.tar.gz
 	mv stdcbench-0.7 stdcbench-z80
 	cp Makefile.stdcbench-SDCC-Z80 stdcbench-z80/Makefile
