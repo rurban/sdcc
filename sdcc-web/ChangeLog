@@ -1,4 +1,4 @@
-2020-05-17 Philipp Klaus Krause <pkk AT spth.de>
+2022-11-13 Philipp Klaus Krause <pkk AT spth.de>
 
 	* snapshots.desc/aarch64-linux-gnu.desc:
 	  Desciption Debian GNU/Linux on AArch 64 machine.
