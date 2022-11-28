@@ -70,13 +70,7 @@ endif
 	  cat - $(BUILDDIR)$(PREFIX)/bin/as2gbmap | \
 	  $(UNIX2DOS) > $(BUILDDIR)$(PREFIX)/bin/as2gbmap.cmd && \
 	  rm $(BUILDDIR)$(PREFIX)/bin/as2gbmap
-	cp $(BUILDDIR)$(PREFIX)/src/sdcc.exe $(BUILDDIR)$(PREFIX)/bin/sdcc.exe
-	cp $(BUILDDIR)$(PREFIX)/support/cpp/gcc/cpp.exe $(BUILDDIR)$(PREFIX)/bin/sdcpp.exe
-	cp $(BUILDDIR)$(PREFIX)/support/cpp/gcc/cc1.exe $(BUILDDIR)$(PREFIX)/bin/cc1.exe
-	cp $(BUILDDIR)$(PREFIX)/support/sdbinutils/binutils/sdar.exe $(BUILDDIR)$(PREFIX)/bin/sdar.exe
-	cp $(BUILDDIR)$(PREFIX)/support/sdbinutils/binutils/sdnm.exe $(BUILDDIR)$(PREFIX)/bin/sdnm.exe
-	cp $(BUILDDIR)$(PREFIX)/support/sdbinutils/binutils/sdranlib.exe $(BUILDDIR)$(PREFIX)/bin/sdranlib.exe
-	cp $(BUILDDIR)$(PREFIX)/support/sdbinutils/binutils/sdobjcopy.exe $(BUILDDIR)$(PREFIX)/bin/sdobjcopy.exe
+	cp $(SRCDIR)$(PREFIX)/support/cpp/gcc/cc1.exe $(BUILDDIR)$(PREFIX)/bin/cc1.exe
 endif
 
 generate-tarball:
