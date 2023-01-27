@@ -203,7 +203,7 @@ function rt_failed($fname)
   if ($handle = fopen($fname, "r")) {
     while ($line = fgets($handle)) {
       # Summary for 'host': 0 failures, 4244 tests, 596 test cases, 0 bytes, 0 ticks
-      if (preg_match('/^Summary/', $line) {
+      if (preg_match('/^Summary/', $line)) {
         $failures = preg_replace('/^Summary for \'.+\':.* (\d+) failures, \d+ tests, \d+ test cases, \d+ bytes, \d+ ticks/',
           '$1', $line);
         if ($failures && $failures > 0)

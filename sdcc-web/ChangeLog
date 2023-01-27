@@ -1,3 +1,7 @@
+2023-01-27 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* Add missing closing parenthesis
+
 2023-01-24 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* snap.php: don't misrecognize lines beginning with
