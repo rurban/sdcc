@@ -62,9 +62,8 @@ doc-archive-build-archives: $(addprefix $(_DOC_ARCHIVE_SRC_DIR)/,*.txt *.html *.
 	rm -rf $(_DOC_ARCHIVE_BUILDDIR)
 	mkdir -p $(_DOC_ARCHIVE_BUILDDIR)/doc/ucsim
 	mkdir -p $(_DOC_ARCHIVE_BUILDDIR)/doc/sdas
-	# copy to build directory
+	# copy to build directory (sdccman.pdf used to be *.pdf below, which resulted in intermediate files being included in the documentation tarball (bug #3345))
 	cd $(_DOC_ARCHIVE_SRC_DIR); \
-	# sdccman.pdf used to be *.pdf below, which resulted in intermediate files being included in the documentation tarball (bug #3345).
 	ls *.txt > /dev/null 2>&1 && cp -rpf *.txt $(_DOC_ARCHIVE_BUILDDIR)/doc; \
 	ls *.html > /dev/null 2>&1 && cp -rpf *.html $(_DOC_ARCHIVE_BUILDDIR)/doc; \
 	ls sdccman.pdf > /dev/null 2>&1 && cp -rpf sdccman.pdf $(_DOC_ARCHIVE_BUILDDIR)/doc
