@@ -42,7 +42,7 @@
               <li><b>sdcc</b> <i>C compiler</i>, originally written by Sandeep Dutta; (GPL). Some of the features include:
               <ul>
                 <li>extensive MCU specific language extensions, allowing effective use of the underlying hardware.</li>
-                <li>a host of standard optimizations such as <i>global sub expression
+                <li>a host of standard optimizations such as <i>global subexpression
                   elimination, loop optimizations (loop invariant, strength reduction of induction
                   variables and loop reversing), constant folding </i>and<i> propagation,
                   copy propagation, dead code elimination and jump tables for 'switch' statements.</i></li>
