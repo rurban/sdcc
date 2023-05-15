@@ -1,3 +1,13 @@
+2023-05-15 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* images/sdcc.svg,
+	  index.php,
+	  links.php,
+	  previous.php,
+	  regtests.php,
+	  snap_header.php:
+	  Use new SDCC logo as favicon.
+
 2023-01-27 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* Add missing closing parenthesis

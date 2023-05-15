@@ -107,6 +107,7 @@ EOT;
   <title>SDCC - Regression Tests</title>
   <link type="text/css" href="styles/style.css" rel="stylesheet" />
   <link rel="shortcut icon" type="image/x-icon" href="/images/sdcc.ico" />
+  <link rel="icon" type="image/svg+xml" href="/images/sdcc.svg">
   <!-- jQuery -->
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
   <!-- required plugins -->

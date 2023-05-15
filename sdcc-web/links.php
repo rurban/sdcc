@@ -4,7 +4,7 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
   <title>SDCC links page</title>
   <link type="text/css" href="styles/style.css" rel="stylesheet" />
-  <link rel="shortcut icon" type="image/x-icon" href="/images/sdcc.ico" />
+  <link rel="icon" type="image/svg+xml" href="/images/sdcc.svg">
 </head>
 <body link="teal" vlink="#483d8b">
 <div align="left">

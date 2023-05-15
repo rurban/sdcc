@@ -27,7 +27,7 @@ header("Cache-Control: max-age=3600, must-revalidate"); //HTTP/1.1
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
   <title>SDCC - Snapshot Builds</title>
   <link type="text/css" href="styles/style.css" rel="stylesheet" />
-  <link rel="shortcut icon" type="image/x-icon" href="/images/sdcc.ico" />
+  <link rel="icon" type="image/svg+xml" href="/images/sdcc.svg">
 </head>
 <body bgcolor="white" link="teal" vlink="#483d8b">
   <div align="left">
