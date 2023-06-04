@@ -70,7 +70,10 @@ endif
 	  cat - $(BUILDDIR)$(PREFIX)/bin/as2gbmap | \
 	  $(UNIX2DOS) > $(BUILDDIR)$(PREFIX)/bin/as2gbmap.cmd && \
 	  rm $(BUILDDIR)$(PREFIX)/bin/as2gbmap
-	cp $(SRCDIR)$(PREFIX)/support/cpp/gcc/cc1.exe $(BUILDDIR)$(PREFIX)/bin/cc1.exe
+
+	# BUG, possibly platform dependent.
+	# use "make install DESTDIR=$(BUILDDIR)$(PREFIX)" to install things.
+	cp $(SRCDIR)$(PREFIX)/support/cpp/gcc/cc1.exe $(BUILDDIR)$(PREFIX)/libexec/sdcc/cc1
 endif
 
 generate-tarball:
