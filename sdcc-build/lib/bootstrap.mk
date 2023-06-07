@@ -73,7 +73,8 @@ endif
 
 	# BUG, possibly platform dependent.
 	# use "make install DESTDIR=$(BUILDDIR)$(PREFIX)" to install things.
-	mkdir -p $(BUILDDIR)$(PREFIX)/libexec/sdcc/cc1
+	mkdir -p $(BUILDDIR)$(PREFIX)/libexec/sdcc
+	# BUG: make install already ran, but possibly got the .exe extension wrong?
 	cp $(SRCDIR)$(PREFIX)/support/cpp/gcc/cc1.exe $(BUILDDIR)$(PREFIX)/libexec/sdcc/cc1
 endif
 
