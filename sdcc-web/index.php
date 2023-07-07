@@ -68,9 +68,9 @@
             <h2><a name="News"></a>News</h2>
 
             <p><i><b>Jun 7th, 2023: SDCC 4.3.0 released.</b></i></p>
-            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, 6502, Padauk and PIC microprocessors is now available.
+            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, MOS 6502, Padauk and PIC microprocessors is now available.
               (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
-              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
+              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 are available.</p>
             <p>SDCC 4.3.0 New Feature List:</p>
             <ul>
               <li>C2X bit-precise integer types and bit-fields thereof for (except for pic14, pic16).</li>
