@@ -67,35 +67,39 @@
             
             <h2><a name="News"></a>News</h2>
 
+            <p><i><b>Jun 7th, 2023: SDCC 4.3.0 released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, 6502, Padauk and PIC microprocessors is now available.
+              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
+              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
+            <p>SDCC 4.3.0 New Feature List:</p>
+            <ul>
+              <li>C2X bit-precise integer types and bit-fields thereof for (except for pic14, pic16).</li>
+              <li>Added all new general mnemonics from ASxxxx 5.40 except for .bank and enabled for all ports</li>
+              <li>sm83: sdasgb now can output cycles in listing and sz80 has accurate cycles for this processor except for branching</li>
+              <li>struct / union return (except for ds390, hc08, s08, mos6502, pic14, pic16).</li>
+              <li>div standard library function family.</li>
+              <li>struct / union parameters (except for hc08, s08, mos6502, pic14, pic16).</li>
+              <li>C2X nullptr.</li>
+              <li>Many fixes for the type system and _Generic.</li>
+              <li>Adopted more of GCC, QuickC and tinycc tests.</li>
+              <li>C2X char8_t.</li>
+              <li>C2X memalignment.</li>
+              <li>C2X unreachable.</li>
+              <li>C2X typeof, typeof_unqual.</li>
+              <li>C2X auto.</li>
+              <li>C2X keywords bool, true, false, alignas, alignof, static_assert.</li>
+              <li>C90-C17 function declarators without prototypes.</li>
+              <li>C99 variably modified types.</li>
+              <li>C2X bit and byte utilities.</li>
+              <li>call_once.</li>
+              <li>_sdcc_external_startup renamed to __sdcc_external_startup and supported for all ports.</li>
+              <li>makeshift support for long double as another alias for float.</li>
+            </ul>
+
             <p><i><b>Junb 26th, 2023: SDCC 4.3.0 RC1 released.</b></i></p>
             <p>SDCC 4.3.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
               <a href="http://sourceforge.net/projects/sdcc/files/">
               http://sourceforge.net/projects/sdcc/files/</a>.</p>
-
-            <p><i><b>Mar 8th, 2022: SDCC 4.2.0 released.</b></i></p>
-            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, 6502, Padauk and PIC microprocessors is now available.
-              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
-              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
-            <p>SDCC 4.2.0 New Feature List:</p>
-            <ul>
-              <li>C23 memset_explicit</li>
-              <li>Support for --oldralloc has been removed from the z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
-              <li>gbz80 port now uses more efficient block-initalization of global variables (users of a custom crt0 need to adapt theirs).</li>
-              <li>Full support for __z88dk_callee for the z80, z180, gbz80, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka, stm8 backends.</li>
-              <li>Support for __raisonance, __iar and __cosmic calling conventions for stm8.</li>
-              <li>Support for a new __sdcccall(1) calling convention in the stm8 port AS NEW DEFAULT.</li>
-              <li>Support for a new __sdcccall(1) calling convention in the gbz80 port AS NEW DEFAULT.</li>
-              <li>Support for a new __sdcccall(1) calling convention in the z80, z80n and z180 ports AS NEW DEFAULT.</li>
-              <li>Support for a new __sdcccall(1) calling convention in the r2k, r2ka, r3k, tlcs90 and ez80_z80 ports.</li>
-              <li>Removed support for --profile for gbz80, z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
-              <li>The z80n port Z80N Core minimum version has been raised from 1.0 to 2.0.</li>
-              <li>Improved rematerialization support in the stm8, gbz80, z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
-              <li>The gbz80 port was renamed to sm83.</li>
-              <li>New in-development mos6502 port.</li>
-            </ul>
-            <p>Numerous other new features and bug fixes are included as well.</p>
-            <p>You can download the release from:<br />
-              <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
 
             <!-- END NEWS -->
 
@@ -243,6 +247,31 @@
             <!-- START PAST_NEWS -->
 
             <h2><a name="Past_news"></a>Past news</h2>
+
+            <p><i><b>Mar 8th, 2022: SDCC 4.2.0 released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, 6502, Padauk and PIC microprocessors is now available.
+              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
+              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 and Windows x86 are available.</p>
+            <p>SDCC 4.2.0 New Feature List:</p>
+            <ul>
+              <li>C23 memset_explicit</li>
+              <li>Support for --oldralloc has been removed from the z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
+              <li>gbz80 port now uses more efficient block-initalization of global variables (users of a custom crt0 need to adapt theirs).</li>
+              <li>Full support for __z88dk_callee for the z80, z180, gbz80, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka, stm8 backends.</li>
+              <li>Support for __raisonance, __iar and __cosmic calling conventions for stm8.</li>
+              <li>Support for a new __sdcccall(1) calling convention in the stm8 port AS NEW DEFAULT.</li>
+              <li>Support for a new __sdcccall(1) calling convention in the gbz80 port AS NEW DEFAULT.</li>
+              <li>Support for a new __sdcccall(1) calling convention in the z80, z80n and z180 ports AS NEW DEFAULT.</li>
+              <li>Support for a new __sdcccall(1) calling convention in the r2k, r2ka, r3k, tlcs90 and ez80_z80 ports.</li>
+              <li>Removed support for --profile for gbz80, z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
+              <li>The z80n port Z80N Core minimum version has been raised from 1.0 to 2.0.</li>
+              <li>Improved rematerialization support in the stm8, gbz80, z80, z180, tlcs90, z80n, ez80_z80, r2k, r2ka, r3ka backends.</li>
+              <li>The gbz80 port was renamed to sm83.</li>
+              <li>New in-development mos6502 port.</li>
+            </ul>
+            <p>Numerous other new features and bug fixes are included as well.</p>
+            <p>You can download the release from:<br />
+              <a href="https://sourceforge.net/projects/sdcc/files/">https://sourceforge.net/projects/sdcc/files/</a></p>
 
             <p><i><b>Feb 27th, 2022: SDCC 4.2.0 RC2 released.</b></i></p>
             <p>SDCC 4.2.0 Release Candidate 2 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
