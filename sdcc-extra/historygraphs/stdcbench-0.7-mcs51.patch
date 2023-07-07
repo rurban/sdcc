@@ -1,0 +1,34 @@
+diff -ur stdcbench-0.7/examples/portme.c.SDCC-C8051 stdcbench-mcs51/examples/portme.c.SDCC-C8051
+--- stdcbench-0.7/examples/portme.c.SDCC-C8051	2020-10-28 10:21:11.000000000 +0100
++++ stdcbench-mcs51/examples/portme.c.SDCC-C8051	2023-07-07 10:22:28.742961597 +0200
+@@ -43,7 +43,11 @@
+ 	return(ctmp);
+ }
+ 
++#if __SDCC_REVISION >= 13762
++unsigned char __sdcc_external_startup(void)
++#else
+ unsigned char _sdcc_external_startup(void)
++#endif
+ {
+ 	// Disable watchdog timer
+ 	WDTCN = 0xde;
+diff -ur stdcbench-0.7/Makefile stdcbench-mcs51/Makefile
+--- stdcbench-0.7/Makefile	2023-07-07 10:21:19.877401314 +0200
++++ stdcbench-mcs51/Makefile	2022-09-11 17:20:51.596357758 +0200
+@@ -1,6 +1,6 @@
+ # A Makefile for SDCC targeting the C8051F120
+ 
+-CC = sdcc -mmcs51 --model-large --stack-auto --opt-code-speed --max-allocs-per-node 10000
++CC = $(SDCC) $(SDCCFLAGS)
+ SOURCES = c90base.c c90base-data.c c90base-huffman-recursive.c c90base-isort.c c90float.c c90base-huffman_tree.c stdcbench.c c90base-compression.c c90base-huffman-iterative.c c90base-immul.c c90double.c c90lib.c c90lib-lnlc.c c90lib-peep.c c90lib-peep-stm8.c c90lib-htab.c portme.c
+ OBJECTS = $(SOURCES:.c=.rel)
+ 
+@@ -10,6 +10,7 @@
+ 
+ stdcbench.ihx: $(OBJECTS)
+ 	$(CC) *.rel -o stdcbench.ihx
++	cp stdcbench.ihx image.ihx
+ 
+ %.rel: %.c *.h portme.h
+ 	$(CC) -c $<

@@ -19,5 +19,7 @@ set arrow from 12085, 10218 to 12085, 10018
 set label "4.1.0" at 12085, 10218
 set arrow from 13131, 9742 to 13131, 9542
 set label "4.2.0" at 13131, 9742
+set arrow from 14208, 9811 to 14208, 9611
+set label "4.3.0" at 14208, 9811
 plot "whetstone-stm8-sizetable" using 1:4 title "default", "whetstone-stm8-sizetable" using 1:2 title "size", "whetstone-stm8-sizetable" using 1:3 title "speed"
 

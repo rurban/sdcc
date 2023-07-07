@@ -13,5 +13,7 @@ set arrow from 12085, 20770 to 12085, 20270
 set label "4.1.0" at 12085, 20770
 set arrow from 13131, 19387 to 13131, 18887
 set label "4.2.0" at 13131, 19387
+set arrow from 14208, 18706 to 14208, 18206
+set label "4.3.0" at 14208, 18706
 plot "coremark-z80-sizetable" using 1:4 title "default", "coremark-z80-sizetable" using 1:2 title "size", "coremark-z80-sizetable" using 1:3 title "speed"
 

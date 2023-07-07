@@ -4,9 +4,9 @@ set style data lines
 set key bottom right
 set xlabel "revision"
 set ylabel "stdcbench score"
-trans(x) = x < 135 ? x : x - 70
-set yrange [100:175]
-set ytics ("100" 100, "110" 110, "120" 120, "200" 130, "210" 140, "220" 150, "230" 160, "240" 170)
+trans(x) = x < 135 ? x : x - 60
+set yrange [100:200]
+set ytics ("100" 100, "110" 110, "120" 120, "190" 130, "200" 140, "210" 150, "220" 160, "230" 170, "240" 180, "250" 190, "260" 200)
 set arrow from graph 0, first 125 to graph 1, first 125 nohead lt 500 lw 20 lc bgnd
 set label "c90lib module enabled" at 10221, 125 front
 set arrow from 9256, 111 to 9256, 106
@@ -25,5 +25,7 @@ set arrow from 12085, trans(233) to 12085, trans(228)
 set label "4.1.0" at 12085, trans(233)
 set arrow from 13131, trans(248) to 13131, trans(243)
 set label "4.2.0" at 13131, trans(248)
+set arrow from 14208, trans(200) to 14208, trans(195)
+set label "4.2.0" at 14208, trans(200)
 plot "stdcbench-stm8-scoretable" using 1:(trans($4)) title "default", "stdcbench-stm8-scoretable" using 1:(trans($2)) title "size", "stdcbench-stm8-scoretable" using 1:(trans($3)) title "speed", 125 lt rgb "white" lw 20 notitle
 

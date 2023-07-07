@@ -1,3 +1,13 @@
+2023-07-07 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* historygraphs/Makefile,
+	  historygraphs/*.svg:
+	  Update graphs.
+	* historygraphs/dhrystone-mcs51/portme.c,
+	  historygraphs/whetstone-mcs51/portme.c,
+	  historygraphs/stdcbench-0.7-mcs51.patch:
+	  Update for new __sdcc_external_startup name.
+
 2022-01-01 Philipp Klaus Krause <krauseph@informatik.uni-freiburg.de>
 
 	* historygraphs/Makefile,

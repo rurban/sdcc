@@ -19,5 +19,7 @@ set arrow from 12085, 13952 to 12085, 13752
 set label "4.1.0" at 12085, 13952
 set arrow from 13131, 13189 to 13131, 12989
 set label "4.2.0" at 13131, 13189
+set arrow from 14208, 12677 to 14208, 12477
+set label "4.3.0" at 14208, 12677
 plot "coremark-stm8-sizetable" using 1:4 title "default", "coremark-stm8-sizetable" using 1:2 title "size", "coremark-stm8-sizetable" using 1:3 title "speed"
 

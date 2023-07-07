@@ -20,5 +20,7 @@ set arrow from 12085, 11636 to 12085, 10836
 set label "4.1.0" at 12085, 11636
 set arrow from 13131, 12013 to 13131, 11013
 set label "4.2.0" at 13131, 12013
+set arrow from 14208, 12116 to 14208, 11116
+set label "4.3.0" at 14208, 12116
 plot "dhrystone-stm8-scoretable" using 1:4 title "default", "dhrystone-stm8-scoretable" using 1:2 title "size", "dhrystone-stm8-scoretable" using 1:3 title "speed"
 

@@ -31,7 +31,11 @@ unsigned long int clock(void)
 	return(ctmp);
 }
 
+#if __SDCC_REVISION >= 13762
+unsigned char __sdcc_external_startup(void)
+#else
 unsigned char _sdcc_external_startup(void)
+#endif
 {
 	// Disable watchdog timer
 	WDTCN = 0xde;

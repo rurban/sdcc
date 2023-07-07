@@ -17,5 +17,7 @@ set arrow from 12085, 10894 to 12085, 10794
 set label "4.1.0" at 12085, 10894
 set arrow from 13131, 9632 to 13131, 9532
 set label "4.2.0" at 13131, 9632
+set arrow from 14208, 9606 to 14208, 9506
+set label "4.3.0" at 14208, 9606
 plot "dhrystone-z80-sizetable" using 1:4 title "default", "dhrystone-z80-sizetable" using 1:2 title "size", "dhrystone-z80-sizetable" using 1:3 title "speed"
 
