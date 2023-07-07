@@ -1,3 +1,8 @@
+2022-07-07 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* lib/variables.mk:
+	  Enable regression testing for s08-stack-auto.
+
 2023-04-26 Philipp Klaus Krause <pkk AT spth.de>
 
 	* lib/doc-archive.mk:
