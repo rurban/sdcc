@@ -1,3 +1,9 @@
+2023-07-09 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* historygraphs/Makefile,
+	  historygraphs/*.svg:
+	  Update graphs.
+
 2023-07-07 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* historygraphs/Makefile,
