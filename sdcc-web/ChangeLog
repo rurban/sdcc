@@ -1,3 +1,8 @@
+2023-08-02 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* snapshots.desc/aarch64-unknown-freebsd13.2.desc:
+	  Description for FreeBSD 13.2 on aarch64 snapshots.
+
 2023-07-07 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* index.php:
@@ -31,7 +36,7 @@
 2022-11-13 Philipp Klaus Krause <pkk AT spth.de>
 
 	* snapshots.desc/aarch64-linux-gnu.desc:
-	  Desciption Debian GNU/Linux on AArch 64 machine.
+	  Description for Debian GNU/Linux on AArch 64 machine.
 
 2020-05-17 Philipp Klaus Krause <pkk AT spth.de>
 
