@@ -1,3 +1,8 @@
+2022-08-27 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* lib/variables.mk:
+	  Enable regression testing for r800 port.
+
 2022-07-07 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* lib/variables.mk:

@@ -63,7 +63,7 @@ SVN_ROOT = svn://svn.code.sf.net/p/sdcc/code
 #
 # Individual machines can opt to test all ports each day by overwriting REGTESTARGETS with FULL_REGTESTTARGETS and CROSSREGTESTTARGETS with FULL_CROSSREGTESTTARGETS in their $(HOSTNAME).mk
 REGTESTTARGETS_1_0 = test-ds390
-REGTESTTARGETS_2_0 = test-mcs51-medium test-mcs51-small-stack-auto test-hc08           test-ucz80 test-ez80-z80                               test-ucr2ka test-stm8-large test-pdk15-stack-auto test-uc6502
+REGTESTTARGETS_2_0 = test-mcs51-medium test-mcs51-small-stack-auto test-hc08           test-ucz80 test-ez80-z80 test-ucr800                   test-ucr2ka test-stm8-large test-pdk15-stack-auto test-uc6502
 REGTESTTARGETS_2_1 = test-mcs51-small  test-mcs51-large-stack-auto test-s08            test-ucz80-resiy test-ucz180 test-ucz80-undoc          test-ucr2k  test-stm8       test-pdk15            # add test-uc65c02 here when it works
 REGTESTTARGETS_2_2 = test-mcs51-large  test-mcs51-huge             test-s08-stack-auto test-ucz80n test-ucz180-resiy test-ucgbz80 test-tlcs90 test-ucr3ka                 test-pdk14            # test-uc6502-stack-auto enable when it passes
 DAYMOD = $(shell date +%j | awk '{print $$0%3}')
