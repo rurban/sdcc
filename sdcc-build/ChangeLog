@@ -1,3 +1,8 @@
+2022-10-17 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* local/powerpc64-linux-gnu.mk:
+	  Example .mk for GNU/Linux on Power 9 (as currently used by nemesis in the compile farm).
+
 2022-08-27 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* lib/variables.mk:
