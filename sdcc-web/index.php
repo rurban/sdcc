@@ -19,7 +19,7 @@
 
             <h2>What is SDCC?</h2>
 
-            <p><b>SDCC</b> is a <b><i>retargettable, optimizing Standard C (ANSI C89, ISO C99, ISO C11) compiler suite</i></b> that
+            <p><b>SDCC</b> is a <b><i>retargettable, optimizing Standard C (ANSI C89, ISO C99, ISO C11, ISO C23) compiler suite</i></b> that
               targets the <b><i>Intel MCS51 </i></b> based microprocessors <b><i>(8031, 8032, 8051, 8052, etc.)</i></b>,
               <b><i>Maxim</i></b> (formerly <b><i>Dallas</i></b>) <b><i>DS80C390</i></b> variants,
               <b><i>Freescale</i></b> (formerly <b><i>Motorola</i></b>) <b><i>HC08</i></b> based <b><i>(hc08, s08)</i></b>,
@@ -50,8 +50,8 @@
                 <li>adaptable MCU specific backend that should be well suited for other 8 bit MCUs</li>
                 <li>independent rule based peep hole optimizer.</li>
                 <li>a full range of data types: <b>char</b> (<i>8</i> bits, 1 byte), <b>short</b> (<i>16</i> bits, 2 bytes),
-                  <b>int</b> (<i>16</i> bits, 2 bytes), <b>long</b> (<i>32</i> bit, 4 bytes), <b>long long</b> (<i>64</i> bit, 8 bytes), <b>float</b> (4 byte IEEE) and
-                  <b>_Bool</b>/<b>bool</b>.</li>
+                  <b>int</b> (<i>16</i> bits, 2 bytes), <b>long</b> (<i>32</i> bit, 4 bytes), <b>long long</b> (<i>64</i> bit, 8 bytes), <b>float</b> (4 byte IEEE),
+                  <b>_Bool</b>/<b>bool</b> and <b>_BitInt</b>.</li>
                 <li>the ability to add inline assembler code anywhere in a function.</li>
                 <li>the ability to report on the complexity of a function to help decide what should be re-written in assembler.</li>
                 <li>a good selection of automated regression tests.</li>

@@ -1,3 +1,8 @@
+2023-11-08 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* index.php:
+	  Update for C23.
+
 2023-10-02 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* snapshots.desc/aarch64-unknown-freebsd13.2.desc:
