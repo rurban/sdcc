@@ -105,11 +105,12 @@
 
             <h2><a name="Platforms"></a>What Platforms are Supported?</h2>
 
-            <p><b>Linux - x86</b>, <b>Microsoft Windows - x86</b>, <b>Microsoft Windows - x86_64</b> and <b>Mac OS X</b>
+            <p><b>GNU/Linux on amd64</b>, <b>GNU/Linux on x86</b>, <b>Microsoft Windows on amd64</b>, and <b>macOS on amd64</b>
               are the primary, so called "officially supported" platforms.</p>
-            <p><b>SDCC</b> compiles natively on <b>Linux</b> and <b>Mac OS X</b>
+            <p><b>SDCC</b> compiles natively on <b>GNU/Linux</b> and <b>macOS</b>
               using <a href="http://www.gnu.org">gcc</a>. <b>Windows</b> release and snapshot builds are made by
               <b>cross compiling to mingw32</b> on a Linux host.</p>
+            <p>SDCC is known to also work on at least GNU/Linux on aarch64, GNU/Linux on ppc64, FreeBSD on aarch64.</p>
             <p><b>Windows 9x/NT/2000/XP/Vista/7/8</b> users are
               recommended to use Cygwin (<a href="http://sources.redhat.com/cygwin/">http://sources.redhat.com/cygwin/</a>)
               or may try the unsupported Microsoft Visual C++ build scripts.</p>
@@ -185,10 +186,8 @@
                 Bug Reporting</a> - if you have a problem using SDCC, we need to
                 hear about it. Please attach <b>code to reproduce the problem</b>,
                 and be sure to provide your email address so a developer can contact
-                you if they need more information to investigate and fix the bug.</li>
-              <li><a href="https://sourceforge.net/p/sdcc/webdocs/new/">
-                Website/Documentation Issues</a> - Please report erroneous, missing or outdated
-                information</li>
+                you if they need more information to investigate and fix the bug.
+                Also report erroneous, missing or outdated documentation here.</li>
               <li><a href="https://sourceforge.net/p/sdcc/discussion/1864/">
                 SDCC Message Forum</a> - an account on Sourceforge is needed if you're going to
                 post and reply. Short easy online fill-in the blanks.</li>
