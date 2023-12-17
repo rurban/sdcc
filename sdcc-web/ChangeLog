@@ -7,7 +7,7 @@
 	  download_regtests_db.php,
 	  update_regtests_db.php,
 	  left_menu.inc:
-	  Removed unused "regression test database" section from site
+	  Removed unused "regression test database" section from site, patch by Mark Gallagher.
 
 2023-11-08 Philipp Klaus Krause <philipp@colecovision.eu>
 

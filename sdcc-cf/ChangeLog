@@ -1,7 +1,7 @@
 2023-12-17 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* crontab.txt
-	  Removed unused / broken "regression test database" job
+	  Removed unused / broken "regression test database" job, patch by Mark Gallagher.
 
 2019-03-22 Philipp Klaus Krause <pkk AT spth.de>
 
