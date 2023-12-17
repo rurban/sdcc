@@ -16,12 +16,6 @@
     <a href="/snap.php#Source"><i>Source</i></a><br />
   </div>
   <br />
-  <b><a href="/regtests.php"><i>Regression Tests</i></a></b>
-  <div class="submenu">
-    <a href="/regtests.php#Database"><i>Download CSV</i></a><br />
-    <a href="/regtests.php#Diffs"><i>Differences</i></a><br />
-  </div>
-  <br />
   <b><i>Documentation</i></b>
   <div class="submenu">
     <a href="/doc/sdccman.pdf"><i>SDCC Manual (pdf)</i></a><br />

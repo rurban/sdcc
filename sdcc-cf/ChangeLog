@@ -1,3 +1,8 @@
+2023-12-17 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* crontab.txt
+	  Removed unused / broken "regression test database" job
+
 2019-03-22 Philipp Klaus Krause <pkk AT spth.de>
 
         * packages/build.gmp_mpfr/Makefile:

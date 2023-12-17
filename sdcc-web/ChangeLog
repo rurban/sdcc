@@ -1,3 +1,14 @@
+2023-12-17 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* sdcc.ini,
+	  sdcc_rw.ini,
+	  regtests.php,
+	  get_regtest.php,
+	  download_regtests_db.php,
+	  update_regtests_db.php,
+	  left_menu.inc:
+	  Removed unused "regression test database" section from site
+
 2023-11-08 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* index.php:
