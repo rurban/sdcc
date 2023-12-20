@@ -1,3 +1,8 @@
+2023-12-20 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* sdcc-build/lib/variables.mk:
+	  Enable mos65c02 port.
+
 2022-10-17 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* local/powerpc64-linux-gnu.mk:
