@@ -64,6 +64,8 @@ else
 # Windows 32bit:
 # include readline5.dll in the package
 	cp $(HOME)/local-$(HOSTNAME)/cross-tools/i586-mingw32msvc/dll/readline5.dll $(BUILDDIR)$(PREFIX)/bin
+	cp $(HOME)/local-$(HOSTNAME)/cross-tools/i586-mingw32msvc/bin/libgcc_s_*-1.dll $(BUILDDIR)$(PREFIX)/bin
+	cp $(HOME)/local-$(HOSTNAME)/cross-tools/i586-mingw32msvc/bin/libstdc++-6.dll $(BUILDDIR)$(PREFIX)/bin
 endif
 # convert as2gbmap.py to a batch file in bin directory
 	echo '@setlocal enabledelayedexpansion && python -x "%~f0" %* & exit /b !ERRORLEVEL!' | \
