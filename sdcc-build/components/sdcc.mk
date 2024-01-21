@@ -96,8 +96,9 @@ sdcc-regression: sdcc sdcc-install sdcc-extra
 	echo "--- Regression testing started on `date` ---"
 ifeq ($(CROSSCOMPILING), 1)
 	# mingw cross regression testing with wine
-	# uninstall the previous version
-	-wine sdcc --version > /dev/null 2>&1 && wine 'c:/Program Files/SDCC/uninstall' /S && sleep 10
+	# try to uninstall any previous versions
+	-wine sdcc --version > /dev/null 2>&1 && -wine 'c:/Program Files/SDCC/sdcc.exe' --version > /dev/null 2>&1 && wine 'c:/Program Files/SDCC/uninstall' /S && sleep 10
+	-wine sdcc --version > /dev/null 2>&1 && -wine 'c:/Program Files (x86)/SDCC/sdcc.exe' --version > /dev/null 2>&1 && wine 'c:/Program Files (x86)/SDCC/uninstall' /S && sleep 10
 	# install sdcc package
 	-wine $(SETUPNAME) /S && sleep 10
 	# perform regression tests
