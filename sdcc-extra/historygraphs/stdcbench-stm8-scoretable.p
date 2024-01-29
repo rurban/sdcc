@@ -26,6 +26,8 @@ set label "4.1.0" at 12085, trans(233)
 set arrow from 13131, trans(248) to 13131, trans(243)
 set label "4.2.0" at 13131, trans(248)
 set arrow from 14208, trans(200) to 14208, trans(195)
-set label "4.2.0" at 14208, trans(200)
+set label "4.3.0" at 14208, trans(200)
+set arrow from 14648, trans(248) to 14648, trans(244)
+set label "4.4.0" at 14648, trans(248)
 plot "stdcbench-stm8-scoretable" using 1:(trans($4)) title "default", "stdcbench-stm8-scoretable" using 1:(trans($2)) title "size", "stdcbench-stm8-scoretable" using 1:(trans($3)) title "speed", 125 lt rgb "white" lw 20 notitle
 

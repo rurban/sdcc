@@ -24,5 +24,7 @@ set arrow from 13131, trans(29260) to 13131, trans(28760)
 set label "4.2.0" at 13131, trans(29260)
 set arrow from 14208, trans(32142) to 14208, trans(31642)
 set label "4.3.0" at 14208, trans(32142)
+set arrow from 14648, trans(30052) to 14648, trans(29552)
+set label "4.3.0" at 14648, trans(30052)
 plot "stdcbench-z80-sizetable" using 1:(trans($4)) title "default", "stdcbench-z80-sizetable" using 1:(trans($2)) title "size", "stdcbench-z80-sizetable" using 1:(trans($3)) title "speed", 10500 lt rgb "white" lw 20 notitle
 
