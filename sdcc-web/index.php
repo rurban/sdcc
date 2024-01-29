@@ -67,7 +67,27 @@
             
             <h2><a name="News"></a>News</h2>
 
-            <p><i><b>January 2nd, 2024: SDCC 4.4.0 RC3 released.</b></i></p>
+            <p><i><b>January 29th, 2023: SDCC 4.4.0 released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, R800, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, MOS 6502, WDC 65C02, Padauk and PIC microprocessors is now available.
+              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
+              Sources, documentation and binaries for GNU/Linux amd64, Windows x86, macOS amd64 are available.</p>
+            <p>SDCC 4.4.0 New Feature List:</p>
+            <ul>
+              <li>Optimizations for rotations.
+              <li>struct / union parameters for hc08, s08 and mos6502.</li>
+              <li>Many bug fixes for -ms08 --stack-auto.</li>
+              <li>struct / union return support for hc08 and s08 (caller side only).</li>
+              <li>Generalized constant propagation.</li>
+              <li>New command line option --syntax-only to only parse the input.</li>
+              <li>Added C99 header inttypes.h</li>
+              <li>Added library functions imaxabs, imaxdiv, llabs, strtoimax, strtoll, strtoull, strtoumax, wcsncmp, wcstoimax, wcstol, wcstoll, wcstoul, wcstoull, wcstoumax</li>
+              <li>New r800 port to better support the ASCII Corp R800 and Zilog Z280.</li>
+              <li>Changed the default calling convention for r2k, r2ka, r3ka, tlcs90, ez80-z80 from version 0 to 1 (this is an ABI break, and will require changes to user-written asm functions or their declarations).</li>
+              <li>Improved optimizations for code speed for stm8, pdk, z80 (and related).</li>
+              <li>New mos65c02 port to better support the WDC 65C02.</li>
+            </ul>
+
+            <p><i><b>January 21st, 2024: SDCC 4.4.0 RC3 released.</b></i></p>
             <p>SDCC 4.4.0 Release Candidate 3 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows and amd64 macOS are available in corresponding folders at:
               <a href="http://sourceforge.net/projects/sdcc/files/">
               http://sourceforge.net/projects/sdcc/files/</a>.</p>
