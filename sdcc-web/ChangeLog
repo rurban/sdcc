@@ -1,3 +1,8 @@
+2024-03-03 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* index.php:
+	  Fix year in SDCC 4.4.0 release announcement.
+
 2024-01-22 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* index.php:

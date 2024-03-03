@@ -67,7 +67,7 @@
             
             <h2><a name="News"></a>News</h2>
 
-            <p><i><b>January 29th, 2023: SDCC 4.4.0 released.</b></i></p>
+            <p><i><b>January 29th, 2024: SDCC 4.4.0 released.</b></i></p>
             <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, R800, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, MOS 6502, WDC 65C02, Padauk and PIC microprocessors is now available.
               (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
               Sources, documentation and binaries for GNU/Linux amd64, Windows x86, macOS amd64 are available.</p>
