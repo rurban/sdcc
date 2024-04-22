@@ -1,3 +1,8 @@
+2023-04-22 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* lib/variables.mk:
+	  Test z80 port with --allow-unsafe-read.
+
 2023-01-29 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* components/sdcc.mk:
