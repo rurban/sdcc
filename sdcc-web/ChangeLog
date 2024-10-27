@@ -3,6 +3,8 @@
 	* snapshots.desc/i586-mingw32msvc.desc,
 	  snapshots.desc/x86_64-w64-mingw32.desc:
 	  Fix Windows snapshot description to reflect currently supported Windows versions.
+	* index.php:
+	  Update Cygwin / MSVC++ recommendation (neither supports older Windows versions these days).
 
 2024-03-03 Philipp Klaus Krause <philipp@colecovision.eu>
 

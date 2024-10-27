@@ -102,8 +102,7 @@
               using <a href="http://www.gnu.org">gcc</a>. <b>Windows</b> release and snapshot builds are made by
               <b>cross compiling to mingw32</b> on a Linux host.</p>
             <p>SDCC is known to also work on at least GNU/Linux on aarch64, GNU/Linux on ppc64, FreeBSD on aarch64.</p>
-            <p><b>Windows 9x/NT/2000/XP/Vista/7/8</b> users are
-              recommended to use Cygwin (<a href="http://sources.redhat.com/cygwin/">http://sources.redhat.com/cygwin/</a>)
+            <p><b>Windows </b> users can also try Cygwin (<a href="https://www.cygwin.com/">https://www.cygwin.com/</a>)
               or may try the unsupported Microsoft Visual C++ build scripts.</p>
 
             <h2><a name="Download"></a>Downloading SDCC</h2>
