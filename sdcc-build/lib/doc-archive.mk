@@ -28,7 +28,9 @@ build-doc-archive: fetch-orig-trees doc-archive-configure doc-archive-make doc-a
 
 doc-archive-configure:
 	mkdir -p $(_DOC_ARCHIVE_SDCC_DIR)
-	cd $(_DOC_ARCHIVE_SDCC_DIR); $(ORIGDIR)/sdcc/configure --enable-doc
+	cd $(_DOC_ARCHIVE_SDCC_DIR); $(ORIGDIR)/sdcc/configure --enable-doc \
+	  --disable-device-lib --disable-packihx --disable-sdcpp \
+	  --disable-sdcdb --disable-sdbinutils
 
 doc-archive-make $(addprefix $(_DOC_ARCHIVE_SRC_DIR)/,*.txt *.html *.pdf):
 	make -C $(_DOC_ARCHIVE_SDCC_DIR)/doc
@@ -71,7 +73,7 @@ doc-archive-build-archives: $(addprefix $(_DOC_ARCHIVE_SRC_DIR)/,*.txt *.html *.
 	cp -rpf sdas/doc/* $(_DOC_ARCHIVE_BUILDDIR)/doc/sdas/; \
 	cp -pf doc/*.txt doc/*.html $(_DOC_ARCHIVE_BUILDDIR)/doc; \
 	cp -pf ChangeLog $(_DOC_ARCHIVE_BUILDDIR)/doc/ChangeLog.txt
-	cd $(_DOC_ARCHIVE_ORIG_DIR)/sim/ucsim/doc; cp -rpf *.html *.jpg *.fig $(_DOC_ARCHIVE_BUILDDIR)/doc/ucsim/
+	cd $(_DOC_ARCHIVE_ORIG_DIR)/sim/ucsim/docs; cp -rpf *.html *.jpg *.fig $(_DOC_ARCHIVE_BUILDDIR)/doc/ucsim/
 	# Create knownbugs.html
 	read _VER < $(ORIGDIR)/sdcc/.version; perl $(ORIGDIR)/sdcc/support/scripts/gen_known_bugs.pl $$_VER > $(_DOC_ARCHIVE_BUILDDIR)/doc/knownbugs.html
 	# create tar.gz doc package
