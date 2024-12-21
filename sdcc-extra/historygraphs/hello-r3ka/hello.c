@@ -14,7 +14,11 @@
 // _sdcc_external_startup, if present, will be called very early, before initalization
 // of global objects. This makes it e.g. useful for dealing with watchdogs that might
 // otherwise bite if there are many or large global objects that take a long time to initialize.
-void _sdcc_external_startup(void)
+#if __SDCC_REVISION >= 13762
+unsigned char __sdcc_external_startup(void)
+#else
+unsigned char _sdcc_external_startup(void)
+#endif
 {
 	// Disable watchdog
 	WDTTR = 0x51;
@@ -22,6 +26,8 @@ void _sdcc_external_startup(void)
 
 	// normal oscillator, processor and peripheral from main clock, no periodic interrupt
 	GCSR = 0x08;
+
+	return(0);
 }
 
 int putchar(int c)

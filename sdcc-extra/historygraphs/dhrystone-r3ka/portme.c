@@ -23,7 +23,11 @@ REG(0xC0, SADR);  // Serial Port A Data Register
 REG(0xC3, SASR);  // Serial Port A Status Register
 REG(0xC4, SACR);  // Serial Port A Control Register
 
-void _sdcc_external_startup(void)
+#if __SDCC_REVISION >= 13762
+unsigned char __sdcc_external_startup(void)
+#else
+unsigned char _sdcc_external_startup(void)
+#endif
 {
 	// Disable watchdog
 	WDTTR = 0x51;

@@ -10,7 +10,7 @@
 # 4.2.0: 13131
 # Broken: 8984-9000, 9104 (bug #2280), 9106-9114 (whetstone build segfaults), 9379-9418 (SDCC build fails), 9424 (library build fails) 9477 (SDCC build fails), 9891-9946 (stdcbench build fails), 9958-10147 (Dhrystone z80 build fails) 10233-10270 (stdcbench build segfaults), 10185-10340 (stdcbench build segfaults) 10408 (stdcbench build segfaults) 10426-10462 (coremark build fails) 10682 (library build fails for mcs51) 11952 (library build fails). 14400 (build fails).
 # Build of large-stack-auto lib for mcs51 was enabled in 9521.
-REVISIONS_R3KA_STDCBENCH_POST = 12392 12415 12430 12450 12464 12488 12495 12508 12642 12673 12689 12692 12746 12784 12795 12827 12862 12875 12891 12900 12969 13131 13200 13300 13495 13689 13699 13709 13748 13772 13800 13900 14000 14184 14208 14211 14225 14235 14238 14246 14248 14253 14300 14346 14370 14398 14405 14443 14472 14510 14528 14648 14650 14710 14738 14817 14889 14955 14958 14996 15015 15022 15029 15032 15037 15060
+REVISIONS_R3KA_STDCBENCH_POST = 12392 12415 12430 12450 12464 12488 12495 12508 12642 12673 12689 12692 12746 12784 12795 12827 12862 12875 12891 12900 12969 13131 13200 13300 13495 13689 13699 13709 13748 13772 13800 13900 14000 14184 14208 14211 14225 14235 14238 14246 14248 14253 14300 14346 14370 14398 14405 14443 14472 14510 14528 14648 14650 14710 14738 14817 14889 14955 14958 14996 15015 15022 15029 15032 15037 15060 15093 15104 15117 15118 15119 15172
 # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243. For 12121-12300, Coremark fails for z80. For 14221-14224. Whetstone fails for mcs51.
 REVISIONS_R3KA_STDCBENCH = 12001 12056 12085 12098 $(REVISIONS_R3KA_STDCBENCH_POST) # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
 REVISIONS_R3KA = 12001 12056 12085 12098 12100 12102 12106 12109 12114 $(REVISIONS_R3KA_STDCBENCH_POST) # Earlier than 11919 doesn't have a default crt0 that works for RCM boards. For 11919 and 11972, Dhrystone hangs. For 12121-12300, Coremark fails for z80.
@@ -107,7 +107,7 @@ all: whetstone-stm8-size.svg whetstone-mcs51-size.svg whetstone-r3ka-size.svg dh
 clean:
 	echo $(BENCHMARKS_SIZES)
 
-# coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
+# coremark-1.01.tar.gz is free (identical to old non-free coremark_v1.0.tgz, except for the license and documentation), can be downloaded from https://www.eembc.org/coremark/
 coremark-stm8: coremark_v1.0.tgz coremark-1.0-stm8.patch
 	rm -rf coremark_v1.0 coremark-stm8
 	tar -xzf coremark_v1.0.tgz
@@ -115,21 +115,6 @@ coremark-stm8: coremark_v1.0.tgz coremark-1.0-stm8.patch
 	cd coremark-stm8 && cp barebones/core_portme.? ./ && cat ../coremark-1.0-stm8.patch | patch -p1
 	cp Makefile.coremark coremark-stm8/Makefile
 
-# stdcbench-0.7.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
-stdcbench-stm8: stdcbench-0.7.tar.gz stdcbench-0.6-stm8.patch
-	rm -rf stdcbench-0.7 stdcbench-stm8
-	tar -xzf stdcbench-0.7.tar.gz
-	mv stdcbench-0.7 stdcbench-stm8
-	cd stdcbench-stm8 && cp examples/Makefile.SDCC-STM8AF Makefile && cat ../stdcbench-0.6-stm8.patch | patch -p1
-
-# stdcbench-0.6.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
-stdcbench-mcs51: stdcbench-0.7.tar.gz stdcbench-0.7-mcs51.patch
-	rm -rf stdcbench-0.7 stdcbench-mcs51
-	tar -xzf stdcbench-0.7.tar.gz
-	mv stdcbench-0.7 stdcbench-mcs51
-	cd stdcbench-mcs51 && cp examples/Makefile.SDCC-C8051 Makefile && cat ../stdcbench-0.7-mcs51.patch | patch -p1
-
-# coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
 coremark-r3ka: coremark_v1.0.tgz coremark-1.0-r3ka.patch
 	rm -rf coremark_v1.0 coremark-r3ka
 	tar -xzf coremark_v1.0.tgz
@@ -137,17 +122,6 @@ coremark-r3ka: coremark_v1.0.tgz coremark-1.0-r3ka.patch
 	cd coremark-r3ka && cp barebones/core_portme.? ./ && cat ../coremark-1.0-r3ka.patch | patch -p1
 	cp Makefile.coremark coremark-r3ka/Makefile
 
-# stdcbench-0.7.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
-# Using custom Makefile, portme.h, portme.c, since stdcbench 0.7 doesn't come with one suitable for the Rabbit 3000A.
-stdcbench-r3ka: stdcbench-0.7.tar.gz Makefile.stdcbench-SDCC-R3KA portme.h.stdcbench-SDCC-R3KA portme.c.stdcbench-SDCC-R3KA
-	rm -rf stdcbench-0.7 stdcbench-r3ka
-	tar -xzf stdcbench-0.7.tar.gz
-	mv stdcbench-0.7 stdcbench-r3ka
-	cp Makefile.stdcbench-SDCC-R3KA stdcbench-r3ka/Makefile
-	cp portme.h.stdcbench-SDCC-R3KA stdcbench-r3ka/examples/portme.h.SDCC-R3KA
-	cp portme.c.stdcbench-SDCC-R3KA stdcbench-r3ka/examples/portme.c.SDCC-R3KA
-
-# coremark_v1.0.tgz is non-free, needs to be downloaded from https://www.eembc.org/coremark/
 coremark-z80: coremark_v1.0.tgz coremark-1.0-z80.patch
 	rm -rf coremark_v1.0 coremark-z80
 	tar -xzf coremark_v1.0.tgz
@@ -157,6 +131,27 @@ coremark-z80: coremark_v1.0.tgz coremark-1.0-z80.patch
 	cp crt.0.s.coremark-SDCC-Z80 coremark-z80/crt0.s
 
 # stdcbench-0.7.tar.gz is free, can be downloaded from http://stdcbench.sourceforge.net
+stdcbench-stm8: stdcbench-0.7.tar.gz stdcbench-0.6-stm8.patch
+	rm -rf stdcbench-0.7 stdcbench-stm8
+	tar -xzf stdcbench-0.7.tar.gz
+	mv stdcbench-0.7 stdcbench-stm8
+	cd stdcbench-stm8 && cp examples/Makefile.SDCC-STM8AF Makefile && cat ../stdcbench-0.6-stm8.patch | patch -p1
+
+stdcbench-mcs51: stdcbench-0.7.tar.gz stdcbench-0.7-mcs51.patch
+	rm -rf stdcbench-0.7 stdcbench-mcs51
+	tar -xzf stdcbench-0.7.tar.gz
+	mv stdcbench-0.7 stdcbench-mcs51
+	cd stdcbench-mcs51 && cp examples/Makefile.SDCC-C8051 Makefile && cat ../stdcbench-0.7-mcs51.patch | patch -p1
+
+# Using custom Makefile, portme.h, portme.c, since stdcbench 0.7 doesn't come with one suitable for the Rabbit 3000A.
+stdcbench-r3ka: stdcbench-0.7.tar.gz Makefile.stdcbench-SDCC-R3KA portme.h.stdcbench-SDCC-R3KA portme.c.stdcbench-SDCC-R3KA
+	rm -rf stdcbench-0.7 stdcbench-r3ka
+	tar -xzf stdcbench-0.7.tar.gz
+	mv stdcbench-0.7 stdcbench-r3ka
+	cp Makefile.stdcbench-SDCC-R3KA stdcbench-r3ka/Makefile
+	cp portme.h.stdcbench-SDCC-R3KA stdcbench-r3ka/examples/portme.h.SDCC-R3KA
+	cp portme.c.stdcbench-SDCC-R3KA stdcbench-r3ka/examples/portme.c.SDCC-R3KA
+
 # Using custom Makefile, portme.h, portme.c, since stdcbench 0.7 doesn't come with one suitable for the Z80-MBC2.
 stdcbench-z80: stdcbench-0.7.tar.gz Makefile.stdcbench-SDCC-Z80 portme.h.stdcbench-SDCC-Z80 portme.c.stdcbench-SDCC-Z80 crt.0.s.stdcbench-SDCC-Z80
 	rm -rf stdcbench-0.7 stdcbench-z80
@@ -523,13 +518,13 @@ $(BENCHMARKS_DHRYSTONE_MCS51_SCORES): %/score: %/image.ihx
 	./execute_benchmark-mcs51 /dev/ttyUSB1 $< | sed -e "s/Dhrystones per Second: //" > $@
 
 $(BENCHMARKS_DHRYSTONE_R3KA_SCORES): %/score: %/image.ihx
-	./execute_benchmark-r3ka /dev/ttyUSB2 $< | sed -e "s/Dhrystones per Second: //" > $@
+	./execute_benchmark-r3ka /dev/ttyUSB3 $< | sed -e "s/Dhrystones per Second: //" > $@
 
 $(BENCHMARKS_COREMARK_STM8_SCORES): %/score: %/image.ihx
 	echo "scale=3;" 60000 / `./execute_benchmark-stm8 /dev/ttyUSB0 $< | sed -e "s/Total ticks : //"` | bc > $@
 
 $(BENCHMARKS_COREMARK_R3KA_SCORES): %/score: %/image.ihx
-	echo "scale=3;" 1966080 / `./execute_benchmark-r3ka /dev/ttyUSB2 $< | sed -e "s/Total ticks : //"` | bc > $@
+	echo "scale=3;" 1966080 / `./execute_benchmark-r3ka /dev/ttyUSB3 $< | sed -e "s/Total ticks : //"` | bc > $@
 
 $(BENCHMARKS_STDCBENCH_STM8_SCORES): %/score: %/image.ihx
 	./execute_benchmark-stm8 /dev/ttyUSB0 $< | sed -e "s/stdcbench final score: //" > $@
@@ -538,5 +533,5 @@ $(BENCHMARKS_STDCBENCH_MCS51_SCORES): %/score: %/image.ihx
 	./execute_benchmark-mcs51 /dev/ttyUSB1 $< | sed -e "s/stdcbench final score: //" > $@
 
 $(BENCHMARKS_STDCBENCH_R3KA_SCORES): %/score: %/image.ihx
-	./execute_benchmark-r3ka /dev/ttyUSB2 $< | sed -e "s/stdcbench final score: //" > $@
+	./execute_benchmark-r3ka /dev/ttyUSB3 $< | sed -e "s/stdcbench final score: //" > $@
 
