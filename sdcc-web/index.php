@@ -67,6 +67,11 @@
             
             <h2><a name="News"></a>News</h2> 
 
+            <p><i><b>January 3rd, 2025: SDCC 4.5.0 RC1 released.</b></i></p>
+            <p>SDCC 4.5.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows, x86 Windows, and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+
             <p><i><b>January 29th, 2024: SDCC 4.4.0 released.</b></i></p>
             <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, R800, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, MOS 6502, WDC 65C02, Padauk and PIC microprocessors is now available.
               (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
@@ -87,11 +92,6 @@
               <li>New mos65c02 port to better support the WDC 65C02.</li>
             </ul>
 
-            <p><i><b>January 21st, 2024: SDCC 4.4.0 RC3 released.</b></i></p>
-            <p>SDCC 4.4.0 Release Candidate 3 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
-
             <!-- END NEWS -->
 
             <h2><a name="Platforms"></a>What Platforms are Supported?</h2>
@@ -104,7 +104,6 @@
             <p>SDCC is known to also work on at least GNU/Linux on aarch64, GNU/Linux on ppc64, FreeBSD on aarch64.</p>
             <p><b>Windows </b> users can also try Cygwin (<a href="https://www.cygwin.com/">https://www.cygwin.com/</a>)
               or may try the unsupported Microsoft Visual C++ build scripts.</p>
-
             <h2><a name="Download"></a>Downloading SDCC</h2>
 
             <p>See the <a href="https://sourceforge.net/projects/sdcc/files/">
@@ -237,6 +236,11 @@
 
             <h2><a name="Past_news"></a>Past news</h2>
 
+            <p><i><b>January 21st, 2024: SDCC 4.4.0 RC3 released.</b></i></p>
+            <p>SDCC 4.4.0 Release Candidate 3 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+              
             <p><i><b>January 2nd, 2024: SDCC 4.4.0 RC2 released.</b></i></p>
             <p>SDCC 4.4.0 Release Candidate 2 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows and amd64 macOS are available in corresponding folders at:
               <a href="http://sourceforge.net/projects/sdcc/files/">
