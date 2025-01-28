@@ -18,6 +18,50 @@
 
       <h2>Previous NEWS</h2>
 
+            <p><i><b>January 21st, 2024: SDCC 4.4.0 RC3 released.</b></i></p>
+            <p>SDCC 4.4.0 Release Candidate 3 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+              
+            <p><i><b>January 2nd, 2024: SDCC 4.4.0 RC2 released.</b></i></p>
+            <p>SDCC 4.4.0 Release Candidate 2 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+
+            <p><i><b>December 21st, 2023: SDCC 4.4.0 RC1 released.</b></i></p>
+            <p>SDCC 4.4.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows and amd64 macOS are available in corresponding folders at:
+              <a href="http://sourceforge.net/projects/sdcc/files/">
+              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+
+            <p><i><b>Jun 7th, 2023: SDCC 4.3.0 released.</b></i></p>
+            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, MOS 6502, Padauk and PIC microprocessors is now available.
+              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
+              Sources, documentation and binaries for GNU/Linux amd64, Windows amd64, macOS amd64 are available.</p>
+            <p>SDCC 4.3.0 New Feature List:</p>
+            <ul>
+              <li>C2X bit-precise integer types and bit-fields thereof for (except for pic14, pic16).</li>
+              <li>Added all new general mnemonics from ASxxxx 5.40 except for .bank and enabled for all ports</li>
+              <li>sm83: sdasgb now can output cycles in listing and sz80 has accurate cycles for this processor except for branching</li>
+              <li>struct / union return (except for ds390, hc08, s08, mos6502, pic14, pic16).</li>
+              <li>div standard library function family.</li>
+              <li>struct / union parameters (except for hc08, s08, mos6502, pic14, pic16).</li>
+              <li>C2X nullptr.</li>
+              <li>Many fixes for the type system and _Generic.</li>
+              <li>Adopted more of GCC, QuickC and tinycc tests.</li>
+              <li>C2X char8_t.</li>
+              <li>C2X memalignment.</li>
+              <li>C2X unreachable.</li>
+              <li>C2X typeof, typeof_unqual.</li>
+              <li>C2X auto.</li>
+              <li>C2X keywords bool, true, false, alignas, alignof, static_assert.</li>
+              <li>C90-C17 function declarators without prototypes.</li>
+              <li>C99 variably modified types.</li>
+              <li>C2X bit and byte utilities.</li>
+              <li>call_once.</li>
+              <li>_sdcc_external_startup renamed to __sdcc_external_startup and supported for all ports.</li>
+              <li>makeshift support for long double as another alias for float.</li>
+            </ul>
+
             <p><i><b>June 26th, 2023: SDCC 4.3.0 RC1 released.</b></i></p>
             <p>SDCC 4.3.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, 32 and 64 bit Windows and amd64 macOS are available in corresponding folders at:
               <a href="http://sourceforge.net/projects/sdcc/files/">
