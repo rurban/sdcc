@@ -22,5 +22,7 @@ set arrow from 14208, 6026 to 14208, 6016
 set label "4.3.0" at 14208, 6026
 set arrow from 14648, 6292 to 14648, 6282
 set label "4.4.0" at 14648, 6292
+set arrow from 15246, 6101 to 15246, 6091
+set label "4.5.0" at 15246, 6101
 plot "dhrystone-mcs51-scoretable" using 1:4 title "default", "dhrystone-mcs51-scoretable" using 1:2 title "size", "dhrystone-mcs51-scoretable" using 1:3 title "speed"
 
