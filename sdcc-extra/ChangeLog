@@ -1,9 +1,15 @@
-2024-02-05 Philipp Klaus Krause <philipp@colecovision.eu>
+2025-03-09 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* historygraphs/Makefile,
+	  historygraphs/*.svg:
+	  Update graphs.
+
+2025-02-05 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* developer meeting:
 	  Poster for SDCC developer meeting 2, slides from SDCC developer meeting 1.
 
-2024-02-04 Philipp Klaus Krause <philipp@colecovision.eu>
+2025-02-04 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* historygraphs/Makefile,
 	  historygraphs/*.svg:

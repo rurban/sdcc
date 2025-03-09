@@ -23,5 +23,7 @@ set arrow from 14208, 9811 to 14208, 9611
 set label "4.3.0" at 14208, 9811
 set arrow from 14648, 9246 to 14648, 9046
 set label "4.4.0" at 14648, 9246
+set arrow from 15246, 9401 to 15246, 9201
+set label "4.5.0" at 15246, 9401
 plot "whetstone-stm8-sizetable" using 1:4 title "default", "whetstone-stm8-sizetable" using 1:2 title "size", "whetstone-stm8-sizetable" using 1:3 title "speed"
 

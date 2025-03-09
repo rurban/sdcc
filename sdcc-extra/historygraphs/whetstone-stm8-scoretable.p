@@ -22,5 +22,9 @@ set arrow from 13131, 142.268 to 13131, 137.268
 set label "4.2.0" at 13131, 142.268
 set arrow from 14208, 144.840 to 14208, 139.840
 set label "4.3.0" at 14208, 144.840
+set arrow from 14648, 144.840 to 14648, 139.840
+set label "4.4.0" at 14648, 144.840
+set arrow from 15246, 144.918 to 15246, 139.918
+set label "4.5.0" at 15246, 144.918
 plot "whetstone-stm8-scoretable" using 1:4 title "default", "whetstone-stm8-scoretable" using 1:2 title "size", "whetstone-stm8-scoretable" using 1:3 title "speed"
 
