@@ -92,16 +92,26 @@
 \begin{frame}
 	\frametitle{TLCS family}
 	\begin{itemize}
-		\item TLCS-90: Z80 instruction set, with additional instructions, different opcode map
-		\item TLCS-870: TLCS-90 instruction set with additional instructions
-		\item TLCS-870/X: TLCS-90 instruction set with additional instructions for 20-bit addressing
-		\item TLCS-870/C: TLCS-870 instruction set with additional instructions, different opcode map
-		\item TLCS-870/C1 and TLCS-870/C1E: TLCS-870/C instruction set with additional instructions?
+		\item TLCS-90: Z80 with additional instructions, different opcode map
+		\item TLCS-870: TLCS-90 with additional and removed instructions, unknown opcode map
+		\item TLCS-870/X: TLCS-870 with additional instructions, unknown opcode map
+		\item TLCS-870/C: TLCS-870 with additional instructions, different opcode map
+		\item TLCS-870/C1 and TLCS-870/C1E: TLCS-870/C with additional instruction, different timing
 		\item TLCS-900 family: 32-bit registers
 		\item SDCC port for TLCS-90
 		\item SDCC port limited to 16 bit address space
 		\item TODO: SDCC ports for TLCS-870, TLCS-870/C, TLCS-870/C1
-		\item No plans to support TLCS-870/X, TLCS-900 family, \_\_far.
+		\item Lack of documentation
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{TLCS family TODO}
+	\begin{itemize}
+		\item SDCC ports for TLCS-870, TLCS-870/C, TLCS-870/C1
+		\item No plans to support TLCS-870/X, TLCS-900 family.
+		\item No plans to support \_\_far.
+		\item Free flash tool
 	\end{itemize}
 \end{frame}
 
