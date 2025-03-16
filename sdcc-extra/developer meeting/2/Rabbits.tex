@@ -83,7 +83,7 @@
 		\item SDCC ports for Rabbit 4000, Rabbit 5000, Rabbit 6000 (assembler, compiler, simulator) using one of the undocumented modes
 		\item Use JK register pair - first time new register allocator is used for more than 9 registers.
 		\item No plans to support the PW, PX, PY, PZ 32-bit registers
-		\item \_\_far intrinsic named address space to allow use of 20-bit addresses for data
+		\item \_\_far intrinsic named address space to allow use of 20-bit addresses
 		\item medium and large memory models to allow use of 20/24 bit and 24/32 bit addresses for code
 		\item Better flash tool and on-target debugging
 	\end{itemize}
@@ -100,7 +100,6 @@
 		\item TLCS-900 family: 32-bit registers
 		\item SDCC port for TLCS-90
 		\item SDCC port limited to 16 bit address space
-		\item TODO: SDCC ports for TLCS-870, TLCS-870/C, TLCS-870/C1
 		\item Lack of documentation
 	\end{itemize}
 \end{frame}
@@ -109,8 +108,9 @@
 	\frametitle{TLCS family TODO}
 	\begin{itemize}
 		\item SDCC ports for TLCS-870, TLCS-870/C, TLCS-870/C1
-		\item No plans to support TLCS-870/X, TLCS-900 family.
-		\item No plans to support \_\_far.
+		\item Handle different code size in cost function
+		\item \_\_far intrinsic named address space to allow use of 20-bit addresses for TLCS-90
+		\item No plans to support TLCS-870/X, TLCS-900 family
 		\item Free flash tool
 	\end{itemize}
 \end{frame}
@@ -122,7 +122,7 @@
 		\item \_\_far for eZ80 and Rabbits
 		\item Larger address space for code for Rabbits
 		\item Various smaller improvements
-		\item Work on eZ80 and Rabbit this year (i.e. for SDCC 4.6.0), TLCS-870 family later
+		\item Work on eZ80 and Rabbit this year (i.e. in time for SDCC 4.6.0), TLCS-870 family later
 	\end{itemize}
 \end{frame}
 
