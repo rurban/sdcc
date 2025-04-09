@@ -1,3 +1,11 @@
+2025-04-09 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* developer meeting/2/Introduction.pdf,
+	  developer meeting/2/Introduction.tex,
+	  developer meeting/2/Rabbits.pdf,
+	  developer meeting/2/Rabbits.tex:
+	  Fix date on slides, since we now know that these talks will be on the first day of the meeting.
+
 2025-04-04 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* developer meeting/2/Rabbits.pdf,
