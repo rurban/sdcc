@@ -21,5 +21,7 @@ set arrow from 14208, 14150 to 14208, 14050
 set label "4.3.0" at 14208, 14150
 set arrow from 14648, 14119 to 14648, 14019
 set label "4.4.0" at 14648, 14119
+set arrow from 15246, 13544 to 15246, 13444
+set label "4.5.0" at 15246, 13544
 plot "stdcbench-mcs51-sizetable" using 1:4 title "default", "stdcbench-mcs51-sizetable" using 1:2 title "size", "stdcbench-mcs51-sizetable" using 1:3 title "speed"
 

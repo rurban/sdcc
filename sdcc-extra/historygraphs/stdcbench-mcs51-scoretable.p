@@ -22,5 +22,7 @@ set arrow from 14208, 157 to 14208, 156
 set label "4.3.0" at 14208, 157
 set arrow from 14648, 167 to 14648, 166
 set label "4.4.0" at 14648, 167
+set arrow from 15246, 153 to 15246, 152
+set label "4.5.0" at 15246, 153
 plot "stdcbench-mcs51-scoretable" using 1:4 title "default", "stdcbench-mcs51-scoretable" using 1:2 title "size", "stdcbench-mcs51-scoretable" using 1:3 title "speed"
 

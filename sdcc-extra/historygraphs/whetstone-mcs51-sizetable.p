@@ -21,5 +21,7 @@ set arrow from 14208, 20390 to 14208, 20340
 set label "4.3.0" at 14208, 20390
 set arrow from 14648, 18976 to 14648, 18926
 set label "4.4.0" at 14648, 18976
+set arrow from 15246, 18551 to 15246, 18501
+set label "4.5.0" at 15246, 18551
 plot "whetstone-mcs51-sizetable" using 1:4 title "default", "whetstone-mcs51-sizetable" using 1:2 title "size", "whetstone-mcs51-sizetable" using 1:3 title "speed"
 
