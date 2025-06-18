@@ -37,8 +37,27 @@ int putchar(int c)
 	return c;
 }
 
+unsigned long clock(void) // Get value of 32768 Hz real-time clock.
+{
+	unsigned long clock0, clock1;
+	do
+	{
+		RTC0R = 0;
+		clock0 = ((unsigned long)(RTC0R) << 0) | ((unsigned long)(RTC1R) << 8) | ((unsigned long)(RTC2R) << 16) | ((unsigned long)(RTC3R) << 24);
+		clock1 = ((unsigned long)(RTC0R) << 0) | ((unsigned long)(RTC1R) << 8) | ((unsigned long)(RTC2R) << 16) | ((unsigned long)(RTC3R) << 24);
+	} while (clock0 != clock1);
+	return(clock1);
+}
+
 void main(void)
 {
+	GOCR = 0x30;	// STATUS/DTR high signals to OpenRabbit that user program is running and will send data.
+	// Give OpenRabbit and host some time (100 ms) to reconfigure baud rate
+	{
+		unsigned long c = clock();
+		while (clock() - c < 32 * 100);
+	}
+
 	PCFR = 0x40;	// Use pin PC6 as TXA
 
 	TAT4R = 18 - 1;	// Value in register is one less than the divider used (e.g. a value of 0 will result in clock division by 1).
@@ -46,9 +65,10 @@ void main(void)
 
 	SACR = 0x00;	// No interrupts, 8-bit async mode
 
-	for (;;) {
+	for (;;)
+	{
 		printf("Hello, World!\n");
-		printf ("\x04");
+		printf("\x04"); // EOT
 	}
 }
 

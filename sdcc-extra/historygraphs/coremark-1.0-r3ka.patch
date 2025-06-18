@@ -1,6 +1,6 @@
-diff -u coremark_v1.0/core_main.c coremark-r3ka/core_main.c
+diff -ur coremark_v1.0/core_main.c coremark-r3ka/core_main.c
 --- coremark_v1.0/core_main.c	2009-08-25 20:11:26.000000000 +0200
-+++ coremark-r3ka/core_main.c	2021-04-24 14:05:30.165120854 +0200
++++ coremark-r3ka/core_main.c	2025-05-29 11:45:06.215101990 +0200
 @@ -210,7 +210,7 @@
  		if (divisor==0) /* some machines cast float to int as 0 since this conversion is not defined by ANSI, but we know at least one second passed */
  			divisor=1;
@@ -27,13 +27,13 @@ diff -u coremark_v1.0/core_main.c coremark-r3ka/core_main.c
  	/* And last call any target specific code for finalizing */
  	portable_fini(&(results[0].port));
 +	
-+	ee_printf ("\x04");
++	ee_printf ("\x04"); // Signal end to OpenRabbit.
  
  	return MAIN_RETURN_VAL;	
  }
-diff -u coremark_v1.0/core_portme.c coremark-r3ka/core_portme.c
---- coremark_v1.0/core_portme.c	2021-04-24 12:00:51.953682684 +0200
-+++ coremark-r3ka/core_portme.c	2021-04-24 12:28:28.405108427 +0200
+diff -ur coremark_v1.0/core_portme.c coremark-r3ka/core_portme.c
+--- coremark_v1.0/core_portme.c	2025-05-29 11:52:11.214459507 +0200
++++ coremark-r3ka/core_portme.c	2025-05-29 11:51:23.009609645 +0200
 @@ -5,8 +5,11 @@
  	Author : Shay Gal-On, EEMBC
  	Legal : TODO!
@@ -93,7 +93,7 @@ diff -u coremark_v1.0/core_portme.c coremark-r3ka/core_portme.c
  	if (sizeof(ee_ptr_int) != sizeof(ee_u8 *)) {
  		ee_printf("ERROR! Please define ee_ptr_int to a type that holds a pointer!\n");
  	}
-@@ -115,4 +123,79 @@
+@@ -115,4 +123,93 @@
  	p->portable_id=0;
  }
  
@@ -112,6 +112,7 @@ diff -u coremark_v1.0/core_portme.c coremark-r3ka/core_portme.c
 +REG(0x07, RTC5R); // Real Time Clock Data Register 5
 +REG(0x08, WDTCR); // watch-dog timer control register
 +REG(0x09, WDTTR); // watch-dog timer test register
++REG(0x0E, GOCR);  // Global Output Control Register
 +REG(0x0F, GCDR);  // global clock double register
 +REG(0x14, MB0CR); // Memory Bank 0 Control Register
 +REG(0x16, MB2CR); // Memory Bank 2 Control Register
@@ -122,7 +123,11 @@ diff -u coremark_v1.0/core_portme.c coremark-r3ka/core_portme.c
 +REG(0xC3, SASR);  // Serial Port A Status Register
 +REG(0xC4, SACR);  // Serial Port A Control Register
 +
-+void _sdcc_external_startup(void)
++#if __SDCC_REVISION >= 13762
++unsigned char __sdcc_external_startup(void)
++#else
++unsigned char _sdcc_external_startup(void)
++#endif
 +{
 +	// Disable watchdog
 +	WDTTR = 0x51;
@@ -136,14 +141,8 @@ diff -u coremark_v1.0/core_portme.c coremark-r3ka/core_portme.c
 +	// Configure memory wait states
 +	MB0CR = 0x88; // Flash - 1 wait state (for 45 ns Flash @ 44.2 MHz) with write-protection
 +	MB2CR = 0x85; // RAM - 1 wait states (for 55 ns RAM @ 44.2 MHz)
-+}
 +
-+void init(void)
-+{
-+	PCFR = 0x40;    // Use pin PC6 as TXA
-+	TAT4R = 36 - 1; // Use divider for 38400 baud - value in register is one less than the divider used (e.g. a value of 0 will result in clock division by 1).
-+	TACSR = 0x01;   // Enable timer A
-+	SACR = 0x00;    // No interrupts, 8-bit async mode
++	return(0);
 +}
 +
 +unsigned long clock(void)
@@ -156,6 +155,21 @@ diff -u coremark_v1.0/core_portme.c coremark-r3ka/core_portme.c
 +		clock1 = ((unsigned long)(RTC0R) << 0) | ((unsigned long)(RTC1R) << 8) | ((unsigned long)(RTC2R) << 16) | ((unsigned long)(RTC3R) << 24);
 +	} while (clock0 != clock1);
 +	return(clock1);
++}
++
++void init(void)
++{
++	PCFR = 0x40;    // Use pin PC6 as TXA
++	TAT4R = 36 - 1; // Use divider for 38400 baud - value in register is one less than the divider used (e.g. a value of 0 will result in clock division by 1).
++	TACSR = 0x01;   // Enable timer A
++	SACR = 0x00;    // No interrupts, 8-bit async mode
++
++	GOCR = 0x30;	// STATUS/DTR high signals to OpenRabbit that user program is running and will send data.
++	// Give OpenRabbit and host some time (100 ms) to reconfigure baud rate
++	{
++		unsigned long c = clock();
++		while (clock() - c < 32 * 100);
++	}
 +}
 +
 +#if defined(__SDCC) && __SDCC_REVISION < 9624 // Old SDCC weirdness
@@ -173,9 +187,9 @@ diff -u coremark_v1.0/core_portme.c coremark-r3ka/core_portme.c
 +}
 +#endif
  
-diff -u coremark_v1.0/core_portme.h coremark-r3ka/core_portme.h
---- coremark_v1.0/core_portme.h	2021-04-24 12:00:51.953682684 +0200
-+++ coremark-r3ka/core_portme.h	2021-04-24 12:08:35.390414932 +0200
+diff -ur coremark_v1.0/core_portme.h coremark-r3ka/core_portme.h
+--- coremark_v1.0/core_portme.h	2025-05-29 11:52:11.214459507 +0200
++++ coremark-r3ka/core_portme.h	2025-05-29 11:45:06.215101990 +0200
 @@ -16,21 +16,21 @@
  	Define to 1 if the platform supports floating point.
  */
@@ -292,9 +306,9 @@ diff -u coremark_v1.0/core_portme.h coremark-r3ka/core_portme.h
 -int ee_printf(const char *fmt, ...);
 -
  #endif /* CORE_PORTME_H */
-diff -u coremark_v1.0/Makefile coremark-r3ka/Makefile
+diff -ur coremark_v1.0/Makefile coremark-r3ka/Makefile
 --- coremark_v1.0/Makefile	2009-07-10 19:48:43.000000000 +0200
-+++ coremark-r3ka/Makefile	2021-04-24 11:59:52.296562209 +0200
++++ coremark-r3ka/Makefile	2025-05-29 11:45:06.219102058 +0200
 @@ -1,141 +1,15 @@
 -#Author : Shay Gal-On, EEMBC
 -#
@@ -441,7 +455,7 @@ diff -u coremark_v1.0/Makefile coremark-r3ka/Makefile
 -check:
 -	md5sum -c coremark.md5 
 +coremark: $(OBJ)
-+	$(SDCC) $(SDCCFLAGS) *.rel -o Coremark.ihx
++	$(SDCC) $(SDCCFLAGS) *.rel -o image.ihx
  
 -ifdef ETC
 -# Targets related to testing and releasing CoreMark. Not part of the general release!

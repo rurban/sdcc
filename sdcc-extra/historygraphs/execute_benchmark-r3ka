@@ -21,7 +21,7 @@ while read -r line; do
 	if [ "$line" == "Hello, World!" ]; then
 		break
 	fi
-done < <($OPENRABBITFU --run --serialout /home/philipp/OpenRabbit/coldboot/coldload.bin /home/philipp/OpenRabbit/coldboot/pilot.bin hello-r3ka/hello.ihx $1)
+done < <($OPENRABBITFU --run --serialout hello-r3ka/hello.ihx $1)
 
 # Load benchmark onto the board
 while read -r line; do
@@ -41,6 +41,6 @@ while read -r line; do
 	if [[ "$line" == "stdcbench final score"* ]]; then
 		break
 	fi
-done < <($OPENRABBITFU --run --serialout /home/philipp/OpenRabbit/coldboot/coldload.bin /home/philipp/OpenRabbit/coldboot/pilot.bin "$2" $1)
+done < <($OPENRABBITFU --run --serialout "$2" $1)
 echo $line
 

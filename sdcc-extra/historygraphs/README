@@ -1,11 +1,11 @@
 This directory contains infrastructure for generating SDCC code size and performance history graphs.
 
 WARNINGS:
-* No SDCC should be installed on the system!
+* No SDCC should be installed on the system (to avoid linking to the wrong standrd library)!
 * Reproducing the graphs takes a lot of time and disk space!
-* Reproducing the stm8 benchmark score graphs requires the STM8AF board from the STM8A-Discovery, and sufficient access priviledges on the host system!
-* Reproducing the mcs51 benchmark score graphs requires the C8051 V2.1 board (C8051F120 variant), and sufficient access priviledges on the host system!
-* Reproducing the r3ka benchmark score graphs requires the RCM3319 board, and sufficient access priviledges on the host system!
+* Reproducing the stm8 benchmark score graphs requires the STM8AF board from the STM8A-Discovery, and sufficient access privileges on the host system!
+* Reproducing the mcs51 benchmark score graphs requires the C8051 V2.1 board (C8051F120 variant), and sufficient access privileges on the host system!
+* Reproducing the r3ka benchmark score graphs requires the RCM3319 board, and sufficient access privileges on the host system!
 
 Files:
 

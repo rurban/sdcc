@@ -13,6 +13,7 @@ REG(0x06, RTC4R); // Real Time Clock Data Register 4
 REG(0x07, RTC5R); // Real Time Clock Data Register 5
 REG(0x08, WDTCR); // watch-dog timer control register
 REG(0x09, WDTTR); // watch-dog timer test register
+REG(0x0E, GOCR);  // Global Output Control Register
 REG(0x0F, GCDR);  // global clock double register
 REG(0x14, MB0CR); // Memory Bank 0 Control Register
 REG(0x16, MB2CR); // Memory Bank 2 Control Register
@@ -41,14 +42,8 @@ unsigned char _sdcc_external_startup(void)
 	// Configure memory wait states
 	MB0CR = 0x88; // Flash - 1 wait state (for 45 ns Flash @ 44.2 MHz) with write-protection
 	MB2CR = 0x85; // RAM - 1 wait states (for 55 ns RAM @ 44.2 MHz)
-}
 
-void init(void)
-{
-	PCFR = 0x40;    // Use pin PC6 as TXA
-	TAT4R = 36 - 1; // Use divider for 38400 baud - value in register is one less than the divider used (e.g. a value of 0 will result in clock division by 1).
-	TACSR = 0x01;   // Enable timer A
-	SACR = 0x00;    // No interrupts, 8-bit async mode
+	return(0);
 }
 
 unsigned long clock(void)
@@ -61,6 +56,21 @@ unsigned long clock(void)
 		clock1 = ((unsigned long)(RTC0R) << 0) | ((unsigned long)(RTC1R) << 8) | ((unsigned long)(RTC2R) << 16) | ((unsigned long)(RTC3R) << 24);
 	} while (clock0 != clock1);
 	return(clock1);
+}
+
+void init(void)
+{
+	PCFR = 0x40;    // Use pin PC6 as TXA
+	TAT4R = 36 - 1; // Use divider for 38400 baud - value in register is one less than the divider used (e.g. a value of 0 will result in clock division by 1).
+	TACSR = 0x01;   // Enable timer A
+	SACR = 0x00;    // No interrupts, 8-bit async mode
+
+	GOCR = 0x30;	// STATUS/DTR high signals to OpenRabbit that user program is running and will send data.
+	// Give OpenRabbit and host some time (100 ms) to reconfigure baud rate
+	{
+		unsigned long c = clock();
+		while (clock() - c < 32 * 100);
+	}
 }
 
 #if defined(__SDCC) && __SDCC_REVISION < 9624 // Old SDCC weirdness
