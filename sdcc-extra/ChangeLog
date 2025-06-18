@@ -1,3 +1,14 @@
+2025-06-18 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* historygraphs/Makefile
+	  historygraphs/*.svg:
+	  Update graphs.
+	* historygraphs/hello-r3ka/hello.c,
+	  historygraphs/hello-r3ka/hello.ihx,
+	  sdcc-extra/historygraphs/Makefile,
+	  sdcc-extra/historygraphs/README:
+	  r3ka graph infrastructure update.
+
 2025-05-25 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* historygraphs/Makefile
