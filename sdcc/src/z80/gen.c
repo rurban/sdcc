@@ -332,7 +332,7 @@ z80_init_asmops (void)
 }
 
 static bool regalloc_dry_run;
-static unsigned int regalloc_dry_run_cost; // Legacy: cost counted in bytes only (i.e. states have been ignored for corresponding instructions).
+static unsigned int regalloc_dry_run_cost; // Legacy: cost counted in bytes only (i.e. states have been ignored for corresponding instructions and will be estimated).
 static unsigned long regalloc_dry_run_cost_bytes;
 static float regalloc_dry_run_cost_states;
 static float regalloc_dry_run_state_scale = 1.0f;
@@ -7415,7 +7415,7 @@ done:
   _G.stack.pushed = 0;
   _G.stack.offset = 0;
 
-  emitDebug (";\tTotal %s function size at codegen: %u bytes.", sym->name, (unsigned int)regalloc_dry_run_cost);
+  emitDebug (";\tTotal %s function size at codegen: %lu bytes.", sym->name, (unsigned long int)regalloc_dry_run_cost_bytes + (unsigned long int)regalloc_dry_run_cost);
 }
 
 /*-----------------------------------------------------------------*/
@@ -9609,7 +9609,9 @@ genMult (iCode *ic)
 
   // Try to use mlt.
   if ((IS_Z180 || IS_EZ80_Z80 || IS_Z80N) && IC_LEFT (ic)->aop->size == 1 && IC_RIGHT (ic)->aop->size == 1 &&
-    (byteResult || SPEC_USIGN (getSpec (operandType (IC_LEFT (ic)))) && SPEC_USIGN (getSpec (operandType (IC_RIGHT (ic))))))
+    (byteResult || SPEC_USIGN (getSpec (operandType (IC_LEFT (ic)))) && SPEC_USIGN (getSpec (operandType (ic->right)))) ||
+    (IS_Z80N || IS_Z180 && val >= 5 || IS_EZ80_Z80 && val >= 5 && (!optimize.codeSpeed || val >= 13)) && // eZ80 has very fast add hl, rr.
+      ic->left->aop->size == 2 && aopIsLitVal (ic->left->aop, 1, 1, 0x00) && val > 0 && val <= 255)
     {
       pair = getPairId (IC_RESULT (ic)->aop);
       if (pair == PAIR_INVALID && IC_RESULT (ic)->aop->type == AOP_REG)
@@ -9638,7 +9640,7 @@ genMult (iCode *ic)
             pair = PAIR_BC;
         }
 
-      // For small operands under low register pressure, the standard approach is better than the mlt one.
+      // For 8x8->8 under low register pressure, the standard approach is better than the mlt one.
       if (byteResult && val <= 6 && isPairDead (PAIR_HL, ic) && (isPairDead (PAIR_DE, ic) || isPairDead (PAIR_BC, ic)) &&
         !(IC_RESULT (ic)->aop->type == AOP_REG && (IC_RESULT (ic)->aop->aopu.aop_reg[0]->rIdx == E_IDX || IC_RESULT (ic)->aop->aopu.aop_reg[0]->rIdx == C_IDX)))
         goto no_mlt;

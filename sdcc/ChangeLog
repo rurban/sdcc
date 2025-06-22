@@ -1,3 +1,8 @@
+2025-06-22 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/z80/gen.c:
+	  Improve Z80N, Z180, eZ80 multiplication.
+
 2025-06-18 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/z80/gen.c,
