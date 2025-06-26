@@ -1,7 +1,13 @@
+2025-06-26 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* configure.ac,
+	  configure:
+	  Fix mos65(c)02 configure option descriptions.
+
 2025-06-22 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/z80/gen.c:
-	  Improve Z80N, Z180, eZ80 multiplication.
+	  Improve Z80N, Z180, eZ80 multiplication (RFE #972).
 
 2025-06-18 Philipp Klaus Krause <philipp@colecovision.eu>
 

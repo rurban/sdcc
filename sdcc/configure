@@ -1504,8 +1504,8 @@ Optional Features:
   --disable-pdk14-port    Excludes the PDK14 port
   --disable-pdk15-port    Excludes the PDK15 port
   --enable-pdk16-port     Includes the PDK16 port
-  --disable-mos6502-port  Includes the MOS6502 port
-  --disable-mos65c02-port Includes the MOS65C02 port
+  --disable-mos6502-port  Excludes the MOS6502 port
+  --disable-mos65c02-port Excludes the MOS65C02 port
   --disable-f8-port       Excludes the f8 port
   --disable-ucsim         Disables configuring and building of ucsim
   --disable-device-lib    Disables building device libraries
