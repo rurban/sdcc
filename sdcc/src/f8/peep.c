@@ -98,35 +98,6 @@ findLabel (const lineNode *pl)
   return NULL;
 }
 
-static const char *leftArg (const char *arg)
-{
-  while (isspace (*arg))
-    arg++;
-  while (*arg && !isspace (*arg))
-    arg++;
-  while (isspace (*arg))
-    arg++;
-  return (arg);
-}
-
-static const char *rightArg (const char *arg)
-{
-  arg = leftArg (arg);
-  unsigned int parens = 0;
-  for(; *arg; arg++)
-    {
-      if (*arg == '(')
-        parens++;
-      if (*arg == ')')
-        parens--;
-      if (isspace (*arg) && !parens)
-        break;
-    }
-  while (isspace (*arg))
-    arg++;
-  return (arg);
-}
-
 static bool isReg8(const char *arg)
 {
   return (!strncmp (arg, "xl", 2) || !strncmp (arg, "xh", 2) ||
@@ -202,8 +173,8 @@ readint(const char *str)
 int
 f8instructionSize (lineNode *pl)
 {
-  const char *larg = leftArg (pl->line);
-  const char *rarg = rightArg (pl->line);
+  const char *larg = lineArg (pl, 0);
+  const char *rarg = lineArg (pl, 1);
 
   if (lineIsInst (pl, "adc") || lineIsInst (pl, "add") || lineIsInst (pl, "and") ||  lineIsInst (pl, "cp") ||
     lineIsInst (pl, "or") || lineIsInst (pl, "sbc") || lineIsInst (pl, "sub") || lineIsInst (pl, "xor"))
@@ -442,7 +413,7 @@ f8MightReadFlag (const lineNode *pl, const char *what)
   if (lineIsInst (pl, "daa"))
     return (!strcmp (what, "cf") || !strcmp (what, "hf"));
   if (lineIsInst (pl, "xch"))
-    return (leftArg (pl->line)[0] == 'f');
+    return (lineArg (pl, 0)[0] == 'f');
   if (lineIsInst (pl, "boolw") || lineIsInst (pl, "caxw") || lineIsInst (pl, "cpw") || lineIsInst (pl, "decw") || lineIsInst (pl, "incnw") || lineIsInst (pl, "mul") || lineIsInst (pl, "negw") || lineIsInst (pl, "popw") || lineIsInst (pl, "sex") || lineIsInst (pl, "xchw") || lineIsInst (pl, "zex"))
     return false;
   if (lineIsInst (pl, "xchb"))
@@ -535,8 +506,8 @@ f8MightRead (const lineNode *pl, const char *what)
   // 8-bit 2-op inst, and some others.
   if (lineIsInst (pl, "adc") || lineIsInst (pl, "add") || lineIsInst (pl, "and") || lineIsInst (pl, "cp") || lineIsInst (pl, "or") || lineIsInst (pl, "sbc") || lineIsInst (pl, "sub") || lineIsInst (pl, "xch") || lineIsInst (pl, "xor"))
     {
-      const char *larg = leftArg (pl->line);
-      const char *rarg = rightArg (pl->line);
+      const char *larg = lineArg (pl, 0);
+      const char *rarg = lineArg (pl, 1);
 
       if (larg[0] == what[0] && larg[1] == what[1] || argCont (larg + 1, extra))
         return true;
@@ -549,12 +520,12 @@ f8MightRead (const lineNode *pl, const char *what)
     return false;
   if (lineIsInst (pl, "clr"))
     {
-      const char *larg = leftArg (pl->line);
+      const char *larg = lineArg (pl, 0);
       return (larg[0] == '(' && argCont (larg, extra));
     }
   if (lineIsInst (pl, "bool") || lineIsInst (pl, "dec") || lineIsInst (pl, "inc") || lineIsInst (pl, "push") || lineIsInst (pl, "rlc") || lineIsInst (pl, "rot") || lineIsInst (pl, "rrc") || lineIsInst (pl, "sll") || lineIsInst (pl, "sra") || lineIsInst (pl, "srl") || lineIsInst (pl, "tst") || lineIsInst (pl, "xchb"))
     {
-      const char *larg = leftArg (pl->line);
+      const char *larg = lineArg (pl, 0);
 
       return (larg[0] == what[0] && larg[1] == what[1] || argCont (larg + 1, extra));
     }
@@ -563,8 +534,8 @@ f8MightRead (const lineNode *pl, const char *what)
     return false;
   if (lineIsInst (pl, "adcw") || lineIsInst (pl, "addw") || lineIsInst (pl, "boolw") || lineIsInst (pl, "cpw") || lineIsInst (pl, "decw") || lineIsInst (pl, "incw") || lineIsInst (pl, "mul") || lineIsInst (pl, "negw") || lineIsInst (pl, "orw") || lineIsInst (pl, "pushw") || lineIsInst (pl, "rlcw") || lineIsInst (pl, "rrcw") || lineIsInst (pl, "sllw") || lineIsInst (pl, "sraw") || lineIsInst (pl, "srlw") || lineIsInst (pl, "subw") || lineIsInst (pl, "sbcw") || lineIsInst (pl, "tstw") || lineIsInst (pl, "incnw") || lineIsInst (pl, "xorw"))
     {
-      const char *larg = leftArg (pl->line);
-      const char *rarg = rightArg (pl->line);
+      const char *larg = lineArg (pl, 0);
+      const char *rarg = lineArg (pl, 1);
 
       if (argCont (larg, extra))
         return true;
@@ -575,8 +546,8 @@ f8MightRead (const lineNode *pl, const char *what)
   // ld
   if (lineIsInst (pl, "ld"))
     {
-      const char *larg = leftArg (pl->line);
-      const char *rarg = rightArg (pl->line);
+      const char *larg = lineArg (pl, 0);
+      const char *rarg = lineArg (pl, 1);
 
       if (rarg && (rarg[0] == what[0] && rarg[1] == what[1] || argCont (rarg + 1, extra)))
         return true;
@@ -591,8 +562,8 @@ f8MightRead (const lineNode *pl, const char *what)
     return (extra == 'y' || extra == 'z');
   if (lineIsInst (pl, "ldw"))
     {
-      const char *larg = leftArg (pl->line);
-      const char *rarg = rightArg (pl->line);
+      const char *larg = lineArg (pl, 0);
+      const char *rarg = lineArg (pl, 1);
 
       if (rarg && (rarg[0] == what[0] && rarg[1] == what[1] || argCont (rarg + 1, extra)))
         return true;
@@ -604,14 +575,14 @@ f8MightRead (const lineNode *pl, const char *what)
     }
   if (lineIsInst (pl, "sex") || lineIsInst (pl, "zex"))
     {
-      const char *rarg = rightArg (pl->line);
+      const char *rarg = lineArg (pl, 1);
       if (rarg && (rarg[0] == what[0] && rarg[1] == what[1]))
         return true;
       return false;
     }
   if (lineIsInst (pl, "call"))
     {
-      const char *larg = leftArg (pl->line);
+      const char *larg = lineArg (pl, 0);
       if (*larg == '#')
         larg++;
       if (*larg == '_')
@@ -675,7 +646,7 @@ f8SurelyWritesFlag (const lineNode *pl, const char *what)
     return strcmp (what, "hf");
   if (lineIsInst (pl, "addw"))
     {
-      const char *arg = leftArg (pl->line);
+      const char *arg = lineArg (pl, 0);
       if (!strncmp (arg, "sp", 2))
         return false;
       else
@@ -690,7 +661,7 @@ f8SurelyWritesFlag (const lineNode *pl, const char *what)
   // ld / ldw
   if (lineIsInst (pl, "ld") || lineIsInst (pl, "ldw"))
     {
-      const char *rarg = rightArg (pl->line);
+      const char *rarg = lineArg (pl, 1);
       const char *rest = strstr (rarg, ", ");
       if (!rest || strchr (rarg, '#') && strchr (rarg, '#') < rest || strchr (rarg, ';') && strchr (rarg, ';') < rest)
         return false; // todo: ld xl, mm / ldw y, mm
@@ -712,7 +683,7 @@ f8SurelyWritesFlag (const lineNode *pl, const char *what)
   if (lineIsInst (pl, "rot"))
     return false;
   if (lineIsInst (pl, "xch"))
-    return leftArg (pl->line)[0] == 'f';
+    return lineArg (pl, 0)[0] == 'f';
   // 16-bit 0-op inst.
   if (lineIsInst (pl, "boolw") || lineIsInst (pl, "zex"))
     return !strcmp (what, "zf");
@@ -726,7 +697,7 @@ f8SurelyWritesFlag (const lineNode *pl, const char *what)
     {
       if (!strcmp (what, "zf") || !strcmp (what, "nf"))
         return true;
-      if (!rightArg (pl->line) && !strcmp (what, "cf"))
+      if (!lineArg (pl, 1) && !strcmp (what, "cf"))
         return true;
       return false;
     }
@@ -774,7 +745,7 @@ f8SurelyWrites (const lineNode *pl, const char *what)
      return false;
   if (lineIsInst (pl, "adc") || lineIsInst (pl, "add") || lineIsInst (pl, "and") || lineIsInst (pl, "bool") || lineIsInst (pl, "clr") || lineIsInst (pl, "dec") || lineIsInst (pl, "cp") || lineIsInst (pl, "inc") || lineIsInst (pl, "or") || lineIsInst (pl, "pop") || lineIsInst (pl, "rlc") || lineIsInst (pl, "rot") || lineIsInst (pl, "rrc") || lineIsInst (pl, "sbc") || lineIsInst (pl, "sub") || lineIsInst (pl, "sll") || lineIsInst (pl, "sra") || lineIsInst (pl, "srl") || lineIsInst (pl, "xor"))
     {
-      const char *larg = leftArg (pl->line);
+      const char *larg = lineArg (pl, 0);
       return (larg[0] == what[0] && larg[1] == what[1]);
     }
   // 16-bit 2/1-op inst, and some others.
@@ -782,7 +753,7 @@ f8SurelyWrites (const lineNode *pl, const char *what)
     return false;
   if (lineIsInst (pl, "adcw") || lineIsInst (pl, "addw") || lineIsInst (pl, "boolw") || lineIsInst (pl, "clrw") || lineIsInst (pl, "cpw") || lineIsInst (pl, "decw") || lineIsInst (pl, "incw") || lineIsInst (pl, "mul") || lineIsInst (pl, "negw") || lineIsInst (pl, "orw") || lineIsInst (pl, "popw") || lineIsInst (pl, "rlcw") || lineIsInst (pl, "rrcw") || lineIsInst (pl, "sex") || lineIsInst (pl, "sllw") || lineIsInst (pl, "sraw") || lineIsInst (pl, "srlw") || lineIsInst (pl, "subw") || lineIsInst (pl, "sbcw") || lineIsInst (pl, "incnw") || lineIsInst (pl, "xorw") || lineIsInst (pl, "zex"))
     {
-      const char *larg = leftArg (pl->line);
+      const char *larg = lineArg (pl, 0);
       return (larg[0] == extra);
     }
   if (lineIsInst (pl, "ld"))
@@ -793,8 +764,8 @@ f8SurelyWrites (const lineNode *pl, const char *what)
     return false;
   if (lineIsInst (pl, "xch"))
     {
-      const char *larg = leftArg (pl->line);
-      const char *rarg = rightArg (pl->line);
+      const char *larg = lineArg (pl, 0);
+      const char *rarg = lineArg (pl, 1);
       return (larg[0] == what[0] && larg[1] == what[1] || rarg[0] == what[0] && rarg[1] == what[1]);
     }
   if (STARTSINST (pl->line, "jr"))
