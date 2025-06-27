@@ -8,8 +8,6 @@
 // #define D(_s) { printf _s; fflush(stdout); }
 #define D(_s)
 
-#define ISINST(l, i) (!STRNCASECMP((l), (i), sizeof(i) - 1) && (!(l)[sizeof(i) - 1] || isspace((unsigned char)((l)[sizeof(i) - 1]))))
-
 typedef enum
 {
   S4O_CONDJMP,
@@ -95,22 +93,22 @@ findLabel (const lineNode *pl)
 static bool
 mos6502MightReadFlag(const lineNode *pl, const char *what)
 {
-  if (ISINST (pl->line, "adc") ||
-    ISINST (pl->line, "rol") ||
-    ISINST (pl->line, "ror") ||
-    ISINST (pl->line, "sbc"))
+  if (lineIsInst (pl, "adc") ||
+    lineIsInst (pl, "rol") ||
+    lineIsInst (pl, "ror") ||
+    lineIsInst (pl, "sbc"))
     return (!strcmp(what, "c"));
 
-  if (ISINST (pl->line, "bcc") || ISINST (pl->line, "bcs"))
+  if (lineIsInst (pl, "bcc") || lineIsInst (pl, "bcs"))
     return (!strcmp(what, "c"));
 
-  if (ISINST (pl->line, "beq") || ISINST (pl->line, "bne"))
+  if (lineIsInst (pl, "beq") || lineIsInst (pl, "bne"))
     return (!strcmp(what, "z"));
 
-  if (ISINST (pl->line, "bmi") || ISINST (pl->line, "bpl"))
+  if (lineIsInst (pl, "bmi") || lineIsInst (pl, "bpl"))
     return (!strcmp(what, "n"));
 
-  if (ISINST (pl->line, "bvc") || ISINST (pl->line, "bvs"))
+  if (lineIsInst (pl, "bvc") || lineIsInst (pl, "bvs"))
     return (!strcmp(what, "v"));
 
   return false;
@@ -128,51 +126,51 @@ mos6502MightRead(const lineNode *pl, const char *what)
 static bool
 mos6502SurelyWritesFlag(const lineNode *pl, const char *what)
 {
-  if (ISINST (pl->line, "adc") ||
-    ISINST (pl->line, "sbc"))
+  if (lineIsInst (pl, "adc") ||
+    lineIsInst (pl, "sbc"))
     return (!strcmp(what, "n") || !strcmp(what, "z") || !strcmp(what, "c") || !strcmp(what, "v"));
 
-  if (ISINST (pl->line, "asl") ||
-    ISINST (pl->line, "cmp") ||
-    ISINST (pl->line, "cpx") ||
-    ISINST (pl->line, "cpy") ||
-    ISINST (pl->line, "lsr") ||
-    ISINST (pl->line, "rol") ||
-    ISINST (pl->line, "ror"))
+  if (lineIsInst (pl, "asl") ||
+    lineIsInst (pl, "cmp") ||
+    lineIsInst (pl, "cpx") ||
+    lineIsInst (pl, "cpy") ||
+    lineIsInst (pl, "lsr") ||
+    lineIsInst (pl, "rol") ||
+    lineIsInst (pl, "ror"))
     return (!strcmp(what, "n") || !strcmp(what, "z") || !strcmp(what, "c"));
 
-  if (ISINST (pl->line, "and") ||
-    ISINST (pl->line, "dec") ||
-    ISINST (pl->line, "dex") ||
-    ISINST (pl->line, "dey") ||
-    ISINST (pl->line, "eor") ||
-    ISINST (pl->line, "inc") ||
-    ISINST (pl->line, "inx") ||
-    ISINST (pl->line, "iny") ||
-    ISINST (pl->line, "lda") ||
-    ISINST (pl->line, "ldx") ||
-    ISINST (pl->line, "ldy") ||
-    ISINST (pl->line, "ora") ||
-    ISINST (pl->line, "pla") ||
-    ISINST (pl->line, "tax") ||
-    ISINST (pl->line, "tay") ||
-    ISINST (pl->line, "tsx") ||
-    ISINST (pl->line, "tsa") ||
-    ISINST (pl->line, "tya"))
+  if (lineIsInst (pl, "and") ||
+    lineIsInst (pl, "dec") ||
+    lineIsInst (pl, "dex") ||
+    lineIsInst (pl, "dey") ||
+    lineIsInst (pl, "eor") ||
+    lineIsInst (pl, "inc") ||
+    lineIsInst (pl, "inx") ||
+    lineIsInst (pl, "iny") ||
+    lineIsInst (pl, "lda") ||
+    lineIsInst (pl, "ldx") ||
+    lineIsInst (pl, "ldy") ||
+    lineIsInst (pl, "ora") ||
+    lineIsInst (pl, "pla") ||
+    lineIsInst (pl, "tax") ||
+    lineIsInst (pl, "tay") ||
+    lineIsInst (pl, "tsx") ||
+    lineIsInst (pl, "tsa") ||
+    lineIsInst (pl, "tya"))
     return (!strcmp(what, "n") || !strcmp(what, "z"));
 
-  if (ISINST (pl->line, "bit"))
+  if (lineIsInst (pl, "bit"))
     return (!strcmp(what, "n") || !strcmp(what, "z") || !strcmp(what, "v"));
 
-  if (ISINST (pl->line, "clc") ||
-    ISINST (pl->line, "sec"))
+  if (lineIsInst (pl, "clc") ||
+    lineIsInst (pl, "sec"))
     return (!strcmp(what, "c"));
 
-  if (ISINST (pl->line, "clv"))
+  if (lineIsInst (pl, "clv"))
     return (!strcmp(what, "v"));
 
-  if (ISINST (pl->line, "plp") ||
-    ISINST (pl->line, "rti"))
+  if (lineIsInst (pl, "plp") ||
+    lineIsInst (pl, "rti"))
     return true;
     
   return false;
@@ -191,22 +189,22 @@ mos6502SurelyWrites(const lineNode *pl, const char *what)
 static bool
 mos6502UncondJump (const lineNode *pl)
 {
-  return (ISINST (pl->line, "jmp"));
+  return (lineIsInst (pl, "jmp"));
 }
 
 static bool
 mos6502CondJump (const lineNode *pl)
 {
-  return (ISINST (pl->line, "bpl") || ISINST (pl->line, "bmi") ||
-    ISINST (pl->line, "bvc") || ISINST (pl->line, "bvs") ||
-    ISINST (pl->line, "bcc") || ISINST (pl->line, "bcs") ||
-    ISINST (pl->line, "bne") || ISINST (pl->line, "beq"));
+  return (lineIsInst (pl, "bpl") || lineIsInst (pl, "bmi") ||
+    lineIsInst (pl, "bvc") || lineIsInst (pl, "bvs") ||
+    lineIsInst (pl, "bcc") || lineIsInst (pl, "bcs") ||
+    lineIsInst (pl, "bne") || lineIsInst (pl, "beq"));
 }
 
 static bool
 mos6502SurelyReturns (const lineNode *pl)
 {
-  return (ISINST (pl->line, "rts") || ISINST (pl->line, "rti") );
+  return (lineIsInst (pl, "rts") || lineIsInst (pl, "rti") );
 }
 
 /*-----------------------------------------------------------------*/
