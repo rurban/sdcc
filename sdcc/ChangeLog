@@ -1,3 +1,8 @@
+2025-07-15 Benedikt Freisen <b.freisen AT gmx.net>
+
+	* device/include/mcs51/at89x51.h:
+	  Fix typo in header, see bug #3861.
+
 2025-07-05 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* sdcc/doc/MCS51_named.svg:
