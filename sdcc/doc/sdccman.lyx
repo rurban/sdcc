@@ -39607,6 +39607,52 @@ pragma nooverlay
 \begin_layout Itemize
 
 \series bold
+max_allocs_per_node
+\series default
+ <value>
+\begin_inset Index idx
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+#
+\end_layout
+
+\end_inset
+
+pragma max_allocs_per_node
+\end_layout
+
+\end_inset
+
+- Use this value as limit for some optimizations.
+ See option -
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+/
+\end_layout
+
+\end_inset
+
+-max-allocs-per-node.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
 stackauto
 \series default
 
