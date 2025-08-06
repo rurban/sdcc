@@ -1,5 +1,5 @@
 /* bug-3855.c
-   Looks like an issue in generalized constant propagation.
+   An issue in handling of unsigned _BitInt divisions triggered by generalized constant propagation.
  */
  
 #include <testfwk.h>

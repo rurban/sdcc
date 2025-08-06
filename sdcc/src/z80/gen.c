@@ -16053,6 +16053,8 @@ genCast (const iCode *ic)
     }
   if (IS_BOOL (resulttype))
     {
+      if (!isRegDead (A_IDX, ic))
+        _push (PAIR_AF), pushed_a = true;
       _castBoolean (right);
       outAcc (result);
       goto release;
