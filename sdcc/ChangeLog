@@ -2,6 +2,10 @@
 
 	* sdcc/support/regression/tests/rabbit.c:
 	  Enable test for f8, since it now passes.
+	* src/SDCCopt.c,
+	  support/regression/tests/bitintarith.c.in,
+	  support/regression/tests/bug-3855.c:
+	  Fix bug #3855.
 
 2025-07-16 Philipp Klaus Krause <philipp@colecovision.eu>
 

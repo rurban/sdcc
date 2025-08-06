@@ -11,11 +11,9 @@ long g(long t) {
 }
 
 void testBug(void) {
-#ifndef __SDCC_pdk14 // Lack of RAM (just by a few B - otherwise, ww'd have to disable compilation of g above, too; let's hope future optimization makes this test possible for pdk14) */
+#ifndef __SDCC_pdk14 // Lack of RAM (just by a few B - otherwise, we'd have to disable compilation of g above, too; let's hope future optimization makes this test possible for pdk14) */
     long r = g(4000);
-#if 0 // Bug not yet fixed.
     ASSERT( r == 57 ); // 24*4000-38580=57420
-#endif
 #endif
 }
 

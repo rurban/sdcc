@@ -94,6 +94,9 @@ void testBitIntArith(void)
 	ASSERT(--ua == 0);
 	ASSERT(--ua == (ubitinttype)0xffffffffffffffffull);
 	ASSERT(++ua == 0);
+
+	ua = 1ull << ({width} - 1);
+	ASSERT(ua / 4 == (1ull << ({width} - 1)) / 4ull); // Underlying issue of bug #3855: a signed division was used for some unsigned _BitInt divisions.
 #endif
 #endif
 #endif

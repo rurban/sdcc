@@ -777,31 +777,26 @@ convilong (iCode *ic, eBBlock *ebp)
   if ((op == '*' || op == '/' || op == '%' || op == LEFT_OP || op == RIGHT_OP) &&
     (IS_BITINT (operandType (IC_LEFT (ic))) || IS_BITINT (operandType (IC_RIGHT (ic)))))
     {
+      sym_link *newtype;
+
       // Try 16x16->16
-      if (IS_BITINT (operandType (IC_LEFT (ic))) && SPEC_BITINTWIDTH (operandType (IC_LEFT (ic))) <= 16 &&
-        IS_BITINT (operandType (IC_RIGHT (ic))) && SPEC_BITINTWIDTH (operandType (IC_RIGHT (ic))) <= 16)
-        {
-          prependCast (ic, IC_LEFT (ic), newIntLink(), ebp);
-          if (op != LEFT_OP && op != RIGHT_OP)
-            prependCast (ic, IC_RIGHT (ic), newIntLink(), ebp);
-          appendCast (ic, newIntLink(), ebp);
-        }
+      if (IS_BITINT (operandType (ic->left)) && SPEC_BITINTWIDTH (operandType (ic->left)) <= 16 &&
+        IS_BITINT (operandType (ic->right)) && SPEC_BITINTWIDTH (operandType (ic->right)) <= 16)
+        newtype = newIntLink();
       // Try 32x32->32
-      else if (IS_BITINT (operandType (IC_LEFT (ic))) && SPEC_BITINTWIDTH (operandType (IC_LEFT (ic))) <= 32 &&
-        IS_BITINT (operandType (IC_RIGHT (ic))) && SPEC_BITINTWIDTH (operandType (IC_RIGHT (ic))) <= 32)
-        {
-          prependCast (ic, IC_LEFT (ic), newLongLink(), ebp);
-          if (op != LEFT_OP && op != RIGHT_OP)
-            prependCast (ic, IC_RIGHT (ic), newLongLink(), ebp);
-          appendCast (ic, newLongLink(), ebp);
-        }
+      else if (IS_BITINT (operandType (ic->left)) && SPEC_BITINTWIDTH (operandType (ic->left)) <= 32 &&
+        IS_BITINT (operandType (ic->right)) && SPEC_BITINTWIDTH (operandType (ic->right)) <= 32)
+        newtype = newLongLink();
       else // Fall back to 64x64->64.
-        {
-          prependCast (ic, IC_LEFT (ic), newLongLongLink(), ebp);
-          if (op != LEFT_OP && op != RIGHT_OP)
-            prependCast (ic, IC_RIGHT (ic), newLongLongLink(), ebp);
-          appendCast (ic, newLongLongLink(), ebp);
-        }
+        newtype = newLongLongLink();
+
+      wassert (IS_BITINT (operandType (ic->left)) && IS_BITINT (operandType (ic->right)) && SPEC_USIGN (operandType (ic->left)) == SPEC_USIGN (operandType (ic->right)));
+      SPEC_USIGN (newtype) = SPEC_USIGN (operandType (ic->left));
+      prependCast (ic, ic->left, newtype, ebp);
+      if (op != LEFT_OP && op != RIGHT_OP)
+      prependCast (ic, ic->right, newtype, ebp);
+      appendCast (ic, newtype, ebp);
+
       if ((op == '*' || op == '/' || op == '%') && port->hasNativeMulFor && port->hasNativeMulFor (ic, operandType (IC_LEFT (ic)), operandType (IC_RIGHT (ic)))) // Avoid introducing calls to non-existing support functions.
         return;
     }
