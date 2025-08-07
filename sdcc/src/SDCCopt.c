@@ -775,7 +775,7 @@ convilong (iCode *ic, eBBlock *ebp)
 
   // Use basic type multiplication function for _BitInt
   if ((op == '*' || op == '/' || op == '%' || op == LEFT_OP || op == RIGHT_OP) &&
-    (IS_BITINT (operandType (IC_LEFT (ic))) || IS_BITINT (operandType (IC_RIGHT (ic)))))
+(IS_BITINT (operandType (IC_LEFT (ic))) || op != LEFT_OP && op != RIGHT_OP && IS_BITINT (operandType (IC_RIGHT (ic)))))
     {
       sym_link *newtype;
 
@@ -790,7 +790,7 @@ convilong (iCode *ic, eBBlock *ebp)
       else // Fall back to 64x64->64.
         newtype = newLongLongLink();
 
-      wassert (IS_BITINT (operandType (ic->left)) && IS_BITINT (operandType (ic->right)) && SPEC_USIGN (operandType (ic->left)) == SPEC_USIGN (operandType (ic->right)));
+      wassert ((op == LEFT_OP || op == RIGHT_OP) || IS_BITINT (operandType (ic->left)) && IS_BITINT (operandType (ic->right)) && SPEC_USIGN (operandType (ic->left)) == SPEC_USIGN (operandType (ic->right)));
       SPEC_USIGN (newtype) = SPEC_USIGN (operandType (ic->left));
       prependCast (ic, ic->left, newtype, ebp);
       if (op != LEFT_OP && op != RIGHT_OP)
