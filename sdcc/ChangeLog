@@ -1,5 +1,11 @@
 2025-08-07 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* src/SDCCopt.c,
+	  support/regression/tests/bitintfloat.c.in:
+	  Fix bug #3718.
+
+2025-08-07 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* src/SDCCopt.c:
 	  Fix a regression caused by yesterday's fix for bug #3855.
 

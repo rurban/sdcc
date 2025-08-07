@@ -255,19 +255,89 @@ cnvToFcall (iCode * ic, eBBlock * ebp)
   addiCodeToeBBlock (ebp, newic, ip);
 }
 
+extern operand *geniCodeRValue (operand *, bool);
+
+/* Insert a cast of operand op of ic to type type */
+void
+prependCast (iCode *ic, operand *op, sym_link *type, eBBlock *ebb)
+{
+  if (IS_OP_LITERAL (op))
+    {
+      operand *newop = operandFromValue (valCastLiteral (type, operandLitValue (op), operandLitValue (op)), false);
+      if (isOperandEqual (op, IC_LEFT (ic)))
+        IC_LEFT (ic) = newop;
+      if (isOperandEqual (op, IC_RIGHT (ic)))
+        IC_RIGHT (ic) = newop;
+      return;
+    }
+            
+  iCode *newic = newiCode (CAST, operandFromLink (type), op);
+  hTabAddItem (&iCodehTab, newic->key, newic);
+
+  IC_RESULT (newic) = newiTempOperand (type, 0);
+  bitVectSetBit (OP_USES (op), newic->key);
+  OP_DEFS (IC_RESULT (newic)) = bitVectSetBit (OP_DEFS (IC_RESULT (newic)), newic->key);
+  bitVectUnSetBit (OP_USES (op), ic->key);
+  OP_USES (IC_RESULT (newic)) = bitVectSetBit (OP_USES (IC_RESULT (newic)), ic->key);
+  newic->filename = ic->filename;
+  newic->lineno = ic->lineno;
+
+  addiCodeToeBBlock (ebb, newic, ic);
+
+  if (isOperandEqual (op, IC_LEFT (ic)))
+    IC_LEFT (ic) = IC_RESULT (newic);
+
+  if (isOperandEqual (op, IC_RIGHT (ic)))
+    IC_RIGHT (ic) = IC_RESULT (newic);
+}
+
+/* Insert a cast of result of ic from type type */
+void
+appendCast (iCode *ic, sym_link *type, eBBlock *ebb)
+{
+  iCode *newic = newiCode (CAST, operandFromLink (operandType (IC_RESULT (ic))), 0);
+  hTabAddItem (&iCodehTab, newic->key, newic);
+
+  IC_RESULT (newic) = IC_RESULT (ic);
+  bitVectUnSetBit (OP_DEFS (IC_RESULT (ic)), ic->key);
+  bitVectSetBit (OP_DEFS (IC_RESULT (ic)), newic->key);
+  IC_RESULT (ic) = newiTempOperand (type, 0);
+  IC_RIGHT (newic) = operandFromOperand (IC_RESULT (ic));
+  bitVectSetBit (OP_DEFS (IC_RESULT (ic)), ic->key);
+  bitVectSetBit (OP_USES (IC_RESULT (ic)), newic->key);
+  newic->filename = ic->filename;
+  newic->lineno = ic->lineno;
+  addiCodeToeBBlock (ebb, newic, ic->next);
+}
+
 /*-----------------------------------------------------------------*/
 /* cnvToFloatCast - converts casts to floats to function calls     */
 /*-----------------------------------------------------------------*/
 static void
-cnvToFloatCast (iCode * ic, eBBlock * ebp)
+cnvToFloatCast (iCode *ic, eBBlock *ebp)
 {
   iCode *ip, *newic;
   symbol *func = NULL;
-  sym_link *type = copyLinkChain (operandType (IC_RIGHT (ic)));
-  SPEC_SHORT (type) = 0;
   int linenno = ic->lineno;
   int bwd, su;
   int bytesPushed=0;
+
+  // Use basic type cast function for _BitInt
+  if (IS_BITINT (operandType (ic->right)))
+    {
+      sym_link *newtype;
+      if (SPEC_BITINTWIDTH (operandType (ic->right)) <= 16)
+        newtype = newIntLink();
+      else if (SPEC_BITINTWIDTH (operandType (ic->right)) <= 32)
+        newtype = newLongLink();
+      else // Fall back to 64 bit.
+        newtype = newLongLongLink();
+      SPEC_USIGN (newtype) = SPEC_USIGN (operandType (ic->right));
+      prependCast (ic, ic->right, newtype, ebp);
+    }
+
+  sym_link *type = copyLinkChain (operandType (ic->right));
+  SPEC_SHORT (type) = 0;
 
   ip = ic->next;
   /* remove it from the iCode */
@@ -300,7 +370,7 @@ cnvToFloatCast (iCode * ic, eBBlock * ebp)
       goto found;
     }
 
-  assert (0);
+  wassert (0);
 found:
 
   /* if float support routines NOT compiled as reentrant */
@@ -408,7 +478,7 @@ cnvToFixed16x16Cast (iCode * ic, eBBlock * ebp)
             }
         }
     }
-  assert (0);
+  wassert (0);
 found:
 
   /* if float support routines NOT compiled as reentrant */
@@ -517,7 +587,7 @@ cnvFromFloatCast (iCode * ic, eBBlock * ebp)
             }
         }
     }
-  assert (0);
+  wassert (0);
 found:
 
   /* if float support routines NOT compiled as reentrant */
@@ -633,7 +703,7 @@ cnvFromFixed16x16Cast (iCode * ic, eBBlock * ebp)
       goto found;
     }
 
-  assert (0);
+  wassert (0);
 found:
 
   /* if float support routines NOT compiled as reentrant */
@@ -708,61 +778,6 @@ found:
   newic->lineno = lineno;
   if (IS_SYMOP (IC_RESULT (ic)))
     OP_DEFS (IC_RESULT (ic)) = bitVectSetBit (OP_DEFS (IC_RESULT (ic)), newic->key);
-}
-
-extern operand *geniCodeRValue (operand *, bool);
-
-/* Insert a cast of operand op of ic to type type */
-void
-prependCast (iCode *ic, operand *op, sym_link *type, eBBlock *ebb)
-{
-  if (IS_OP_LITERAL (op))
-    {
-      operand *newop = operandFromValue (valCastLiteral (type, operandLitValue (op), operandLitValue (op)), false);
-      if (isOperandEqual (op, IC_LEFT (ic)))
-        IC_LEFT (ic) = newop;
-      if (isOperandEqual (op, IC_RIGHT (ic)))
-        IC_RIGHT (ic) = newop;
-      return;
-    }
-            
-  iCode *newic = newiCode (CAST, operandFromLink (type), op);
-  hTabAddItem (&iCodehTab, newic->key, newic);
-
-  IC_RESULT (newic) = newiTempOperand (type, 0);
-  bitVectSetBit (OP_USES (op), newic->key);
-  OP_DEFS (IC_RESULT (newic)) = bitVectSetBit (OP_DEFS (IC_RESULT (newic)), newic->key);
-  bitVectUnSetBit (OP_USES (op), ic->key);
-  OP_USES (IC_RESULT (newic)) = bitVectSetBit (OP_USES (IC_RESULT (newic)), ic->key);
-  newic->filename = ic->filename;
-  newic->lineno = ic->lineno;
-
-  addiCodeToeBBlock (ebb, newic, ic);
-
-  if (isOperandEqual (op, IC_LEFT (ic)))
-    IC_LEFT (ic) = IC_RESULT (newic);
-
-  if (isOperandEqual (op, IC_RIGHT (ic)))
-    IC_RIGHT (ic) = IC_RESULT (newic);
-}
-
-/* Insert a cast of result of ic from type type */
-void
-appendCast (iCode *ic, sym_link *type, eBBlock *ebb)
-{
-  iCode *newic = newiCode (CAST, operandFromLink (operandType (IC_RESULT (ic))), 0);
-  hTabAddItem (&iCodehTab, newic->key, newic);
-
-  IC_RESULT (newic) = IC_RESULT (ic);
-  bitVectUnSetBit (OP_DEFS (IC_RESULT (ic)), ic->key);
-  bitVectSetBit (OP_DEFS (IC_RESULT (ic)), newic->key);
-  IC_RESULT (ic) = newiTempOperand (type, 0);
-  IC_RIGHT (newic) = operandFromOperand (IC_RESULT (ic));
-  bitVectSetBit (OP_DEFS (IC_RESULT (ic)), ic->key);
-  bitVectSetBit (OP_USES (IC_RESULT (ic)), newic->key);
-  newic->filename = ic->filename;
-  newic->lineno = ic->lineno;
-  addiCodeToeBBlock (ebb, newic, ic->next);
 }
 
 /*-----------------------------------------------------------------*/
