@@ -563,12 +563,28 @@ cnvFromFloatCast (iCode * ic, eBBlock * ebp)
 {
   iCode *ip, *newic;
   symbol *func = NULL;
-  sym_link *type = copyLinkChain (operandType (IC_LEFT (ic)));
-  SPEC_SHORT (type) = 0;
   char *filename = ic->filename;
   int lineno = ic->lineno;
   int bwd, su;
   int bytesPushed=0;
+
+  // Use basic type cast function for _BitInt. Choose something big enough to represent all values of the _BitInt, don't worry about what happens if that is not enough for the float value, or some of the basic type values won't fit into the BitInt - all that is UB anyway.
+  if (IS_BITINT (operandType (ic->left)))
+    {
+      sym_link *newtype;
+      if (SPEC_BITINTWIDTH (operandType (ic->left)) <= 16)
+        newtype = newIntLink();
+      else if (SPEC_BITINTWIDTH (operandType (ic->left)) <= 32)
+        newtype = newLongLink();
+      else // Fall back to 64 bit.
+        newtype = newLongLongLink();
+      SPEC_USIGN (newtype) = SPEC_USIGN (operandType (ic->left));
+      ic->left = operandFromLink (newtype);
+      appendCast (ic, newtype, ebp);
+    }
+
+  sym_link *type = copyLinkChain (operandType (ic->left));
+  SPEC_SHORT (type) = 0;
 
   ip = ic->next;
   /* remove it from the iCode */

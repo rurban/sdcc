@@ -22,11 +22,6 @@ float to_float(bitinttype b)
 {
 	return(b);
 }
-
-/*bitinttype from_float(float f)
-{
-	return(f);
-}*/
 #endif
 
 void testCast (void)

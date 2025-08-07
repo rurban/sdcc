@@ -1,0 +1,39 @@
+/** casts between bit-precise integers and float
+
+    width: 2, 4, 6, 7, 8, 9, 15, 16, 17, 24, 32, 33, 40, 48, 63, 64, 65
+    sign: unsigned, signed
+*/
+
+#include <testfwk.h>
+
+#include <float.h>
+
+// clang 11 supports bit-precise types, but deviates a bit from C23.
+#if __clang_major__ == 11
+#define __SDCC_BITINT_MAXWIDTH 128
+#define _BitInt _ExtInt
+#endif
+
+// Remaining part of bug: does not compile for width > 32.
+#if __SDCC_BITINT_MAXWIDTH >= {width} && 32 >= {width} // TODO: When we can regression-test in --std-c23 mode, use the standard macro from limits.h instead!
+
+typedef {sign} _BitInt({width}) bitinttype;
+
+bitinttype from_float(float f)
+{
+	return(f);
+}
+#endif
+
+void testCast (void)
+{
+#if __SDCC_BITINT_MAXWIDTH >= {width} && 32 >= {width} // TODO: When we can regression-test in --std-c23 mode, use the standard macro from limits.h instead!
+	float f;
+
+	f = 1;
+#if !defined(__SDCC_pdk14) && !defined(__SDCC_pdk15) // Reming part of bug: fails for pdk14, pdk15.
+	ASSERT (from_float (f) == (bitinttype)f);
+#endif
+#endif
+}
+
