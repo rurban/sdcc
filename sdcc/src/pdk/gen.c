@@ -5327,6 +5327,8 @@ genCast (const iCode *ic)
   // Cast to _BitInt can require mask of top byte.
   if (IS_BITINT (resulttype) && (SPEC_BITINTWIDTH (resulttype) % 8) && bitsForType (resulttype) < bitsForType (righttype))
     {
+      bool swapped_a = false;
+
       aopOp (right, ic);
       aopOp (result, ic);
 
@@ -5336,6 +5338,12 @@ genCast (const iCode *ic)
           pushed_a = true;
         }
       genMove (result->aop, right->aop, true, regDead (P_IDX, ic));
+      if (result->aop->size == 2 && aopInReg (result->aop, 0, A_IDX))
+        {
+          emit2 ("xch", "a, p");
+          cost (1, 1);
+          swapped_a = true;
+        }
       cheapMove (ASMOP_A, 0, result->aop, result->aop->size - 1, true, false, true);
       emit2 ("and", "a, #0x%02x", topbytemask);
       cost (2, 1);
@@ -5354,7 +5362,11 @@ genCast (const iCode *ic)
           emitLabel (tlbl);
         }
       cheapMove (result->aop, result->aop->size - 1, ASMOP_A, 0, true, false, true);
-
+      if (swapped_a)
+        {
+          emit2 ("xch", "a, p");
+          cost (1, 1);
+        }
       goto release;
     }
 

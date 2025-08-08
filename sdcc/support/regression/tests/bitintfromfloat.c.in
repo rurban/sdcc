@@ -31,9 +31,7 @@ void testCast (void)
 	float f;
 
 	f = 1;
-#if !defined(__SDCC_pdk14) && !defined(__SDCC_pdk15) // Reming part of bug: fails for pdk14, pdk15.
 	ASSERT (from_float (f) == (bitinttype)f);
-#endif
 #endif
 }
 

@@ -7,6 +7,9 @@
 	  support/regression/tests/coremark.c.in,
 	  support/regression/tests/muldiv.c.in:
 	  Fix bug #3852.
+	* src/pdk/gen.c,
+	  support/regression/tests/bitintfromfloat.c.in:
+	  Fix a pdk codegen issue for casts from int to _BitInt of width > 8, < 16 bits if both operands' least-significant byte is allocated to register a.
 
 2025-08-07 Philipp Klaus Krause <philipp@colecovision.eu>
 
