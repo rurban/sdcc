@@ -1,5 +1,5 @@
 ;--------------------------------------------------------------------------
-;  __mulsint2slong.s
+;  __muluint2slong.s
 ;
 ;  Copyright (c) 2021, Philipp Klaus Krause
 ;
@@ -26,59 +26,27 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.module __mulsint2slong
+	.module __muluint2slong
 	.optsdcc -mz80 sdcccall(1)
 
 .globl ___muluint2ulong
-.globl ___mulsint2slong
 
 .area _CODE
 
-___mulsint2slong:
-	; Use lowest bit of c to remember if result needs to be negated. Use b to cache #0.
-	ld	bc, #0
-
-	bit	#7, l
-	jr	z, hl_nonneg
-	ld	a, b
-	sub	a, l
-	ld	l, a
-	ld	a, b
-	sbc	a, h
-	ld	h, a
-	inc	c
-hl_nonneg:
-
-	bit	#7, e
-	jr	z, de_nonneg
-	ld	a, b
-	sub	a, e
-	ld	e, a
-	ld	a, b
-	sbc	a, d
-	ld	d, a
-	inc	c
-de_nonneg:
-
-	push	bc
-	call	___muluint2ulong
-	pop	bc
-
-	bit	#0, c
-	ret	z
-
-	; Negate result.
-	ld	a, b
-	sub	a, e
-	ld	e, a
-	ld	a, b
-	sbc	a, d
-	ld	d, a
-	ld	a, b
-	sbc	a, l
-	ld	l, a
-	ld	a, b
-	sbc	a, h
-	ld	h, a
+; 16x16->32 multiplication
+___muluint2ulong:
+	ld	iy, #0
+	ld	b, #16
+loop:
+	add	iy, iy
+	adc	hl, hl
+	jr	NC, skip
+	add	iy, de
+	jr	NC, skip
+	inc	hl
+skip:
+	djnz	loop
+	push	iy
+	pop	de
 	ret
 
