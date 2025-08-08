@@ -21,7 +21,7 @@
 #define LACK_OF_MEMORY
 #endif
 
-#if !defined(LACK_OF_MEMORY) && !defined(__SDCC_z80) && !defined(__SDCC_z180) && !defined(__SDCC_ds390) /* z80, z180, ds390: fails, possibly a bug in codegen */
+#if !defined(LACK_OF_MEMORY) && !defined(__SDCC_ds390) /* ds390: fails, possibly a bug in codegen */
 
 // coremark.h content below.
 

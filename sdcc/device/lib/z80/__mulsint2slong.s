@@ -38,7 +38,7 @@ ___mulsint2slong:
 	; Use lowest bit of c to remember if result needs to be negated. Use b to cache #0.
 	ld	bc, #0
 
-	bit	#7, l
+	bit	#7, h
 	jr	z, hl_nonneg
 	ld	a, b
 	sub	a, l
@@ -49,7 +49,7 @@ ___mulsint2slong:
 	inc	c
 hl_nonneg:
 
-	bit	#7, e
+	bit	#7, d
 	jr	z, de_nonneg
 	ld	a, b
 	sub	a, e

@@ -1,11 +1,12 @@
 2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
 
-	* src/z80/peep.c:
-	  Fix a z80n peephole optimizer issue that complicated investigating asm output for bug #3852.
-	* device/lib/z80/Makefile.in,
+	* src/z80/peep.c,
+	  device/lib/z80/Makefile.in,
 	  device/lib/z80/__mulsint2slong.s,
-	  device/lib/z80/__muluint2slong.s:
-	  Separate implementations of z80 signed vs unsigned 16x16->32 bit multiplications to reduce code size, and ease debugging of bug #3852.
+	  device/lib/z80/__muluint2slong.s,
+	  support/regression/tests/coremark.c.in,
+	  support/regression/tests/muldiv.c.in:
+	  Fix bug #3852.
 
 2025-08-07 Philipp Klaus Krause <philipp@colecovision.eu>
 

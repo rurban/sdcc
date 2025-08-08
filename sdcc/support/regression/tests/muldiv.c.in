@@ -109,6 +109,12 @@ test16to32(void)
    {attr} {storage} int i, j;
    {attr} {storage} unsigned int ui, uj;
 
+   i = 123;
+   j = 0xaa;
+   ASSERT((long)i * (long)j == 123l * (long)0xaa);
+   i = -i;
+   ASSERT((long)i * (long)j == -123l * (long)0xaa);
+
    i = 42;
    j = 42;
    ASSERT((long)i * (long)j == 42l * 42l);
@@ -164,3 +170,4 @@ testMod(void)
     ASSERT(i%4 == -1);
 #endif
 }
+
