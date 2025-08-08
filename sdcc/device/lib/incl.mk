@@ -13,9 +13,11 @@ COMMON_FLOAT = \
   _fs2schar.c \
   _fs2sint.c \
   _fs2slong.c \
+  _fs2slonglong.c \
   _fs2uchar.c \
   _fs2uint.c \
   _fs2ulong.c \
+  _fs2ulonglong.c \
   _fsadd.c \
   _fsdiv.c \
   _fsmul.c \

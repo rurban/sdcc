@@ -1,5 +1,14 @@
 2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* device/include/float.h,
+	  device/lib/incl.mk,
+	  support/regression/tests/bitintfromfloat.c.in,
+	  device/lib/_fs2slonglong.c,
+	  device/lib/_fs2ulonglong.c:
+	  Fix third part of bug #3719.
+
+2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* src/z80/peep.c,
 	  device/lib/z80/Makefile.in,
 	  device/lib/z80/__mulsint2slong.s,
@@ -9,7 +18,7 @@
 	  Fix bug #3852.
 	* src/pdk/gen.c,
 	  support/regression/tests/bitintfromfloat.c.in:
-	  Fix a pdk codegen issue for casts from int to _BitInt of width > 8, < 16 bits if both operands' least-significant byte is allocated to register a.
+	  Fix a pdk codegen issue for casts from int to _BitInt of width > 8, < 16 bits if both operands' least-significant byte is allocated to register a, part of bug #3719.
 
 2025-08-07 Philipp Klaus Krause <philipp@colecovision.eu>
 
