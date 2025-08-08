@@ -6,6 +6,10 @@
 	  device/lib/_fs2slonglong.c,
 	  device/lib/_fs2ulonglong.c:
 	  Fix third part of bug #3719.
+	* debugger/mcs51/sdcdb.h,
+	  debugger/mcs51/sdcdb.c,
+	  debugger/mcs51/symtab.c:
+	  Fix bug #3823.
 
 2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
 
