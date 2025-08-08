@@ -8479,12 +8479,13 @@ genPlus (iCode * ic)
           i += 2;
         }
       else if (!maskedword && (!premoved || i) && !started && i == size - 2 && aopInReg (ic->result->aop, i, HL_IDX) &&
-        aopInReg (rightop, i, C_IDX) && isRegDead (B_IDX, ic))
+        aopInReg (rightop, i, C_IDX) && isRegDead (B_IDX, ic) && leftop->regs[B_IDX] <= i + 1 &&
+        !((aopInReg (rightop, i + 1, H_IDX) || aopInReg (rightop, i + 1, L_IDX)) && leftop->regs[B_IDX] >= i))
         {
           if (aopInReg (rightop, i + 1, H_IDX) || aopInReg (rightop, i + 1, L_IDX))
             {
-              cheapMove (ASMOP_B, 0, ic->right->aop, i + 1, true);
-              genMove_o (ASMOP_HL, 0, ic->left->aop, i, 2, false, true, de_dead, false, !started);
+              cheapMove (ASMOP_B, 0, rightop, i + 1, true);
+              genMove_o (ASMOP_HL, 0, leftop, i, 2, false, true, de_dead, false, !started);
             }
           else
             {
@@ -8497,12 +8498,13 @@ genPlus (iCode * ic)
           i += 2;
         }
        else if (!maskedword && (!premoved || i) && !started && i == size - 2 && aopInReg (IC_RESULT (ic)->aop, i, HL_IDX) &&
-          aopInReg (rightop, i, E_IDX) && isRegDead (D_IDX, ic))
+          aopInReg (rightop, i, E_IDX) && isRegDead (D_IDX, ic) && leftop->regs[D_IDX] <= i + 1 &&
+          !((aopInReg (rightop, i + 1, H_IDX) || aopInReg (rightop, i + 1, L_IDX)) && leftop->regs[D_IDX] >= i))
         {
           if (aopInReg (rightop, i + 1, H_IDX) || aopInReg (rightop, i + 1, L_IDX))
             {
-              cheapMove (ASMOP_D, 0, IC_RIGHT (ic)->aop, i + 1, true);
-              genMove_o (ASMOP_HL, 0, ic->left->aop, i, 2, false, true, de_dead, false, true);
+              cheapMove (ASMOP_D, 0, rightop, i + 1, true);
+              genMove_o (ASMOP_HL, 0, leftop, i, 2, false, true, de_dead, false, true);
             }
           else
             {
@@ -8515,17 +8517,18 @@ genPlus (iCode * ic)
           i += 2;
         }
        else if (!maskedword && (!premoved || i) && !started && i == size - 2 && aopInReg (IC_RESULT (ic)->aop, i, HL_IDX) &&
-          aopInReg (leftop, i, E_IDX) && isRegDead (D_IDX, ic))
+          aopInReg (leftop, i, E_IDX) && isRegDead (D_IDX, ic) && rightop->regs[D_IDX] <= i + 1 &&
+          !((aopInReg (leftop, i + 1, H_IDX) || aopInReg (leftop, i + 1, L_IDX)) && rightop->regs[D_IDX] >= i))
         {
           if (aopInReg (leftop, i + 1, H_IDX) || aopInReg (leftop, i + 1, L_IDX))
             {
-              cheapMove (ASMOP_D, 0, IC_LEFT (ic)->aop, i + 1, true);
-              fetchPairLong (PAIR_HL, IC_RIGHT (ic)->aop, 0, i);
+              cheapMove (ASMOP_D, 0, leftop, i + 1, true);
+              fetchPairLong (PAIR_HL, rightop, 0, i);
             }
           else
             {
-              fetchPairLong (PAIR_HL, IC_RIGHT (ic)->aop, 0, i);
-              cheapMove (ASMOP_D, 0, IC_LEFT (ic)->aop, i + 1, true);
+              fetchPairLong (PAIR_HL, rightop, 0, i);
+              cheapMove (ASMOP_D, 0, leftop, i + 1, true);
             }
           emit3w (A_ADD, ASMOP_HL, ASMOP_DE);
           started = true;

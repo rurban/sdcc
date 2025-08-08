@@ -10,6 +10,8 @@
 	  debugger/mcs51/sdcdb.c,
 	  debugger/mcs51/symtab.c:
 	  Fix bug #3823.
+	* src/z80/gen.c:
+	  Fix bug #3854.
 
 2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
 
