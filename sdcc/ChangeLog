@@ -7,6 +7,10 @@
 	  support/regression/tests/bug-3355.c,
 	  support/valdiag/tests/constantRange.c:
 	  Fix bug #3355.
+	* src/z80/gen.c:
+	  Fix another aspect of bug #3852.
+	* src/stm8/peep.c:
+	  Fix bug #3278.
 
 2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
 

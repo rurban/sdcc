@@ -7938,7 +7938,8 @@ setupToPreserveCarry (asmop *result, asmop *left, asmop *right)
         }
       else if (couldDestroyCarry (result))
         {
-          shiftIntoPair (PAIR_HL, result);
+          if (!requiresHL (left))
+            shiftIntoPair (PAIR_HL, result);
         }
     }
 }
@@ -8331,7 +8332,7 @@ genPlus (iCode * ic)
       if (couldDestroyCarry (IC_RESULT (ic)->aop) &&
         (IC_RESULT (ic)->aop == leftop || IC_RESULT (ic)->aop == rightop))
         shiftIntoPair (PAIR_HL, IC_RESULT (ic)->aop);
-      else if (couldDestroyCarry (rightop))
+      else if (couldDestroyCarry (rightop) && !requiresHL (leftop))
         shiftIntoPair (PAIR_HL, rightop);
     }
 

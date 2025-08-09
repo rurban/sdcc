@@ -366,7 +366,7 @@ stm8instructionSize(lineNode *pl)
     int i = 0;
 
     wassert (op1start);
-    if(!strcmp(op1start, "a") || !strcmp(op1start, "(x)"))
+    if(!STRCASECMP(op1start, "a") || !STRCASECMP(op1start, "(x)"))
       return(1);
     if(!strcmp(op1start, "(y)"))
       return(2);
