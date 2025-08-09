@@ -3164,6 +3164,13 @@ In 4.5.2,
  the C23 standard library bit and byte utilities (stdbit.h) more closely follow the final ISO C23 standard instead of the 2022 C2X draft.
 \end_layout
 
+\begin_layout Itemize
+In 4.5.3,
+ signed,
+ short,
+ long on __bit or __sbit gives an error instead of being ignored silently.
+\end_layout
+
 \begin_layout Section
 System Requirements
 \end_layout

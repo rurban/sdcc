@@ -641,6 +641,8 @@ checkTypeSanity (sym_link *etype, const char *name)
 
   if ((SPEC_NOUN (etype) == V_BITINT ||
        SPEC_NOUN (etype) == V_BOOL ||
+       SPEC_NOUN (etype) == V_BIT ||
+       SPEC_NOUN (etype) == V_SBIT ||
        SPEC_NOUN (etype) == V_CHAR ||
        SPEC_NOUN (etype) == V_FLOAT ||
        SPEC_NOUN (etype) == V_FIXED16X16 ||
@@ -653,7 +655,8 @@ checkTypeSanity (sym_link *etype, const char *name)
   if ((SPEC_NOUN (etype) == V_BOOL ||
        SPEC_NOUN (etype) == V_FLOAT ||
        SPEC_NOUN (etype) == V_FIXED16X16 ||
-       SPEC_NOUN (etype) == V_DOUBLE || SPEC_NOUN (etype) == V_VOID) && (etype->select.s.b_signed || SPEC_USIGN (etype)))
+       SPEC_NOUN (etype) == V_DOUBLE || SPEC_NOUN (etype) == V_VOID) && (etype->select.s.b_signed || SPEC_USIGN (etype)) ||
+       (SPEC_NOUN (etype) == V_BIT || SPEC_NOUN (etype) == V_SBIT) && etype->select.s.b_signed)
     {                           // signed or unsigned for float double or void
       werror (E_SIGNED_OR_UNSIGNED_INVALID, noun, name);
     }

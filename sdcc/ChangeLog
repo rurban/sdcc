@@ -1,3 +1,13 @@
+2025-08-09 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* .version,
+	  doc/sdccman.lyx,
+	  src/SDCCsymt.c,
+	  src/SDCCval.c,
+	  support/regression/tests/bug-3355.c,
+	  support/valdiag/tests/constantRange.c:
+	  Fix bug #3355.
+
 2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* device/include/float.h,
