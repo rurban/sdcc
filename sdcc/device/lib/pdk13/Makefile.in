@@ -13,12 +13,6 @@ SAS = $(top_builddir)/bin/sdaspdk13
 # override PORTDIR defined by super (parent) makefile
 override PORTDIR = ../build/pdk13
 
-%.rel: %.s
-	@# TODO: sdas should place it\'s output in the current dir
-	test $(srcdir) = . || cp $< .
-	-$(AS) $(ASFLAGS) $(notdir $<)
-	test $(srcdir) = . || rm $(notdir $<)
-
 include $(srcdir)/../incl.mk
 
 PDK13_FLOAT = $(COMMON_FLOAT)
@@ -96,6 +90,12 @@ else
     endif
   endif
 endif
+
+%.rel: %.s
+	@# TODO: sdas should place it\'s output in the current dir
+	test $(srcdir) = . || cp $< .
+	-$(AS) $(ASFLAGS) $(notdir $<)
+	test $(srcdir) = . || rm $(notdir $<)
 
 clean:
 	rm -f *.rel *.sym *.lst *~ $(CLEANSPEC) *.dump* *.asm *.lib

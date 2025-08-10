@@ -17,6 +17,13 @@
 	  Comment spelling fixes from patch #460 by Konstantin Kim.
 	* support/regression/fwk/lib/testfwk.c:
 	  Drop support infrastructure for ports with broken / %. There hasen't been a use case in decades.
+	* support/regression/ports/pdk13/spec.mk,
+	  support/regression/MakeList:
+	  pdk13 regression test infrastructure cleanup.
+	* device/lib/pdk13/Makefile.in:
+	  Make pdk13 behave like other pdk wrt. build of __muluchar.
+	* device/lib/pdk13/heap.s:
+	  Reduce pdk13 default heap size to 16B.
 	  
 2025-08-09 Philipp Klaus Krause <philipp@colecovision.eu>
 

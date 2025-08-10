@@ -232,12 +232,32 @@ EXCLUDE_ARCH_pdk += \
 	gte_pr57131 \
 	gte_pr58984 \
 	gte_pr93434 \
-	gte_shiftdi-2 \
-	tcc_110_average
-EXCLUDE_pdk15-stack-auto += \
-	gte_991019-1 \
+	gte_shiftdi-2
+EXCLUDE_pdk13 += \
+	gte_20001124-1 \
+	gte_20001229-1 \
+	gte_20010116-1 \
+	gte_20091229-1 \
+	gte_900409-1 \
+	gte_960405-1 \
+	gte_991202-3 \
+	gte_align-2 \
+	gte_pr102134 \
+	gte_pr27364 \
+	gte_pr28778 \
 	gte_pr30185 \
-	gte_pr40386
+	gte_pr33669 \
+	gte_pr34099-2 \
+	gte_pr40493 \
+	gte_pr42691 \
+	gte_pr42721 \
+	gte_pr46019 \
+	gte_pr50865 \
+	gte_pr57281 \
+	gte_pr57860 \
+	gte_pr58365 \
+	gte_pr58640-2 \
+	gte_shiftdi
 EXCLUDE_pdk14 += \
 	gte_align-2 \
 	gte_pr102134 \
@@ -249,6 +269,10 @@ EXCLUDE_pdk14 += \
 	gte_991019-1
 EXCLUDE_pdk15 += \
 	gte_20001124-1
+EXCLUDE_pdk15-stack-auto += \
+	gte_991019-1 \
+	gte_pr30185 \
+	gte_pr40386
 EXCLUDE_mcs51-small += \
 	gte_loop-ivopts-2 \
 	gte_pr58984 \
@@ -367,7 +391,10 @@ EXCLUDE_ARCH_pdk += \
 	tcc_49_bracket_evaluation \
 	tcc_83_utf8_in_identifiers \
 	tcc_97_utf8_string_literal \
-	tcc_109_float_struct_calling
+	tcc_109_float_struct_calling \
+	tcc_110_average
+EXCLUDE_pdk13 += \
+	tcc_92_enum_bitfield
 EXCLUDE_pdk14 += \
 	tcc_92_enum_bitfield
 EXCLUDE_pdk15-stack-auto += \
@@ -408,6 +435,7 @@ EXCLUDE_mcs51-stack-auto += ${EXCLUDE_ARCH_mcs51}
 EXCLUDE_mcs51-large-stack-auto += ${EXCLUDE_ARCH_mcs51}
 EXCLUDE_mcs51-xstack-auto += ${EXCLUDE_ARCH_mcs51}
 ###################################################
+EXCLUDE_pdk13 += ${EXCLUDE_ARCH_pdk}
 EXCLUDE_pdk14 += ${EXCLUDE_ARCH_pdk}
 EXCLUDE_pdk15 += ${EXCLUDE_ARCH_pdk}
 EXCLUDE_pdk15-stack-auto += ${EXCLUDE_ARCH_pdk}
