@@ -17,11 +17,6 @@ void T2_isr (void) __interrupt (5);
 #define MEMSPACE_BUF
 #endif
 
-/** Define this if the port's div or mod functions are broken.
-    A slow loop based method will be substituded.
-*/
-//#define BROKEN_DIV_MOD		1
-
 extern void _putchar(char c);
 extern void _initEmu(void);
 extern void _exitEmu(void);
@@ -29,32 +24,8 @@ extern void _exitEmu(void);
 int __numTests = 0;
 static int __numFailures = 0;
 
-#if BROKEN_DIV_MOD && !defined(TARGET_VERY_LOW_MEMORY)
-static int
-__div(int num, int denom)
-{
-  int q = 0;
-  while (num >= denom)
-    {
-      q++;
-      num -= denom;
-    }
-  return q;
-}
-
-static int
-__mod (int num, int denom)
-{
-  while (num >= denom)
-    {
-      num -= denom;
-    }
-  return num;
-}
-#else
 #define __div(num, denom) ((num) / (denom))
 #define __mod(num, denom) ((num) % (denom))
-#endif
 
 void
 __prints (const char *s)
