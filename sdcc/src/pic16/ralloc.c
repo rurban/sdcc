@@ -4241,7 +4241,7 @@ pic16_packRegisters (eBBlock * ebp)
 #endif
 
 #ifndef NO_cast_peep
-    /* if this is cast for intergral promotion then
+    /* if this is cast for integral promotion then
        check if only use of  the definition of the
        operand being casted/ if yes then replace
        the result of that arithmetic operation with

@@ -2902,7 +2902,7 @@ optimizeFinalCast (ebbIndex *ebbi)
   // Some regression tests fail, including gcc-torture-execute-pr38236;
   // looking into that one for -mmcs51 --model-small , register allocation
   // puts the result of a 16-bit read from e generic pointer into dptr,
-  // which codegen can't handle (it genrated code where dpl is overwritten by
+  // which codegen can't handle (it generated code where dpl is overwritten by
   // the lower byte of the result, then used as pointer once more).
   // This also triggers a pic16 bug resulting in invalid asm code being generated.
   if (TARGET_MCS51_LIKE || TARGET_IS_PIC16)

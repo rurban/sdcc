@@ -62,7 +62,7 @@ static void genEndCritical (iCode * ic);
         (!IS_ITEMP (op)                     /* --> iTemps never reside in __code */    \
         && IS_SYMOP (op)                    /* --> must be an immediate (otherwise we would be in genConstPointerGet) */    \
         && !IS_FUNC (OP_SYM_TYPE (op))      /* --> we would want its address instead of the first instruction */    \
-        && !IS_CODEPTR (OP_SYM_TYPE (op))   /* --> get symbols address instread */    \
+        && !IS_CODEPTR (OP_SYM_TYPE (op))   /* --> get symbols address instead */    \
         && IN_CODESPACE (SPEC_OCLS (getSpec (OP_SYM_TYPE (op)))))
 
 /*
@@ -210,7 +210,7 @@ emitpLabel (int key)
 
 /* gen.h defines a macro emitpcode that should be used to call emitpcode
  * as this allows for easy debugging (ever asked the question: where was
- * this instruction geenrated? Here is the answer... */
+ * this instruction generated? Here is the answer... */
 void
 emitpcode_real (PIC_OPCODE poc, pCodeOp * pcop)
 {
@@ -1942,7 +1942,7 @@ assignResultValue (iCode *ic)
 
 
 /*-----------------------------------------------------------------*/
-/* genIpush - genrate code for pushing this gets a little complex  */
+/* genIpush - generate code for pushing this gets a little complex */
 /*-----------------------------------------------------------------*/
 static void
 genIpush (iCode * ic)
@@ -2037,7 +2037,7 @@ genIpop (iCode * ic)
 }
 
 /*-----------------------------------------------------------------*/
-/* unsaverbank - restores the resgister bank from stack            */
+/* unsaverbank - restores the register bank from stack             */
 /*-----------------------------------------------------------------*/
 static void
 unsaverbank (int bank, iCode * ic, bool popPsw)

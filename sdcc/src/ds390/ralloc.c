@@ -3280,7 +3280,7 @@ packRegisters (eBBlock ** ebpp, int blockno)
           packRegsDPTRuse (IC_LEFT (ic));
         }
 
-      /* if this is a cast for intergral promotion then
+      /* if this is a cast for integral promotion then
          check if it's the only use of  the definition of the
          operand being casted/ if yes then replace
          the result of that arithmetic operation with

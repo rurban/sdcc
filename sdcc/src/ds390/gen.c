@@ -4273,7 +4273,7 @@ genEndFunction (iCode * ic)
     return;
 
   /* If there were stack parameters, we cannot optimize without also    */
-  /* fixing all of the stack offsets; this is too dificult to consider. */
+  /* fixing all of the stack offsets; this is too difficult to consider. */
   if (FUNC_HASSTACKPARM (sym->type))
     return;
 

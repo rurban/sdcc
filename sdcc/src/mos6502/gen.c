@@ -8584,7 +8584,7 @@ drym6502iCode (iCode *ic)
 }
 
 /**************************************************************************
- * genm6502Code - generate code for for a block of instructions
+ * genm6502Code - generate code for a block of instructions
  *************************************************************************/
 void
 genm6502Code (iCode *lic)

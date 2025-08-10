@@ -3919,7 +3919,7 @@ genSend (set *sendSet)
         }
       else
         {
-          /* otherwise perfer to load x last (lsb to msb order) */
+          /* otherwise prefer to load x last (lsb to msb order) */
           loadRegFromAop (hc08_reg_a, AOP (IC_LEFT (send1)), 0);
           loadRegFromAop (hc08_reg_x, AOP (IC_LEFT (send1)), 1);
         }

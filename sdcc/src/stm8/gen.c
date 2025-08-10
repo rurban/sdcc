@@ -1786,12 +1786,12 @@ genCopyStack (asmop *result, int roffset, asmop *source, int soffset, int n, boo
         {
           wassert_bt (*size >= 2);
 
-          // Using ldw results in substancially shorter, but somewhat slower code.
+          // Using ldw results in substantially shorter, but somewhat slower code.
           if (!x_free && !y_free && really_do_it_now && (optimize.codeSize || !a_free && !optimize.codeSpeed))
             {
               push (ASMOP_X, 0, 2);
-              pushed_x = TRUE;
-              x_free = TRUE;
+              pushed_x = true;
+              x_free = true;
             }
 
           if (y_free) // Unlike with other operations, loading between y and stk is as efficient as for x, so we try y first here.
@@ -7659,7 +7659,7 @@ genLeftShift (const iCode *ic)
   else
     shiftop = result->aop;
 
-  iterations = (right->aop->type == AOP_LIT ? byteOfVal (right->aop->aopu.aop_lit, 0) : 2); // Use 2 as a guess for estimating hte cycle count.
+  iterations = (right->aop->type == AOP_LIT ? byteOfVal (right->aop->aopu.aop_lit, 0) : 2); // Use 2 as a guess for estimating the cycle count.
 
   // Avoid overwriting shift count on stack when moving to shiftop.
   if (aopOnStack (right->aop, 0, 1) && aopRS (shiftop))
@@ -10086,7 +10086,7 @@ stm8IsReturned(const char *what)
 }
 
 // Check if what is part of the ith argument (counting from 1) to a function of type ftype.
-// If what is 0, just check if hte ith argument is in registers.
+// If what is 0, just check if the ith argument is in registers.
 bool
 stm8IsRegArg (struct sym_link *ftype, int i, const char *what)
 {

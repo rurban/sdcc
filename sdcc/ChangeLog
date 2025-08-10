@@ -1,3 +1,21 @@
+2025-08-10 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/SDCCopt.c,
+	  src/ds390/gen.c,
+	  src/ds390/ralloc.c,
+	  src/f8/gen.c,
+	  src/f8/gen.h,
+	  src/hc08/gen.c,
+	  src/mcs51/gen.c,
+	  src/mos6502/gen.c,
+	  src/pic14/gen.c,
+	  src/pic14/ralloc.c,
+	  src/pic16/ralloc.c,
+	  src/stm8/gen.c,
+	  src/z80/gen.c,
+	  src/z80/gen.h:
+	  Comment spelling fixes from patch #460 by Konstantin Kim.
+	  
 2025-08-09 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* .version,
