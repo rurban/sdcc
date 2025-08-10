@@ -1,5 +1,16 @@
 2025-08-10 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* device/lib/pdk13/Makefile.in,
+	  device/lib/pdk13/_muluchar.s,
+	  device/lib/pdk14/Makefile.in,
+	  device/lib/pdk14/_muluchar.s,
+	  device/lib/pdk15/Makefile.in,
+	  device/lib/pdk15/_muluchar.s,
+	  device/lib/pdk15-stack-auto/Makefile.in:
+	  Enable use of hand-written 8x8->16 multiplication support routine, inspired by patch #470 by Konstantin Kim.
+
+2025-08-10 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* src/SDCCopt.c,
 	  src/ds390/gen.c,
 	  src/ds390/ralloc.c,
