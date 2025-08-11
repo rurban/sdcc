@@ -11,7 +11,45 @@ EXCLUDE_host += \
 
 ###############################################
 
-# Relies on feeatures of older C standards not supported by curent host compilers.
+# Target doesn't have enough memory
+EXCLUDE_pdk13 += \
+	tst_bug1057979 \
+	tst_bug1115321 \
+	tst_bug1520966 \
+	tst_bug1551947 \
+	tst_frexpf \
+	tst_lonesha256 \
+	tst_sha3-256 \
+	tst_wcsnlen \
+	tst_wcsto
+EXCLUDE_pdk14 += \
+	tst_bug1057979 \
+	tst_bug1115321 \
+	tst_bug1520966 \
+	tst_bug1551947 \
+	tst_frexpf \
+	tst_lonesha256 \
+	tst_sha3-256 \
+	tst_wcsnlen \
+	tst_wcsto
+EXCLUDE_pdk15 += \
+	tst_bug1520966 \
+	tst_bug1551947 \
+	tst_lonesha256 \
+	tst_sha3-256 \
+	tst_wcsto
+EXCLUDE_pdk15-stack-auto += \
+	tst_bug1057979 \
+	tst_bug1520966 \
+	tst_bug1551947 \
+	tst_lonesha256 \
+	tst_sha3-256 \
+	tst_wcsto
+
+###################################################
+# GCC Tests
+
+# Relies on features of older C standards not supported by current host compilers.
 EXCLUDE_host += \
 	qct_0026-implicitret \
 	gte_920908-2 \
@@ -313,8 +351,10 @@ EXCLUDE_ARCH_mcs51 += \
 	qct_0051-inits
 
 # Target doesn't have enough memory
+EXCLUDE_pdk13 += \
+	qct_0057-duff \
+	qct_0080-arrays
 EXCLUDE_pdk14 += \
-	qct_0049-inits \
 	qct_0057-duff \
 	qct_0080-arrays
 EXCLUDE_pdk15 += \

@@ -58,7 +58,7 @@ alwaysGetHere(void)
 static void
 testLogicalAnd(void)
 {
-#if !defined(__SDCC_pdk14) // Lack of memory
+#if !defined(__SDCC_pdk13) && !defined(__SDCC_pdk14) // Lack of memory
 #if !(defined (__SDCC_pdk15) && defined(__SDCC_STACK_AUTO)) // Lack of code memory
     {type} true = alwaysTrue();
     {type} false = alwaysFalse();
@@ -92,7 +92,7 @@ testLogicalAnd(void)
 static void
 testLogicalOr(void)
 {
-#if !defined(__SDCC_pdk14) // Lack of memory
+#if !defined(__SDCC_pdk13) && !defined(__SDCC_pdk14) // Lack of memory
     {type} true = alwaysTrue();
     {type} false = alwaysFalse();
 
@@ -137,3 +137,4 @@ testFlagToVariable(void)
     val = !!false;
     ASSERT(!false);
 }
+

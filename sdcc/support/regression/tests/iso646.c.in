@@ -12,7 +12,7 @@
 static void
 testTwoOpBitwise(void)
 {
-#if !defined(__SDCC_pdk14) // Lack of memory
+#if !defined(__SDCC_pdk13) && !defined(__SDCC_pdk14) // Lack of memory
   {storage} {attr} {type} left, right;
 
   left = ({type})0x3df7;

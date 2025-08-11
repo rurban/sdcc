@@ -1,3 +1,11 @@
+2025-08-11 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* support/regression/MakeList,
+	  support/regression/fwk/lib/testfwk.c,
+	  support/regression/tests/*.c.in,
+	  support/regression/tests/*.c:
+	  Disable some tests for pdk13 where they won't work due to lack of target memory.
+
 2025-08-10 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* device/lib/pdk13/Makefile.in,

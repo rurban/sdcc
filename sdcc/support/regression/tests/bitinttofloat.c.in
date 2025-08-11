@@ -18,14 +18,17 @@
 
 typedef {sign} _BitInt({width}) bitinttype;
 
+#ifndef __SDCC_pdk13 // Lack of memory; we are close, though - thiosmight work with more optimizations.
 float to_float(bitinttype b)
 {
 	return(b);
 }
 #endif
+#endif
 
 void testCast (void)
 {
+#ifndef __SDCC_pdk13 // Lack of memory
 #if __SDCC_BITINT_MAXWIDTH >= {width} // TODO: When we can regression-test in --std-c23 mode, use the standard macro from limits.h instead!
 	bitinttype b;
 
@@ -38,6 +41,7 @@ void testCast (void)
 	ASSERT (to_float (b) == (float)b);
 	b = -23;
 	ASSERT (to_float (b) == (float)b);
+#endif
 #endif
 #endif
 }
