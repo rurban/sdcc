@@ -72,6 +72,43 @@ __printu (unsigned int n)
   __printNibble(chr);
 }
 #else
+
+#if defined(__SDCC_mcs51) || defined(__SDCC_mos6502) || defined(__SDCC_mos65c02) // This function is unused, but see bugs #3863, #3864.
+void
+__printd (int n)
+{
+  if (0 == n)
+    {
+      _putchar('0');
+    }
+  else
+    {
+      static char MEMSPACE_BUF buf[6];
+      char MEMSPACE_BUF *p = &buf[sizeof (buf) - 1];
+      char neg = 0;
+
+      buf[sizeof(buf) - 1] = '\0';
+
+      if (0 > n)
+        {
+          n = -n;
+          neg = 1;
+        }
+
+      while (0 != n)
+        {
+          *--p = '0' + __mod (n, 10);
+          n = __div (n, 10);
+        }
+
+      if (neg)
+        _putchar('-');
+
+      __prints(p);
+    }
+}
+#endif
+
 void
 __printu (unsigned int n)
 {

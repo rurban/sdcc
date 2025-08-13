@@ -1,3 +1,9 @@
+2025-08-12 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* support/regression/fwk/lib/testfwk.c,
+	  .version:
+	  Restore dummy function until bugs #3863, #3864 are fixed.
+
 2025-08-11 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* support/regression/MakeList,
