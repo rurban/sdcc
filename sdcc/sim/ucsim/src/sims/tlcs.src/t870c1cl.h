@@ -1,5 +1,5 @@
 /*
- * Simulator of microcontrollers (glob.h)
+ * Simulator of microcontrollers (t870c1cl.h)
  *
  * Copyright (C) 2016 Drotos Daniel
  * 
@@ -25,15 +25,21 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 02111-1307, USA. */
 /*@1@*/
 
-#ifndef TLCS_GLOB_HEADER
-#define TLCS_GLOB_HEADER
+#ifndef T870C1CL_HEADER
+#define T870C1CL_HEADER
 
-#include "stypes.h"
+#include "t870ccl.h"
 
-extern struct dis_entry disass_tlcs[];
 
-extern struct cpu_entry cpus_tlcs[];
+class cl_t870c1: public cl_t870c
+{
+ public:
+  cl_t870c1(class cl_sim *asim);
+  virtual void mk_rbanks();
+  virtual int init(void);
+};
+
 
 #endif
 
-/* End of tlcs.src/glob.h */
+/* End of tlcs.src/tl870cl.h */
