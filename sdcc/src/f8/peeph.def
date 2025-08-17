@@ -325,7 +325,7 @@ replace restart {
 	ld	%1, (%2)
 	incnw	%2
 	; peephole 18a removed tst by using incnw.
-} if notUsed('cf' 'of')
+} if isPort('f8'), notUsed('cf' 'of')
 
 replace restart {
 	ldw	%1, (%2)
@@ -335,7 +335,7 @@ replace restart {
 	ldw	%1, (%2)
 	incnw	%2
 	; peephole 18b removed tstw by using incnw.
-} if notUsed('cf' 'of')
+} if isPort('f8'), notUsed('cf' 'of')
 
 replace restart {
 	ldw	%1, #%2

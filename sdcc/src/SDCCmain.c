@@ -379,6 +379,9 @@ static PORT *_ports[] = {
 #if !OPT_DISABLE_F8
   &f8_port,
 #endif
+#if !OPT_DISABLE_F8L
+  &f8l_port,
+#endif
 };
 
 #define NUM_PORTS (sizeof(_ports)/sizeof(_ports[0]))

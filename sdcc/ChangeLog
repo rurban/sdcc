@@ -1,4 +1,8 @@
-2025-08-12 Philipp Klaus Krause <philipp@colecovision.eu>
+2025-08-17 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* Merge f8l branch.
+
+2025-08-13 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* support/regression/fwk/lib/testfwk.c,
 	  .version:
@@ -66,6 +70,13 @@
 
 2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* src/f8/peep.c:
+	  Peephole optimizer guard against accidential use of non-f8l instructions.
+	* src/f8/gen.c:
+	  Fix use of non-f8l ldw ((n, sp), y in f8l port.
+
+2025-08-08 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* device/include/float.h,
 	  device/lib/incl.mk,
 	  support/regression/tests/bitintfromfloat.c.in,
@@ -116,6 +127,40 @@
 	  support/regression/tests/bug-3850.c:
 	  Fix bug #3850.
 
+2025-08-06 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/f8/gen.c:
+	  device/lib/f8l/_divuint.s,
+	  device/lib/f8l/_modsint.s,
+	  device/lib/f8l/_moduint.s:
+	  Fix f8l support functions for multiplicative operators.
+	* src/f8/main.c:
+	  Improve f8/f8l startup code.
+
+2025-08-05 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/f8/gen.c:
+	  Improve use of 16-bit load instructions in f8l codegen for additive operators.
+
+2025-08-04 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/f8/gen.c:
+	  f8l codegen fixes and improvements.
+	* sim/ucsim/src/sims/f8.src/disass.cc,
+	  sim/ucsim/src/sims/f8.src/glob.cc,
+	  sim/ucsim/src/sims/f8.src/imove.cc:
+	  Fix ldw ((n, sp)), y simulation for n >= 128.
+
+2025-08-03 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/f8/gen.c:
+	  Improve register/stack operand shuffling, mostly for f8l under high register pressure.
+
+2025-07-16 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/f8/gen.c:
+	  f8l codegen.
+
 2025-07-16 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/SDCC.lex,
@@ -126,6 +171,16 @@
 
 	* device/include/mcs51/at89x51.h:
 	  Fix typo in header, see bug #3861.
+
+2025-07-15 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/f8/gen.c:
+	  Catch non-f8l instructions by assertions in cost function. Some f8l codegen to make the standard library and regression tests compile again.
+
+2025-07-14 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/f8/gen.c:
+	  Some refactoring to prepare for f8l codegen.
 
 2025-07-05 Philipp Klaus Krause <philipp@colecovision.eu>
 
@@ -148,9 +203,54 @@
 
 2025-06-26 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* support/regression/tests/gcc-torture-execute-pr91137.c:
+	  Disable a test that needs more data memory than the f8l typically has for f8l.
+
+2025-06-26 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* configure.ac,
 	  configure:
 	  Fix mos65(c)02 configure option descriptions.
+
+2025-06-26 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* Makefile.common.in,
+	  configure,
+	  configure.ac,
+	  device/include/math.h,
+	  device/include/sdcc-lib.h,
+	  device/include/setjmp.h,
+	  device/include/stdarg.h,
+	  device/include/stdatomic.h,
+	  device/lib/Makefile.in,
+	  device/lib/clean.mk,
+	  device/lib/f8l,
+	  src/SDCCgenconstprop.cc,
+	  src/SDCCmain.c,
+	  src/f8/gen.h,
+	  src/f8/main.c,
+	  src/f8/peeph.def,
+	  src/f8/ralloc2.cc,
+	  src/port.h,
+	  support/regression/MakeList,
+	  support/regression/fwk/include/testfwk.h,
+	  support/regression/ports/f8l,
+	  support/regression/tests/absolute.c.in,
+	  support/regression/tests/bitfields-bits1.c.in,
+	  support/regression/tests/bitfields-checks.c.in,
+	  support/regression/tests/bitfields-dead-loop.c.in,
+	  support/regression/tests/bitfields-nibbles.c.in,
+	  support/regression/tests/bug-2304.c,
+	  support/regression/tests/bug-2305.c,
+	  support/regression/tests/bug-2568.c,
+	  support/regression/tests/bug-3165.c,
+	  support/regression/tests/bug2686159.c,
+	  support/regression/tests/bug3027957.c,
+	  support/regression/tests/bug3379723.c,
+	  support/regression/tests/gcc-torture-execute-20031012-1.c,
+	  support/regression/tests/sieve.c,
+	  support/scripts/sdcc.nsi:
+	  f8l port (not much difference to f8 for now - codegen is still f8, and thus often not valid f8l code).
 
 2025-06-22 Philipp Klaus Krause <philipp@colecovision.eu>
 

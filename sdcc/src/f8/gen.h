@@ -18,8 +18,8 @@
    Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 -------------------------------------------------------------------------*/
 
-#ifndef STM8GEN_H
-#define STM8GEN_H 1
+#ifndef F8GEN_H
+#define F8GEN_H 1
 
 #include "ralloc.h"
 

@@ -1905,7 +1905,7 @@ genCopy (asmop *result, int roffset, asmop *const source, int soffset, int sizex
 
   // Handle stack locations that would be overwritten by data from registers
   if (result->type == AOP_STK || result->type == AOP_REGSTK)
-    for (i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
       {
         if (assigned[i] || !aopOnStack (source, soffset + i, 1))
           continue;

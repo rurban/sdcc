@@ -21,7 +21,7 @@ inline void atomic_flag_clear(volatile atomic_flag *object) __SDCC_NONBANKED
 	object->flag = 0;
 }
 
-#elif defined(__SDCC_f8)
+#elif defined(__SDCC_f8) || defined(__SDCC_f8l)
 
 #define ATOMIC_FLAG_INIT {0}
 

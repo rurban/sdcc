@@ -531,5 +531,8 @@ extern PORT mos65c02_port;
 #if !OPT_DISABLE_F8
 extern PORT f8_port;
 #endif
+#if !OPT_DISABLE_F8L
+extern PORT f8l_port;
+#endif
 
 #endif /* PORT_INCLUDE */

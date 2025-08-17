@@ -11,7 +11,7 @@
 # define ADDRESS(x) (0x01 ## x)
 #elif defined(__SDCC_stm8)
 # define ADDRESS(x) (0x10 ## x)
-#elif defined(__SDCC_f8)
+#elif defined(__SDCC_f8) || defined(__SDCC_f8l)
 # define ADDRESS(x) (0x30 ## x)
 #else
 # define ADDRESS(x) (0xCA ## x)

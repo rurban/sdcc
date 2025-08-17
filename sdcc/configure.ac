@@ -803,6 +803,7 @@ AC_DO_PORT_ENABLER(pdk16,    pdk,    PDK16,    [Includes the PDK16 port])
 AC_DO_PORT(mos6502,  mos6502,MOS6502,  [Excludes the MOS6502 port])
 AC_DO_PORT(mos65c02, mos6502,MOS65C02, [Excludes the MOS65C02 port])
 AC_DO_PORT(f8,       f8,     F8,       [Excludes the f8 port])
+AC_DO_PORT(f8l,      f8,     F8L,      [Excludes the f8l port])
 
 # Unsupported targets
 ####AC_DO_PORT_ENABLER(avr,   avr,   AVR,   [Includes the AVR port (disabled by default)])
@@ -968,10 +969,17 @@ if test $OPT_DISABLE_PDK16 = 0; then
   AC_CONFIG_FILES([sdas/aspdk16/Makefile])
 fi
 
-if test $OPT_DISABLE_F8 = 0; then
+if test $OPT_DISABLE_F8 = 0 || test $OPT_DISABLE_F8L = 0; then
   AC_CONFIG_FILES([src/f8/Makefile
                    sdas/asf8/Makefile])
+fi
+
+if test $OPT_DISABLE_F8 = 0; then
   test $OPT_DISABLE_DEVICE_LIB = 0 && AC_CONFIG_FILES([device/lib/f8/Makefile])
+fi
+
+if test $OPT_DISABLE_F8L = 0; then
+  test $OPT_DISABLE_DEVICE_LIB = 0 && AC_CONFIG_FILES([device/lib/f8l/Makefile])
 fi
 
 test $OPT_DISABLE_DEVICE_LIB = 0 && AC_CONFIG_FILES([device/lib/Makefile])
@@ -1070,6 +1078,7 @@ sdcc ${VERSION} is now configured for
     mos6502             ${enable_mos6502_port}
     mos65c02            ${enable_mos65c02_port}
     f8                  ${enable_f8_port}
+    f8l                 ${enable_f8l_port}
 
   Disable non-free lib: ${OPT_DISABLE_NON_FREE}
   Disable packihx:      ${OPT_DISABLE_PACKIHX}

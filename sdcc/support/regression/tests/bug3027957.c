@@ -6,7 +6,7 @@
 
 #ifdef __SDCC_stm8
 #define ADDRESS 0x1000
-#elif defined(__SDCC_f8)
+#elif defined(__SDCC_f8) || defined(__SDCC_f8l)
 #define ADDRESS 0x3000
 #elif defined(__SDCC_pic14)
 #define ADDRESS 0x01A0

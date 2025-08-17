@@ -136,6 +136,9 @@ EXCLUDE_stm8 += \
 EXCLUDE_f8 += \
    gte_20041218-1
 
+EXCLUDE_f8l += \
+   gte_20041218-1
+
 # Fail
 EXCLUDE_stm8-large += \
 	gte_20041218-1

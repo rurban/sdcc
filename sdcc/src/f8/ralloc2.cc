@@ -232,7 +232,7 @@ static float instruction_cost(const assignment &a, unsigned short int i, const G
   iCode *ic = G[i].ic;
   float c;
 
-  wassert(TARGET_IS_F8);
+  wassert(TARGET_F8_LIKE);
   wassert(ic);
 
   if(!inst_sane(a, i, G, I))

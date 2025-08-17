@@ -196,7 +196,7 @@ getOperandValinfo (const iCode *ic, const operand *op)
 
   if (IS_INTEGRAL (type) && bitsForType (type) < 64 && !IS_OP_VOLATILE (op) && // Todo: More exact check than this bits thing?
     (IS_OP_LITERAL (op) || IS_SYMOP (op) && SPEC_CONST (type) && OP_SYMBOL_CONST (op)->ival && IS_AST_VALUE (list2expr (OP_SYMBOL_CONST (op)->ival))) ||
-    (TARGET_Z80_LIKE || TARGET_IS_STM8 || TARGET_IS_F8) && IS_PTR (type) && IS_OP_LITERAL (op)) // Port has no tag bits in pointers
+    (TARGET_Z80_LIKE || TARGET_IS_STM8 || TARGET_F8_LIKE) && IS_PTR (type) && IS_OP_LITERAL (op)) // Port has no tag bits in pointers
     {
       struct valinfo v2;
       long long litval;
@@ -638,7 +638,7 @@ valinfoRight (struct valinfo *result, const struct valinfo &left, const struct v
 static void
 valinfoCast (struct valinfo *result, sym_link *targettype, const struct valinfo &right)
 {
-  bool genptrtarget = IS_GENPTR (targettype) || (TARGET_Z80_LIKE || TARGET_IS_F8 || TARGET_IS_STM8); // Some ports have no tag bits in pointers.
+  bool genptrtarget = IS_GENPTR (targettype) || (TARGET_Z80_LIKE || TARGET_F8_LIKE || TARGET_IS_STM8); // Some ports have no tag bits in pointers.
 
   *result = getTypeValinfo (targettype, false);
   if (right.nothing)

@@ -71,7 +71,7 @@ typedef struct
 #elif defined(__SDCC_stm8)
     #define ABS_ADDR1 0x1000
     #define ABS_ADDR2 0x1004
-#elif defined(__SDCC_f8)
+#elif defined(__SDCC_f8) || defined(__SDCC_f8l)
     #define ABS_ADDR1 0x3000
     #define ABS_ADDR2 0x3004
 #else

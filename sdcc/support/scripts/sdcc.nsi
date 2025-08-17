@@ -913,6 +913,12 @@ ${Section} "SDCC f8 library" SEC38
   File "${DEV_ROOT}\lib\f8\*.*"
 ${SectionEnd}
 
+${Section} "SDCC f8l library" SEC39
+  SectionIn 1 2
+  SetOutPath "$INSTDIR\lib\f8l"
+  File "${DEV_ROOT}\lib\f8l\*.*"
+${SectionEnd}
+
 ;--------------------------------
 ;Descriptions
 
@@ -955,6 +961,7 @@ LangString DESC_SEC35 ${LANG_ENGLISH} "SDCC R800 library"
 LangString DESC_SEC36 ${LANG_ENGLISH} "SDCC WDC 65C02 library"
 LangString DESC_SEC37 ${LANG_ENGLISH} "SDCC S08 stack-auto library"
 LangString DESC_SEC38 ${LANG_ENGLISH} "SDCC f8 library"
+LangString DESC_SEC39 ${LANG_ENGLISH} "SDCC f8l library"
 
 ;Assign language strings to sections
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
@@ -1178,6 +1185,9 @@ ${Section} Uninstall SECUNINSTALL
   Delete "$INSTDIR\lib\src\f8\f8.lib"
   Delete "$INSTDIR\lib\src\f8\Makefile"
 
+  Delete "$INSTDIR\lib\src\f8l\f8l.lib"
+  Delete "$INSTDIR\lib\src\f8l\Makefile"
+
   Delete "$INSTDIR\lib\src\*.c"
 
   Delete "$INSTDIR\lib\pic14\*.lib"
@@ -1259,6 +1269,7 @@ ${Section} Uninstall SECUNINSTALL
   Delete "$INSTDIR\lib\s08-stack-auto\*.lib"
 
   Delete "$INSTDIR\lib\f8\*.lib"
+  Delete "$INSTDIR\lib\f8l\*.lib"
 
   Delete "$INSTDIR\include\asm\z80\*.h"
   Delete "$INSTDIR\include\asm\r2k\*.h"
@@ -1386,6 +1397,7 @@ ${Section} Uninstall SECUNINSTALL
   RMDir "$INSTDIR\lib\src\mos65c02"
   RMDir "$INSTDIR\lib\src\s08-stack-auto"
   RMDir "$INSTDIR\lib\src\f8"
+  RMDir "$INSTDIR\lib\src\f8l"
   RMDir "$INSTDIR\lib\src"
   RMDir "$INSTDIR\non-free\lib\src"
 
@@ -1423,6 +1435,7 @@ ${Section} Uninstall SECUNINSTALL
   RMDir "$INSTDIR\lib\mos65c02"
   RMDir "$INSTDIR\lib\s08-stack-auto"
   RMDir "$INSTDIR\lib\f8"
+  RMDir "$INSTDIR\lib\f8l"
   RMDir "$INSTDIR\lib"
   RMDir "$INSTDIR\non-free\lib"
 
