@@ -3661,27 +3661,51 @@ genPointerPush (const iCode *ic)
             }
         }
     }
-  else if ((regDead (Y_IDX, ic) || aopInReg (left->aop, 0, Y_IDX) && (!IS_F8L || !offset && size == 1)) && regDead (XL_IDX, ic) && offset + size - 1 <= 255)
+  else if (regDead (XL_IDX, ic) &&
+    (aopInReg (left->aop, 0, Y_IDX) && (!IS_F8L || !offset && size == 1) && offset + size - 1 <= 255) ||
+    regDead (Y_IDX, ic))
     {
       int last_o = 0;
       genMove (ASMOP_Y, ic->left->aop, regDead (XL_IDX, ic), regDead (XH_IDX, ic), regDead (Y_IDX, ic), regDead (Z_IDX, ic));
       for(int i = size - 1; i >= 0;)
         {
-          int o = i + offset - last_o;
-          if (IS_F8L || !o)
+          if (regDead (Y_IDX, ic) && i == 1)
             {
-              addwConst (ASMOP_Y, 0, o - last_o);
-              emit2 ("ld", "xl, (y)", o);
-              cost (1, 1);
-              last_o = o;
+              i--;
+              int o = i + offset - last_o;
+              if (IS_F8L || !o || o > 255)
+                {
+                  addwConst (ASMOP_Y, 0, o);
+                  emit2 ("ldw", "y, (y)", o);
+                  cost (1, 1);
+                  last_o = i + offset;
+                }
+              else
+                {
+                  emit2 ("ldw", "y, (%d, y)", o);
+                  cost (2, 1);
+                }
+              push (ASMOP_Y, 0, 2);
+              i--;
             }
           else
             {
-              emit2 ("ld", "xl, (%d, y)", o);
-              cost (2, 1);
+              int o = i + offset - last_o;
+              if (IS_F8L || !o || o > 255)
+                {
+                  addwConst (ASMOP_Y, 0, o);
+                  emit2 ("ld", "xl, (y)", o);
+                  cost (1, 1);
+                  last_o = i + offset;
+                }
+              else
+                {
+                  emit2 ("ld", "xl, (%d, y)", o);
+                  cost (2, 1);
+                }
+              push (ASMOP_XL, 0, 1);
+              i--;
             }
-          push (ASMOP_XL, 0, 1);
-          i -= 1;
         }
     }
   else
