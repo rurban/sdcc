@@ -10605,10 +10605,10 @@ gencjneshort (operand *left, operand *right, symbol *lbl, const iCode *ic)
     }
 
   /* Non-destructive compare */
-  if (aopInReg (left->aop, 0, A_IDX) && !isRegDead (A_IDX, ic) &&
+  if (left->aop->size == 1 && aopInReg (left->aop, 0, A_IDX) && !isRegDead (A_IDX, ic) &&
     (right->aop->type == AOP_LIT ||
     right->aop->type == AOP_REG && (HAS_IYL_INST || right->aop->aopu.aop_reg[offset]->rIdx != IYL_IDX && right->aop->aopu.aop_reg[offset]->rIdx != IYH_IDX) ||
-    right->aop->type == AOP_STK))
+    right->aop->type == AOP_STK || right->aop->type == AOP_HL || right->aop->type == AOP_IY))
     {
       bool pushed_hl = false;
       if(requiresHL (right->aop) && right->aop->type != AOP_REG && !isPairDead(PAIR_HL, ic))
