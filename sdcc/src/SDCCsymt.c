@@ -5052,12 +5052,8 @@ newEnumType (symbol *enumlist, sym_link *userRequestedType)
   if (userRequestedType)
     return type;
 
-  /* Otherwise: Use the smallest integer type that is compatible with this range and not a bit-precise type. */
-  if (min >= 0 && max <= 1)
-    {
-      SPEC_NOUN (type) = V_BOOL;
-    }
-  else if (min >= 0 && max <= 255)
+  // Otherwise: use the smallest integer type that is compatible with this range that i neither bool nor a bit-precise type (both bool and bit-prcise types are disallowed here by ISO C23).
+  if (min >= 0 && max <= 255)
     {
       SPEC_NOUN (type) = V_CHAR;
       SPEC_USIGN (type) = 1;

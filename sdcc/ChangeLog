@@ -1,3 +1,10 @@
+2025-08-27 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/SDCCsymt.c,
+	  .version,
+	  doc/sdccman.lyx:
+	  Fix bug #3871.
+
 2025-08-23 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/z80/gen.c,
