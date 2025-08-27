@@ -75,7 +75,7 @@ void *realloc(void *ptr, size_t size)
 
 	if(!size)
 	{
-		free(ptr);
+		free(ptr); // This free is considered a problem by many. However, it is mandated by the C90 standard, though it deviates from common behavior of pre-standard-C, and standards from C99 onward do not require it; in C23 zero size is explicitly undefined behavior.
 		return(0);
 	}
 
