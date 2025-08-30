@@ -100,6 +100,7 @@ COMMON_SDCC = \
   labs.c \
   llabs.c \
   imaxabs.c \
+  umaxabs.c \
   rand.c \
   _strcat.c \
   _strchr.c \

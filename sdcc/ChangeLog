@@ -1,5 +1,12 @@
 2025-08-30 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* device/include/inttypes.h,
+	  device/lib/incl.mk,
+	  device/lib/umaxabs.c:
+	  C2Y umaxabs.
+
+2025-08-30 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* src/SDCCerr.c,
 	  src/SDCCerr.h,
 	  src/SDCCsymt.c,
