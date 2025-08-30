@@ -4,6 +4,14 @@
 	  src/SDCCerr.h,
 	  src/SDCCsymt.c,
 	  .version:
+	  Allow signed bit-precise integer types of width 1.
+
+2025-08-30 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/SDCCerr.c,
+	  src/SDCCerr.h,
+	  src/SDCCsymt.c,
+	  .version:
 	  Allow bit-precise type as fixed underlying type for enum.
 
 2025-08-27 Philipp Klaus Krause <philipp@colecovision.eu>
