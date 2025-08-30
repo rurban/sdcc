@@ -5008,7 +5008,12 @@ newEnumType (symbol *enumlist, sym_link *userRequestedType)
   if (userRequestedType)
     {
       checkTypeSanity (userRequestedType, NULL);
-      if ((SPEC_NOUN (userRequestedType) != V_INT && SPEC_NOUN (userRequestedType) != V_CHAR && SPEC_NOUN (userRequestedType) != V_BOOL) || SPEC_ENUM (userRequestedType))
+      if (SPEC_NOUN (userRequestedType) == V_BITINT)
+        {
+          if (!options.std_sdcc)
+            werror (W_ENUM_UNDERLYING_BITINT);
+        }
+      else if ((SPEC_NOUN (userRequestedType) != V_INT && SPEC_NOUN (userRequestedType) != V_CHAR && SPEC_NOUN (userRequestedType) != V_BOOL) || SPEC_ENUM (userRequestedType))
         {
           werror (E_ENUM_UNDERLYING_TYPE);
           /* try to keep going */

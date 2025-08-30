@@ -332,7 +332,7 @@ enum {
   E_GENERIC_WITH_TYPENAME_C2Y   = 302, /* generic selection based on a type name requires C2y or later */
   E_MIXED_FUNCTION_STYLES       = 303, /* function mixes ISO and K&R style */
   E_ENUM_TYPE_SPECIFIER_C23     = 304, /* enum type specifiers require C23 or later */
-  E_ENUM_UNDERLYING_TYPE        = 305, /* enum's underlying type must be an integer type and cannot be bit-precise or an enum */
+  E_ENUM_UNDERLYING_TYPE        = 305, /* enum's underlying type must be an integer type and cannot be an enum */
   E_ENUM_TYPE_RANGE_TOO_SMALL   = 306, /* the enum's underlying type cannot represent all enumerator values */
   E_COUNTOF_INVALID_TYPE        = 307, /* _Countof applied to an incomplete or non-array type */
   W_PREFIXED_OCTAL_C2Y          = 308, /* prefixed octal integer constants require ISO C2y or later */
@@ -341,6 +341,7 @@ enum {
   E_INVALID_OCTAL               = 311, /* \o{...} used without valid octal digits */
   E_SELECTION_DECLARATION_C2Y   = 312, /* declaration within selection header requires ISO C2y or later */
   E_COMPLIT_SCLASS_C23          = 313, /* compound literals with storage class specifier require ISO C23 or later */
+  W_ENUM_UNDERLYING_BITINT      = 314, /* enum's underlying type may not be a bit-prcise type in ISO C23 */
 
   /* don't touch this! */
   NUMBER_OF_ERROR_MESSAGES             /* Number of error messages */
