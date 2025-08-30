@@ -4957,6 +4957,12 @@ llFitsInIntType (long long ll, sym_link *type)
           else
             max = 0xffffll;
           break;
+        case V_BITINT:
+          if (SPEC_BITINTWIDTH (type) >= 63)
+            max = 0x7fffffffffffffffll;  // actual ull max would not fit and input is ll, anyway
+          else
+            max = (1ll << SPEC_BITINTWIDTH(type)) - 1;
+          break;
         default:
           assert (0);  // not implemented for non-integer types
         }
@@ -4985,6 +4991,10 @@ llFitsInIntType (long long ll, sym_link *type)
               min = -32768ll;
               max = 32767ll;
             }
+          break;
+        case V_BITINT:
+          min = -(1ll << (SPEC_BITINTWIDTH(type) - 1));
+          max = (1ll << (SPEC_BITINTWIDTH(type) - 1)) - 1;
           break;
         default:
           assert (0);  // not implemented for non-integer types
@@ -5027,6 +5037,7 @@ newEnumType (symbol *enumlist, sym_link *userRequestedType)
       SPEC_USIGN (type) = SPEC_USIGN (userRequestedType);
       SPEC_LONG (type) = SPEC_LONG (userRequestedType);
       SPEC_LONGLONG (type) = SPEC_LONGLONG (userRequestedType);
+      SPEC_BITINTWIDTH (type) = SPEC_BITINTWIDTH (userRequestedType);
     }
   else
     {
