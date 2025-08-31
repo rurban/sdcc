@@ -17,6 +17,7 @@ EXCLUDE_pdk13 += \
 	tst_bug1115321 \
 	tst_bug1520966 \
 	tst_bug1551947 \
+	tst_bug-3873 \
 	tst_frexpf \
 	tst_lonesha256 \
 	tst_sha3-256 \
@@ -27,6 +28,7 @@ EXCLUDE_pdk14 += \
 	tst_bug1115321 \
 	tst_bug1520966 \
 	tst_bug1551947 \
+	tst_bug-3873 \
 	tst_frexpf \
 	tst_lonesha256 \
 	tst_sha3-256 \
@@ -45,7 +47,9 @@ EXCLUDE_pdk15-stack-auto += \
 	tst_lonesha256 \
 	tst_sha3-256 \
 	tst_wcsto
-
+EXCLUDE_mcs51-small += \
+	tst_bug-3873
+	
 ###################################################
 # GCC Tests
 

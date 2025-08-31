@@ -4819,7 +4819,7 @@ genMove_o (asmop *result, int roffset, asmop *source, int soffset, int size, boo
 {
   wassert (result);
   wassert (result->size >= roffset + size);
-  emitDebug ("; genMove_o size %d result type %d source type %d hl_dead %d", size, result->type, source->type, hl_dead_global);
+  emitDebug ("; genMove_o size %d result type %d source type %d a_dead %d hl_dead %d de_dead %d", size, result->type, source->type, a_dead_global, hl_dead_global, de_dead_global);
 
   a_dead_global |= result->type == AOP_REG && result->regs[A_IDX] >= roffset && result->regs[A_IDX] < roffset + size;
   hl_dead_global |= result->type == AOP_REG && result->regs[L_IDX] >= roffset && result->regs[L_IDX] < roffset + size && result->regs[H_IDX] >= roffset && result->regs[H_IDX] < roffset + size;
@@ -8490,7 +8490,7 @@ genPlus (iCode * ic)
             }
           else
             {
-              bool de_free = de_dead && !aopInReg (ic->right->aop, i + 1, E_IDX) && !aopInReg (ic->right->aop, i + 1, D_IDX);
+              bool de_free = de_dead && ic->right->aop->regs[E_IDX] < i && ic->right->aop->regs[D_IDX] < i;
               genMove_o (ASMOP_HL, 0, ic->left->aop, i, 2, false, true, de_free, false, !started);
               cheapMove (ASMOP_B, 0, ic->right->aop, i + 1, true);
             }
@@ -8505,11 +8505,11 @@ genPlus (iCode * ic)
           if (aopInReg (rightop, i + 1, H_IDX) || aopInReg (rightop, i + 1, L_IDX))
             {
               cheapMove (ASMOP_D, 0, rightop, i + 1, true);
-              genMove_o (ASMOP_HL, 0, leftop, i, 2, false, true, de_dead, false, true);
+              genMove_o (ASMOP_HL, 0, leftop, i, 2, false, true, false, false, true);
             }
           else
             {
-              bool de_free = de_dead && !aopInReg (ic->right->aop, i + 1, E_IDX) && !aopInReg (ic->right->aop, i + 1, D_IDX);
+              bool de_free = de_dead && ic->right->aop->regs[E_IDX] < i && ic->right->aop->regs[D_IDX] < i;
               genMove_o (ASMOP_HL, 0, ic->left->aop, i, 2, false, true, de_free, false, true);
               cheapMove (ASMOP_D, 0, ic->right->aop, i + 1, true);
             }
