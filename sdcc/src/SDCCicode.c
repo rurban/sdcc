@@ -81,7 +81,6 @@ PRINTFUNC (picEndCritical);
 iCodeTable codeTable[] = {
   {'!', "not", picGenericOne, NULL},
   {'~', "~", picGenericOne, NULL},
-  {ROT, "rot", picGenericOne, NULL},
   {GETABIT, "gabit", picGenericOne, NULL},
   {GETBYTE, "gbyte", picGenericOne, NULL},
   {GETWORD, "gword", picGenericOne, NULL},
@@ -112,6 +111,7 @@ iCodeTable codeTable[] = {
   {BITWISEAND, "&", picGeneric, NULL},
   {LEFT_OP, "<<", picGeneric, NULL},
   {RIGHT_OP, ">>", picGeneric, NULL},
+  {ROT, "rot", picGeneric, NULL},
   {GET_VALUE_AT_ADDRESS, "@", picGetValueAtAddr, NULL},
   {SET_VALUE_AT_ADDRESS, "@", picSetValueAtAddr, NULL},
   {ADDRESS_OF, "&", picAddrOf, NULL},

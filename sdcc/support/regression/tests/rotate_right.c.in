@@ -20,7 +20,7 @@ volatile {type} i;
 }
 
 void
-testRotateLeft(void)
+testRotateRight(void)
 {
 #if __STDC_VERSION__ > 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
   i = 0xa5;

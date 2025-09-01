@@ -3077,6 +3077,61 @@ optimizeNegation (eBBlock **ebbs, int count)
     }
 }
 
+/*-----------------------------------------------------------------*/
+/* optimizeRot - optimize rotations.                               */
+/*-----------------------------------------------------------------*/
+static void
+optimizeRot (eBBlock **ebbs, int count)
+{
+  for (int i = 0; i < count; i++)
+    {
+      for (iCode *ic = ebbs[i]->sch; ic; ic = ic->next)
+        {
+          // Find (c << 1) | (c >> 7), etc.
+          if (ic->op != '|' && ic->op != '+' || !IS_ITEMP (ic->left) || !IS_ITEMP (ic->right))
+            continue;
+          if (bitVectnBitsOn (OP_USES (ic->left)) != 1 || bitVectnBitsOn (OP_USES (ic->right)) != 1)
+            continue;
+          if (bitVectnBitsOn (OP_DEFS (ic->left)) != 1 || bitVectnBitsOn (OP_DEFS (ic->right)) != 1)
+            continue;
+          iCode *lic = hTabItemWithKey (iCodehTab, bitVectFirstBit (OP_DEFS (ic->left)));
+          iCode *ric = hTabItemWithKey (iCodehTab, bitVectFirstBit (OP_DEFS (ic->right)));
+          wassert (lic && ric);
+          if (lic->op != LEFT_OP)
+            {
+              iCode *tic = lic;
+              lic = ric;
+              ric = tic;
+            }
+          if (lic->op != LEFT_OP || ric->op != RIGHT_OP)
+            continue;
+          if (!isOperandEqual (lic->left, ric->left) || !SPEC_USIGN (operandType (lic->left)))
+            continue;
+
+          if (IS_OP_LITERAL (lic->right) && IS_OP_LITERAL (ric->right))
+            {
+              unsigned long long ls = ullFromVal (OP_VALUE (lic->right));
+              unsigned long long rs = ullFromVal (OP_VALUE (ric->right));
+              int w = bitsForType (operandType (lic->left));
+              if (w != ls + rs)
+                continue;
+
+              if (!port->hasExtBitOp (ROT, operandType (lic->left), ls))
+                continue;
+
+              // Change LEFT_OP to ROT. Dead-code elimination can clean up ric and ric->result later.
+              lic->op = ROT;
+              bitVectUnSetBit (OP_USES (ric->result), ic->key);
+              ic->right = operandFromOperand (lic->result);
+              ic->left = NULL;
+              ic->op = '=';
+            }
+          else // Todo: handle (c << x) | (c >> (8 - x)), etc.
+            continue;
+        }
+    }
+}
+
 /* Fold pointer addition into offset of ADDRESS_OF.                  */
 static void
 offsetFoldGet (eBBlock **ebbs, int count)
@@ -3483,6 +3538,7 @@ eBBlockFromiCode (iCode *ic)
   // Before they will get lifted out of loops, and have their life-ranges
   // extended across multiple blocks.
   optimizeCastCast (ebbi->bbOrder, ebbi->count);
+  optimizeRot (ebbi->bbOrder, ebbi->count); // Now it is worth trying, after all parameters of inline functions have been propagated.
 
   /* do loop optimizations */
   change += (lchange = loopOptimizations (loops, ebbi));
