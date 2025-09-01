@@ -394,7 +394,13 @@ __STDC_MEMREVERSE8U(64)
 #else
 #define _NEAR
 #endif
-extern void *__memcpy (void * /*restrict */ dest, const void * _NEAR /*restrict*/ src, _NEAR size_t n);
+
+#if defined(__SDCC_z80) || defined(__SDCC_z180) || defined(__SDCC_r2k) || defined(__SDCC_r2ka) || defined(__SDCC_r3ka) || defined (__SDCC_ez80_z80) || defined (__SDCC_z80n) || defined(__SDCC_r800)
+#define __memcpy(dst, src, n) __builtin_memcpy(dst, src, n)
+#else
+extern void *__memcpy (void * restrict dest, const void * _NEAR restrict src, _NEAR size_t n);
+#endif
+
 #ifdef __SDCC_STACK_AUTO // Bug #3874
 #if __STDC_ENDIAN_NATIVE__ == __STDC_ENDIAN_LITTLE__
 #define __STDC_LOAD8(N) \

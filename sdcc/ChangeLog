@@ -3,7 +3,9 @@
 	* src/SDCCast.c,
 	  src/SDCCicode.c,
 	  src/SDCCopt.c:
-	  Replace ast-based rotation optimization by iCode-based one that works better for inlined functions.
+	  Replace AST-based rotation optimization by iCode-based one that works better for inlined functions.
+	* device/include/stdbit.h:
+	  Use built-in memcpy for stdbit.h memory reversal and endian-aware loads and stores.
 
 2025-09-01 Philipp Klaus Krause <philipp@colecovision.eu>
 
