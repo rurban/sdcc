@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 
-#if __STDC_VERSION__ >= 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
+#if __STDC_VERSION__ > 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
 #include <stdbit.h>
 #endif
 
@@ -25,7 +25,7 @@ unsigned char a[{typewidth} / 8];
 
 void testLoad8(void)
 {
-#if __STDC_VERSION_STDBIT_H__ >= 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
+#if __STDC_VERSION_STDBIT_H__ > 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
 	a[0] = 0x55;
 	a[sizeof(a) - 1] = 0xaa;
 

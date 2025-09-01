@@ -11,8 +11,10 @@
 	  support/regression/tests/load8.c.in,
 	  support/regression/tests/memreverse8.c,
 	  support/regression/tests/single_bit.c.in,
-	  support/regression/tests/store8.c.in:
-	  Most C2Y bit utilities, part of RFE #1000.
+	  support/regression/tests/store8.c.in,
+	  support/regression/tests/rotate_left.c.in,
+	  support/regression/tests/rotate_right.c.in:
+	  C2Y bit utilities, RFE #1000.
 
 2025-08-31 Philipp Klaus Krause <philipp@colecovision.eu>
 

@@ -338,8 +338,44 @@ unsigned long long __stdc_bit_ceilull(unsigned long long value);
 #define stdc_bit_ceil_ul(value) (stdc_bit_ceil(value)((unsigned long)(value))))
 
 // C2Y 7.18.17 Rotate Left
+#ifdef __SDCC_STACK_AUTO // Bug #3874
+#define __STDC_ROTATE_LEFT {count %= (sizeof(value) * 8); return(value << count) | (value >> (sizeof(value) * 8 - count));}
+inline unsigned char stdc_rotate_left_uc (unsigned char value, unsigned int count) __STDC_ROTATE_LEFT
+inline unsigned short stdc_rotate_left_us (unsigned short value, unsigned int count)__STDC_ROTATE_LEFT
+inline unsigned long stdc_rotate_left_ul (unsigned long value, unsigned int count) __STDC_ROTATE_LEFT
+inline unsigned long long stdc_rotate_left_ull (unsigned long long value, unsigned int count) __STDC_ROTATE_LEFT
+#define stdc_rotate_left(value, count) \
+_Generic((value), \
+unsigned char: stdc_rotate_left_uc((value), (count)), \
+unsigned _BitInt(8): stdc_rotate_left_uc((value), (count)), \
+unsigned short: stdc_rotate_left_us((value), (count)), \
+unsigned int: stdc_rotate_left_us((value), (count)), \
+unsigned _BitInt(16): stdc_rotate_left_us((value), (count)), \
+unsigned long: stdc_rotate_left_ul((value), (count)), \
+unsigned _BitInt(32): stdc_rotate_left_ul((value), (count)), \
+unsigned long long: stdc_rotate_left_ull((value), (count)), \
+unsigned _BitInt(64): stdc_rotate_left_ull((value), (count)))
+#endif
 
 // C2Y 7.18.18 Rotate Right
+#ifdef __SDCC_STACK_AUTO // Bug #3874
+#define __STDC_ROTATE_RIGHT {count %= (sizeof(value) * 8); return(value >> count) | (value << (sizeof(value) * 8 - count));}
+inline unsigned char stdc_rotate_right_uc (unsigned char value, unsigned int count) __STDC_ROTATE_RIGHT
+inline unsigned short stdc_rotate_right_us (unsigned short value, unsigned int count)__STDC_ROTATE_RIGHT
+inline unsigned long stdc_rotate_right_ul (unsigned long value, unsigned int count) __STDC_ROTATE_RIGHT
+inline unsigned long long stdc_rotate_right_ull (unsigned long long value, unsigned int count) __STDC_ROTATE_RIGHT
+#define stdc_rotate_right(value, count) \
+_Generic((value), \
+unsigned char: stdc_rotate_right_uc((value), (count)), \
+unsigned _BitInt(8): stdc_rotate_right_uc((value), (count)), \
+unsigned short: stdc_rotate_right_us((value), (count)), \
+unsigned int: stdc_rotate_right_us((value), (count)), \
+unsigned _BitInt(16): stdc_rotate_right_us((value), (count)), \
+unsigned long: stdc_rotate_right_ul((value), (count)), \
+unsigned _BitInt(32): stdc_rotate_right_ul((value), (count)), \
+unsigned long long: stdc_rotate_right_ull((value), (count)), \
+unsigned _BitInt(64): stdc_rotate_right_ull((value), (count)))
+#endif
 
 // C2Y 7.18.19 8-bit Memory Reversal
 void stdc_memreverse8(size_t n, unsigned char ptr[static n]);
