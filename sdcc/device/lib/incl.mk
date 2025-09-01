@@ -159,7 +159,11 @@ COMMON_SDCC = \
   __stdc_first_trailing_one.c \
   __stdc_count_ones.c \
   __stdc_bit_width.c \
-  __stdc_bit_ceilull.c
+  __stdc_bit_ceilull.c \
+  stdc_memreverse8.c \
+  stdc_memreverse8u.c \
+  stdc_load8.c \
+  stdc_store8.c
 
 MODELS = small medium large huge
 

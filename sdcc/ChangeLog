@@ -1,3 +1,19 @@
+2025-09-01 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* device/include/stdbit.h,
+	  device/lib/incl.mk,
+	  device/lib/stdc_load8.c,
+	  device/lib/stdc_memreverse8.c,
+	  device/lib/stdc_memreverse8u.c,
+	  device/lib/stdc_store8.c,
+	  support/regression/tests/bit_floor.c.in,
+	  support/regression/tests/bit_width.c.in,
+	  support/regression/tests/load8.c.in,
+	  support/regression/tests/memreverse8.c,
+	  support/regression/tests/single_bit.c.in,
+	  support/regression/tests/store8.c.in:
+	  Most C2Y bit utilities, part of RFE #1000.
+
 2025-08-31 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/z80/gen.c,
