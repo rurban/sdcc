@@ -1,3 +1,8 @@
+2025-09-02 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/z80/gen.c:
+	  Fix two codegen issues that affected a recently introduced test for stdbit.h functions.
+
 2025-09-01 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/SDCCast.c,

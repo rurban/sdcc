@@ -12575,10 +12575,9 @@ shiftR2Left2Result (const iCode *ic, operand *left, int offl, operand *result, i
         }
       return;
     }
-  else if (IS_RAB && !is_signed && shCount >= 2 && isPairDead (PAIR_HL, ic) &&
+  else if (IS_RAB && !is_signed && shCount >= 2 && isPairDead (PAIR_HL, ic) && isPairDead (PAIR_DE, ic) &&
       ((isPair (left->aop) && getPairId (left->aop) == PAIR_HL || isPair (result->aop)
-        && getPairId (result->aop) == PAIR_HL) && isPairDead (PAIR_DE, ic) || isPair (left->aop)
-       && getPairId (left->aop) == PAIR_DE))
+        && getPairId (result->aop) == PAIR_HL) || isPair (left->aop) && getPairId (left->aop) == PAIR_DE))
     {
       bool op_de = (getPairId (left->aop) == PAIR_DE);
       if (op_de)
@@ -12736,7 +12735,8 @@ shiftL2Left2Result (operand *left, operand *result, int shCount, const iCode *ic
       if (special_a)
         emit3 (A_XOR, ASMOP_A, ASMOP_A);
       emit3_o (A_RR, left->aop, 1, 0, 0);
-      emit3_o (A_LD, result->aop, 1, left->aop, 0);
+      if (!aopSame (result->aop, 1, left->aop, 0, 1))
+        emit3_o (A_LD, result->aop, 1, left->aop, 0);
       emit3_o (A_RR, result->aop, 1, 0, 0);
       if (!special_a)
         emit3_o (A_LD, result->aop, 0, ASMOP_ZERO, 0);
