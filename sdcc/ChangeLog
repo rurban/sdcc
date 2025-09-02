@@ -2,6 +2,8 @@
 
 	* src/z80/gen.c:
 	  Fix two codegen issues that affected a recently introduced test for stdbit.h functions.
+	* src/pdk/gen.c:
+	  Fix a codegen issue triggered by recently introduced rotation optimization improvements.
 
 2025-09-01 Philipp Klaus Krause <philipp@colecovision.eu>
 

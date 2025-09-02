@@ -5500,7 +5500,7 @@ genDummyRead (const iCode *ic)
         }
 
       for (int i = 0; i < op->aop->size; i++)
-        cheapMove (ASMOP_A, 0, op->aop, i, true, true, true);
+        cheapMove (ASMOP_A, 0, op->aop, i, true, regDead(P_IDX, ic), true);
 
       if (!regDead(A_IDX, ic))
         {
