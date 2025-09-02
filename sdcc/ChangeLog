@@ -7,6 +7,8 @@
 	* src/ds390/main.c,
 	  src/mos6502/main.c:
 	  Fix incorrect announcement of support for rotations of arbitrary _BitInt types.
+	* support/regression/tests/bug-3873.c:
+	  Disable recently added test for mcs51, where it fails due to known bug #3875.
 
 2025-09-01 Philipp Klaus Krause <philipp@colecovision.eu>
 
