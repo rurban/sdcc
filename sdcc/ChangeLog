@@ -1,3 +1,11 @@
+2025-09-03 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/SDCCast.c,
+	  device/include/stdbit.h,
+	  support/regression/tests/load8.c.in,
+	  support/regression/tests/store8.c.in:
+	  Fix bug #3874. Enable all stdbit.h functions for all ports.
+
 2025-09-02 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/SDCCast.c,

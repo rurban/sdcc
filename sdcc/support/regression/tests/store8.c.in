@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 
-#if __STDC_VERSION__ > 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
+#if __STDC_VERSION__ > 202311L || defined(__SDCC)
 #include <stdbit.h>
 #endif
 
@@ -26,7 +26,7 @@ unsigned char a[{typewidth} / 8];
 
 void testStore8(void)
 {
-#if __STDC_VERSION_STDBIT_H__ > 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
+#if __STDC_VERSION_STDBIT_H__ > 202311L || defined(__SDCC)
 	STORE8LEU(UVALUE, a);
 	ASSERT(a[0] == 0x55 && a[sizeof(a) - 1] == 0xaa);
 	STORE8BEU(UVALUE, a);

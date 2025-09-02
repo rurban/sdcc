@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 
-#if __STDC_VERSION__ > 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
+#if __STDC_VERSION__ > 202311L || defined(__SDCC)
 #include <stdbit.h>
 #endif
 

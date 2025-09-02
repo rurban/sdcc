@@ -3988,7 +3988,7 @@ decorateType (ast *tree, RESULT_TYPE resultType, bool reduceTypeAllowed)
           AST_SYMBOL (tree->left)->addrtaken = 1;
           // Do not require allocated space for static variables in inline function definitions for which no code will be emitted. Allocated space will be requested if and where it gets inlined.
           AST_SYMBOL (tree->left)->allocreq =
-            !(IS_STATIC (AST_SYMBOL (tree->left)->etype) &&  currFunc && FUNC_ISINLINE (currFunc->type) && !IS_EXTERN (getSpec (currFunc->type)) && !IS_STATIC (getSpec (currFunc->type)));
+            !(AST_SYMBOL (tree->left)->level && currFunc && FUNC_ISINLINE (currFunc->type) && !IS_EXTERN (getSpec (currFunc->type)) && !IS_STATIC (getSpec (currFunc->type)));
         }
 
       p->next = LTYPE (tree);

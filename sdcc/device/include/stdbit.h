@@ -397,7 +397,6 @@ __STDC_MEMREVERSE8U(64)
 extern void *__memcpy (void * restrict dest, const void * _NEAR restrict src, _NEAR size_t n);
 #endif
 
-#ifdef __SDCC_STACK_AUTO // Bug #3874
 #if __STDC_ENDIAN_NATIVE__ == __STDC_ENDIAN_LITTLE__
 #define __STDC_LOAD8(N) \
 inline uint_least ## N ## _t stdc_load8_leu ## N (const unsigned char ptr[static (N / 8)]) {uint ## N ## _t value; __memcpy (&value, ptr, N / 8); return(value);} \
@@ -423,10 +422,8 @@ __STDC_LOAD8(8)
 __STDC_LOAD8(16)
 __STDC_LOAD8(32)
 __STDC_LOAD8(64)
-#endif
 
 // C2Y 7.18.22 Endian-aware 8-bit Store
-#ifdef __SDCC_STACK_AUTO // Bug #3874
 #if __STDC_ENDIAN_NATIVE__ == __STDC_ENDIAN_LITTLE__
 #define __STDC_STORE8(N) \
 inline void stdc_store8_leu ## N (uint_least ## N ## _t value, unsigned char ptr[static (N / 8)]) {__memcpy (ptr, &value, N / 8);} \
@@ -452,7 +449,6 @@ __STDC_STORE8(8)
 __STDC_STORE8(16)
 __STDC_STORE8(32)
 __STDC_STORE8(64)
-#endif
 
 #endif
 
