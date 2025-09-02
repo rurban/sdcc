@@ -324,6 +324,8 @@ hasExtBitOp (int op, sym_link *left, int right)
     case ROT:
       {
         unsigned int lbits = bitsForType (left);
+        if (lbits % 8)
+          return false;
         if (lbits > (unsigned)port->support.shift*8)
           return false;
         if (right % lbits  == 1 || right % lbits == lbits - 1)
