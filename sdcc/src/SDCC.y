@@ -317,7 +317,6 @@ unary_expression
    | COUNTOF '(' type_name ')'      { $$ = newAst_VALUE (countofOp ($3)); }
    | ALIGNOF '(' type_name ')'      { $$ = newAst_VALUE (alignofOp ($3)); }
    | OFFSETOF '(' type_name ',' offsetof_member_designator ')' { $$ = offsetofOp($3, $5); }
-   | ROT '(' unary_expression ',' unary_expression ')'         { $$ = newNode (ROT, $3, $5); }
    ;
 
 unary_operator

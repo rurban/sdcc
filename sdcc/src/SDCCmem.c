@@ -837,7 +837,8 @@ allocLocal (symbol *sym)
   if (IS_STATIC (sym->etype))
     {
       allocGlobal (sym);
-      sym->allocreq = 1;
+      // Do not require allocated space for static variables in inline function definitions for which no code will be emitted. Allocated space will be requested if and where it gets inlined.
+      sym->allocreq = !(currFunc && FUNC_ISINLINE (currFunc->type) && !IS_EXTERN (getSpec (currFunc->type)) && !IS_STATIC (getSpec (currFunc->type)));
       return;
     }
 

@@ -179,7 +179,6 @@ emitRegularMap (memmap *map, bool addPublics, bool arFlag)
       /* if allocation required check is needed
          then check if the symbol really requires
          allocation only for local variables */
-
       if (arFlag && !IS_AGGREGATE (sym->type) && !(sym->_isparm && !IS_REGPARM (sym->etype)) && !sym->allocreq && sym->level)
         continue;
 

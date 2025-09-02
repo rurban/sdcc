@@ -1,5 +1,19 @@
 2025-09-02 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* src/SDCCast.c,
+	  src/SDCC.lex,
+	  src/SDCC.y,
+	  src/SDCCglue.c,
+	  src/SDCCmem.c,
+	  device/include/stdbit.h,
+	  support/regression/tests/rotate_left.c.in,
+	  support/regression/tests/rotate_right.c.in,
+	  .version,
+	  doc/sdccman.lyx:
+	  Partial fix for bug #3874. Good enough to enable the stdbit.h rotation functions for all ports, and replace __builtin_rot.
+
+2025-09-02 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* src/z80/gen.c:
 	  Fix two codegen issues that affected a recently introduced test for stdbit.h functions.
 	* src/pdk/gen.c:

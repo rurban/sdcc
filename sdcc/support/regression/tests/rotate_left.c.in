@@ -7,7 +7,7 @@
 
 #pragma std_c23
 
-#if __STDC_VERSION__ > 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
+#if __STDC_VERSION__ > 202311L || defined(__SDCC)
 #include <stdbit.h>
 #endif
 
@@ -22,11 +22,13 @@ volatile {type} i;
 void
 testRotateLeft(void)
 {
-#if __STDC_VERSION__ > 202311L || defined(__SDCC) && defined(__SDCC_STACK_AUTO /* bug #3874*/)
+#if __STDC_VERSION__ > 202311L || defined(__SDCC)
+#if !defined( __SDCC_mos6502) && !defined( __SDCC_mos65c02) // Bug
   i = 0xa5;
   ASSERT(stdc_rotate_left(i, 1) == rol(i, 1));
   ASSERT(stdc_rotate_left(i, 4) == rol(i, 4));
   ASSERT(stdc_rotate_left(i, 7) == rol(i, 7));
+#ifndef __SDCC_pdk14 // Lack of memory
   ASSERT(stdc_rotate_left(i, 8) == rol(i, 8));
   ASSERT(stdc_rotate_left(i, 9) == rol(i, 9));
   ASSERT(stdc_rotate_left(i, 12) == rol(i, 12));
@@ -34,6 +36,8 @@ testRotateLeft(void)
 
   ASSERT(stdc_rotate_left_uc(0xa5, 4) == 0x5a);
   ASSERT(stdc_rotate_left_us(0xa5b6, 4) == 0x5b6a);
+#endif
+#endif
 #endif
 }
 

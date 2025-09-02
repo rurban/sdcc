@@ -237,7 +237,6 @@ static void checkCurrFile (const char *s);
 "__sfr32"               { count (); TKEYWORD (SFR32); }
 "__sbit"                { count (); TKEYWORD (SBIT); }
 "__builtin_offsetof"    { count (); return OFFSETOF; }
-"__builtin_rot"         { count (); return ROT; }
 "__using"               { count (); TKEYWORD (USING); }
 "__naked"               { count (); TKEYWORD (NAKED); }
 "_JavaNative"           { count (); TKEYWORD (JAVANATIVE); }

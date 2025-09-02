@@ -2194,7 +2194,6 @@ isConformingBody (ast * pbody, symbol * sym, ast * body)
     case GETABIT:
     case GETBYTE:
     case GETWORD:
-    case ROT:
 
       if (IS_AST_SYM_VALUE (pbody->left) && isSymbolEqual (AST_SYMBOL (pbody->left), sym))
         return FALSE;
@@ -3987,7 +3986,9 @@ decorateType (ast *tree, RESULT_TYPE resultType, bool reduceTypeAllowed)
       if (IS_AST_SYM_VALUE (tree->left))
         {
           AST_SYMBOL (tree->left)->addrtaken = 1;
-          AST_SYMBOL (tree->left)->allocreq = 1;
+          // Do not require allocated space for static variables in inline function definitions for which no code will be emitted. Allocated space will be requested if and where it gets inlined.
+          AST_SYMBOL (tree->left)->allocreq =
+            !(IS_STATIC (AST_SYMBOL (tree->left)->etype) &&  currFunc && FUNC_ISINLINE (currFunc->type) && !IS_EXTERN (getSpec (currFunc->type)) && !IS_STATIC (getSpec (currFunc->type)));
         }
 
       p->next = LTYPE (tree);
@@ -4736,7 +4737,6 @@ decorateType (ast *tree, RESULT_TYPE resultType, bool reduceTypeAllowed)
 
     case LEFT_OP:
     case RIGHT_OP:
-    case ROT:
       if (!IS_INTEGRAL (LTYPE (tree)) || !IS_INTEGRAL (tree->left->etype))
         {
           werrorfl (tree->filename, tree->lineno, E_SHIFT_OP_INVALID);
@@ -8063,17 +8063,6 @@ ast_print (ast * tree, FILE * outfile, int indent)
       return;
 
     /*------------------------------------------------------------------*/
-    /*----------------------------*/
-    /*           shift            */
-    /*----------------------------*/
-    case ROT:
-      fprintf (outfile, "ROT (%p) type (", tree);
-      printTypeChain (tree->ftype, outfile);
-      fprintf (outfile, ")\n");
-      ast_print (tree->left, outfile, indent + 2);
-      ast_print (tree->right, outfile, indent + 2);
-      return;
-
     case GETABIT:
       fprintf (outfile, "GETABIT (%p) type (", tree);
       printTypeChain (tree->ftype, outfile);
