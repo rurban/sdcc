@@ -73,11 +73,13 @@ void *realloc(void *ptr, size_t size)
 	if(!ptr)
 		return(malloc(size));
 
+#if 0 // Implementation choice: allow 0-sized allocations. This is easier to implement, can be easily consistent between malloc and realloc, and works well with C99 semantics (i.e. no free).
 	if(!size)
 	{
-		free(ptr); // This free is considered a problem by many. However, it is mandated by the C90 standard, though it deviates from common behavior of pre-standard-C, and standards from C99 onward do not require it; in C23 zero size is explicitly undefined behavior.
+		//free(ptr); // This free is considered a problem by many. It is mandated by C90, but should not be there according to C99; in C23 zero size is explicitly undefined behavior.
 		return(0);
 	}
+#endif
 
 	prev_free = 0, pf = 0;
 	for(h = __sdcc_heap_free, f = &__sdcc_heap_free; h && h < ptr; prev_free = h, pf = f, f = &(h->next_free), h = h->next_free); // Find adjacent blocks in free list

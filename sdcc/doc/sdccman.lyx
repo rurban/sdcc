@@ -3181,6 +3181,12 @@ In 4.5.9,
  support for __builtin_rot was removed.
 \end_layout
 
+\begin_layout Itemize
+In 4.5.10,
+ the semantics of realloc(ptr,
+ 0) changed from C90 to C99.
+\end_layout
+
 \begin_layout Section
 System Requirements
 \end_layout
@@ -10029,6 +10035,14 @@ R style
 
  functions are syntactically supported,
  but with the semantics of ISO style functions.
+\end_layout
+
+\begin_layout Itemize
+realloc(ptr,
+ 0) does not free,
+ i.e.
+ realloc follows ISO C99 semantics,
+ not ISO C90 semantics.
 \end_layout
 
 \begin_layout Subsubsection*

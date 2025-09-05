@@ -1,3 +1,11 @@
+2025-09-05 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* device/lib/malloc.c,
+	  device/lib/realloc.c,
+	  doc/sdccman.lyx,
+	  .version:
+	  Make realloc follow C99 semantics instead of C90 semantics.
+
 2025-09-03 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/SDCCast.c,
