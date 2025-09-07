@@ -1,5 +1,10 @@
 2025-09-07 Janko Stamenović
 
+	* sdas/asz80/z80pst.c
+	  Fix bug #3827: add the ld.lis instruction
+
+2025-09-07 Janko Stamenović
+
 	* sdas/asz80/z80mch.c 
 	  Fix bug #3826: allow .il sufix for 3-byte address when !adl
 

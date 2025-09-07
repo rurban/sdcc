@@ -307,7 +307,7 @@ struct  mne     mne[] = {
     {	NULL,	"ld.s",		S_LD,		M_S,	0x40	},
     {	NULL,	"ld.sis",	S_LD,		M_SIS,	0x40	},
     
-    {   NULL,   "ld.lis",       S_LD,           M_LIS,  0x40    },
+    {	NULL,	"ld.lis",	S_LD,		M_LIS,	0x40	},
 
     {	NULL,	"call.il",	S_CALL,		M_IL,	0xC4	},
     {	NULL,	"call.is",	S_CALL,		M_IS,	0xC4	},
