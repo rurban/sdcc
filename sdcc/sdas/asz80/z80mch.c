@@ -2097,7 +2097,7 @@ struct expr *esp;
 {
 
 // Pokus napsat zapis parametru 16/24-bit 'jinak'...
-        if (ez80_adl && !(sfx & M_IS) || !ez80_adl && (sfx & M_IL)) {
+        if (ez80_adl && !(sfx & M_IS) || !ez80_adl && (sfx & M_IL)) { 
                 outr3b(esp, R_ADL);
         } else {
                 outrw(esp, 0);
