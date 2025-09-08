@@ -1,3 +1,8 @@
+2025-09-08 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* doc/sdccman.lyx:
+	  Clarification on new calloc/malloc/realloc behavior for zero-sized allocations.
+
 2025-09-07 Janko Stamenović
 
 	* sdas/asz80/z80pst.c

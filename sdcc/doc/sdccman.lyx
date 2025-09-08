@@ -10038,11 +10038,9 @@ R style
 \end_layout
 
 \begin_layout Itemize
-realloc(ptr,
- 0) does not free,
- i.e.
- realloc follows ISO C99 semantics,
- not ISO C90 semantics.
+ISO C90 semantics for realloc(ptr,
+ 0) are unclear.
+ SDCC follows ISO C99 semantics.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -11329,6 +11327,11 @@ There are no non-required domain errors for mathematics functions.
 
 \begin_layout Itemize
 See library source for the values returned by mathematical functions on domain error and pole error (and anything else on mathematical functions and floating type encodings).
+\end_layout
+
+\begin_layout Itemize
+calloc,
+ malloc and realloc return a pointer to an allocated object when the requested size is zero.
 \end_layout
 
 \begin_layout Itemize
