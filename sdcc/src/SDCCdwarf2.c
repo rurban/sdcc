@@ -1585,7 +1585,7 @@ dwWritePubnames (void)
 /*                   it does not exist, it is added                      */
 /*-----------------------------------------------------------------------*/
 static int
-dwFindFileIndex (char * filename)
+dwFindFileIndex (const char *filename)
 {
   char * includeDir;
   dwfile * srcfile;

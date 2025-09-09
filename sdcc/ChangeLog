@@ -1,5 +1,20 @@
 2025-09-09 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* src/SDCCast.c,
+	  src/SDCCast.h,
+	  src/SDCCdwarf2.c,
+	  src/SDCCdwarf2.h,
+	  src/SDCCerr.c,
+	  src/SDCCerr.h,
+	  src/SDCCicode.c,
+	  src/SDCCicode.h,
+	  src/SDCCopt.c,
+	  src/SDCCsymt.h,
+	  src/SDCCval.h:
+	  Improve const-correctness.
+
+2025-09-09 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* src/pdk/ralloc.c,
 	  src/pdk/ralloc.h,
 	  src/stm8/gen.c,

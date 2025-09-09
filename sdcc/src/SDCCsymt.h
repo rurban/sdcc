@@ -374,7 +374,7 @@ typedef struct symbol
   unsigned offset;                  /* offset from top if struct */
 
   int lineDef;                      /* defined line number        */
-  char *fileDef;                    /* defined filename           */
+  const char *fileDef;              // defined filename
   int lastLine;                     /* for functions the last line */
   struct sym_link *type;            /* 1st link to declarator chain */
   struct sym_link *etype;           /* last link to declarator chain */

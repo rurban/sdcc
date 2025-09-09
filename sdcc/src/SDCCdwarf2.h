@@ -380,7 +380,7 @@ typedef struct dwtag
 
 typedef struct dwfile
 {
-  char * name;
+  const char *name;
   int dirIndex;
   int timestamp;
   int length;

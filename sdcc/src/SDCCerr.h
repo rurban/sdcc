@@ -445,7 +445,7 @@ werrorfl - Output a standard error message with variable number of arguments.
 -------------------------------------------------------------------------------
 */
 
-int werrorfl (char *newFilename, int newLineno, int errNum, ...);
+int werrorfl (const char *newFilename, int newLineno, int errNum, ...);
 
 /*
 -------------------------------------------------------------------------------

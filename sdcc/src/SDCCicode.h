@@ -192,7 +192,7 @@ typedef struct iCode
   literalList *arrayInitList;   /* point to array initializer list. */
 
   int lineno;                   /* file & lineno for debug information */
-  char *filename;
+  const char *filename;
 
   int parmBytes;                /* if call/pcall, count of parameter bytes
                                    on stack */
@@ -362,7 +362,7 @@ void attachiCodeOperand (operand *, operand **, iCode *);
 /*-----------------------------------------------------------------*/
 /* declaration of exported variables                               */
 /*-----------------------------------------------------------------*/
-extern char *filename;
+extern const char *filename;
 extern int lineno;
 #endif
 

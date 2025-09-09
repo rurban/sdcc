@@ -702,7 +702,7 @@ resolveChildren:
 /* setAstFileLine - walks a ast tree & sets the file name and line number */
 /*------------------------------------------------------------------------*/
 int
-setAstFileLine (ast * tree, char *filename, int lineno)
+setAstFileLine (ast *tree, const char *filename, int lineno)
 {
   if (!tree)
     return 0;

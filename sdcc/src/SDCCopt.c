@@ -59,7 +59,7 @@ cnvToFcall (iCode * ic, eBBlock * ebp)
   operand *left;
   operand *right;
   symbol *func = NULL;
-  char *filename = ic->filename;
+  const char *filename = ic->filename;
   int lineno = ic->lineno;
   int bytesPushed=0;
 
@@ -563,7 +563,7 @@ cnvFromFloatCast (iCode * ic, eBBlock * ebp)
 {
   iCode *ip, *newic;
   symbol *func = NULL;
-  char *filename = ic->filename;
+  const char *filename = ic->filename;
   int lineno = ic->lineno;
   int bwd, su;
   int bytesPushed=0;
@@ -690,7 +690,7 @@ cnvFromFixed16x16Cast (iCode * ic, eBBlock * ebp)
   symbol *func = NULL;
   sym_link *type = copyLinkChain (operandType (IC_LEFT (ic)));
   SPEC_SHORT (type) = 0;
-  char *filename = ic->filename;
+  const char *filename = ic->filename;
   int lineno = ic->lineno;
   int bwd, su;
   int bytesPushed=0;
@@ -835,7 +835,7 @@ convilong (iCode *ic, eBBlock *ebp)
   symbol *func = NULL;
   iCode *ip = ic->next;
   iCode *newic;
-  char *filename = ic->filename;
+  const char *filename = ic->filename;
   int lineno = ic->lineno;
   int bwd;
   int su;

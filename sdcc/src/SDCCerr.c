@@ -41,7 +41,7 @@
 
 struct SDCCERRG _SDCCERRG; 
 
-extern char *filename;
+extern const char *filename;
 extern int lineno;
 extern int fatalError;
 
@@ -860,9 +860,9 @@ werror_bt (int errNum, ...)
  * -------------------------------------------------------------------------------
  */
 int
-werrorfl (char *newFilename, int newLineno, int errNum, ...)
+werrorfl (const char *newFilename, int newLineno, int errNum, ...)
 {
-  char *oldFilename = filename;
+  const char *oldFilename = filename;
   int oldLineno = lineno;
   va_list marker;
   int ret;
