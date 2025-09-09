@@ -125,7 +125,7 @@ stm8SpillThis (symbol *sym, bool force_spill)
 {
   int i;
 
-  D (D_ALLOC, ("stm8SpillThis: spilling %p (%s)\n", sym, sym->name));
+  D (D_ALLOC, ("stm8SpillThis: spilling %p (%s)\n", (void *)sym, sym->name));
 
   /* if this is rematerializable or has a spillLocation
      we are okay, else we need to create a spillLocation
@@ -172,7 +172,7 @@ regTypeNum (void)
             continue;
         }
 
-      D (D_ALLOC, ("regTypeNum: loop on sym %p\n", sym));
+      D (D_ALLOC, ("regTypeNum: loop on sym %p\n", (void *)sym));
 
       /* if the live range is a temporary */
       if (sym->isitmp)
@@ -198,7 +198,7 @@ regTypeNum (void)
               || sym->isptr) ? getSize (sym->type = aggrToPtr (sym->type, FALSE)) : getSize (sym->type));
           D (D_ALLOC, ("regTypeNum: setting nRegs of %s (%p) to %u\n", sym->name, sym, sym->nRegs));
 
-          D (D_ALLOC, ("regTypeNum: setup to assign regs sym %p\n", sym));
+          D (D_ALLOC, ("regTypeNum: setup to assign regs sym %p\n", (void *)sym));
 
           if (sym->nRegs > 8)
             {
@@ -216,7 +216,7 @@ regTypeNum (void)
           /* for the first run we don't provide */
           /* registers for true symbols we will */
           /* see how things go                  */
-          D (D_ALLOC, ("regTypeNum: #2 setting num of %p to 0\n", sym));
+          D (D_ALLOC, ("regTypeNum: #2 setting num of %p to 0\n", (void *)sym));
           sym->nRegs = 0;
         }
     }

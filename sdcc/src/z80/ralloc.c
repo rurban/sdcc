@@ -147,7 +147,7 @@ freeReg (reg_info *reg)
 {
   wassert (!reg->isFree);
   reg->isFree = 1;
-  D (D_ALLOC, ("freeReg: freed %p\n", reg));
+  D (D_ALLOC, ("freeReg: freed %p\n", (void *)reg));
 }
 
 /** noOverLap - will iterate through the list looking for over lap
@@ -209,7 +209,7 @@ createStackSpil (symbol *sym)
   symbol *sloc = NULL;
   struct dbuf_s dbuf;
 
-  D (D_ALLOC, ("createStackSpil: for sym %p (%s)\n", sym, sym->name));
+  D (D_ALLOC, ("createStackSpil: for sym %p (%s)\n", (void *)sym, sym->name));
 
   /* first go try and find a free one that is already
      existing on the stack */
@@ -280,7 +280,7 @@ z80SpillThis (symbol * sym)
 {
   int i;
 
-  D (D_ALLOC, ("z80SpillThis: spilling %p (%s)\n", sym, sym->name));
+  D (D_ALLOC, ("z80SpillThis: spilling %p (%s)\n", (void *)sym, sym->name));
 
   /* if this is rematerializable or has a spillLocation
      we are okay, else we need to create a spillLocation
@@ -359,7 +359,7 @@ deassignLRs (iCode *ic, eBBlock *ebp)
       if (!bitVectBitValue (_G.regAssigned, sym->key))
         continue;
 
-      D (D_ALLOC, ("deassignLRs: in loop on sym %p nregs %u\n", sym, sym->nRegs));
+      D (D_ALLOC, ("deassignLRs: in loop on sym %p nregs %u\n", (void *)sym, sym->nRegs));
 
       if (sym->nRegs)
         {
@@ -498,7 +498,7 @@ regTypeNum (void)
             }
         }
 
-      D (D_ALLOC, ("regTypeNum: loop on sym %p\n", sym));
+      D (D_ALLOC, ("regTypeNum: loop on sym %p\n", (void *)sym));
 
       /* if the live range is a temporary */
       if (sym->isitmp)
@@ -522,9 +522,9 @@ regTypeNum (void)
           sym->nRegs =
             ((IS_AGGREGATE (sym->type)
               || sym->isptr) ? getSize (sym->type = aggrToPtr (sym->type, FALSE)) : getSize (sym->type));
-          D (D_ALLOC, ("regTypeNum: setting nRegs of %s (%p) to %u\n", sym->name, sym, sym->nRegs));
+          D (D_ALLOC, ("regTypeNum: setting nRegs of %s (%p) to %u\n", sym->name, (void *)sym, sym->nRegs));
 
-          D (D_ALLOC, ("regTypeNum: setup to assign regs sym %p\n", sym));
+          D (D_ALLOC, ("regTypeNum: setup to assign regs sym %p\n", (void *)sym));
 
           if (sym->nRegs > 8)
             {
@@ -542,7 +542,7 @@ regTypeNum (void)
           /* for the first run we don't provide */
           /* registers for true symbols we will */
           /* see how things go                  */
-          D (D_ALLOC, ("regTypeNum: #2 setting num of %p to 0\n", sym));
+          D (D_ALLOC, ("regTypeNum: #2 setting num of %p to 0\n", (void *)sym));
           sym->nRegs = 0;
         }
     }
@@ -580,7 +580,7 @@ packRegsForAssign (iCode * ic, eBBlock * ebp)
 {
   iCode *dic, *sic;
 
-  D (D_ALLOC, ("packRegsForAssign: running on ic %p\n", ic));
+  D (D_ALLOC, ("packRegsForAssign: running on ic %p\n", (void *)ic));
 
   if (!IS_ITEMP (IC_RIGHT (ic)) || OP_SYMBOL (IC_RIGHT (ic))->isind || OP_LIVETO (IC_RIGHT (ic)) > ic->seq)
     return 0;
@@ -783,7 +783,7 @@ packRegsForOneuse (iCode * ic, operand * op, eBBlock * ebp)
   iCode *dic, *sic;
 
   // PENDING: Disable
-  D (D_ALLOC, ("packRegsForOneUse: running on ic %p\n", ic));
+  D (D_ALLOC, ("packRegsForOneUse: running on ic %p\n", (void *)ic));
 
   /* if returning a literal then do nothing */
   if (!IS_SYMOP (op))
@@ -944,7 +944,7 @@ packRegisters (eBBlock * ebp)
 
   for (ic = ebp->sch; ic; ic = ic->next)
     {
-      D (D_ALLOC, ("packRegisters: looping on ic %p\n", ic));
+      D (D_ALLOC, ("packRegisters: looping on ic %p\n", (void *)ic));
 
       /* Safe: address of a true sym is always constant. */
       /* if this is an itemp & result of a address of a true sym
@@ -1158,7 +1158,7 @@ serialRegMark (eBBlock ** ebbs, int count)
             {
               symbol *sym = OP_SYMBOL (IC_RESULT (ic));
 
-              D (D_ALLOC, ("serialRegAssign: in loop on result %p (%s)\n", sym, sym->name));
+              D (D_ALLOC, ("serialRegAssign: in loop on result %p (%s)\n", (void *)sym, sym->name));
 
               /* Make sure any spill location is definitely allocated */
               if (sym->isspilt && !sym->remat && sym->usl.spillLoc && !sym->usl.spillLoc->allocreq)

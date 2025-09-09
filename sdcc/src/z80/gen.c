@@ -9879,7 +9879,7 @@ genMod (const iCode * ic)
 /* genIfxJump :- will create a jump depending on the ifx           */
 /*-----------------------------------------------------------------*/
 static void
-genIfxJump (iCode * ic, char *jval)
+genIfxJump (iCode *ic, const char *jval)
 {
   symbol *jlbl;
   const char *inst;
@@ -11167,7 +11167,7 @@ genAnd (const iCode * ic, iCode * ifx)
         }
       while (sizel)
         {
-          char *jumpcond = "NZ";
+          const char *jumpcond = "NZ";
 
           if ((bytelit = ((lit >> (offset * 8)) & 0x0ffull)) == 0x00ull)
             {

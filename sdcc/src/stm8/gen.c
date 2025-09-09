@@ -5635,7 +5635,7 @@ exchangedCmp (int opcode)
 /* branchInstCmp : returns the conditional branch instruction that  */
 /*                 will branch if the comparison is true            */
 /*------------------------------------------------------------------*/
-static char *
+static const char *
 branchInstCmp (int opcode, int sign, bool negated)
 {
   if (negated)
