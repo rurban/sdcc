@@ -1,3 +1,9 @@
+2025-09-12 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* historygraphs/Makefile,
+	  historygraphs/*.svg:
+	  Parametrize tty used for test boards. Compile with gcc --std=gnu17, to work around C23 non-compliant code in sdas (GCC 15 defaults to C23).
+
 2025-08-15 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* historygraphs/Makefile,
