@@ -1,3 +1,22 @@
+2025-09-21 Janko Stamenović
+
+	* sdas/linksrc/lkarea.c
+	  sdas/linksrc/lkbank.c
+	  sdas/linksrc/lkdata.c
+	  sdas/linksrc/lkeval.c
+	  sdas/linksrc/lkhead.c
+	  sdas/linksrc/lklex.c
+	  sdas/linksrc/lklibr.c
+	  sdas/linksrc/lklist.c
+	  sdas/linksrc/lkmain.c
+	  sdas/linksrc/lknoice.c
+	  sdas/linksrc/lkout.c
+	  sdas/linksrc/lkrloc.c
+	  sdas/linksrc/lkrloc3.c
+	  sdas/linksrc/lksdcdb.c
+	  sdas/linksrc/lksym.c
+	  Undo whitespace changes of unchanged upstream lines in sdas/linksrc
+
 2025-09-09 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/SDCCast.c,
