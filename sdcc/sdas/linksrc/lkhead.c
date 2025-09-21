@@ -53,13 +53,13 @@
  *
  *	global variables:
  *		area	*ap		Pointer to the current
- *					area structure
+ *				 	area structure
  *		lfile	*cfp		The pointer *cfp points to the
- *					current lfile structure
+ *				 	current lfile structure
  *		head	*headp		The pointer to the first
- *					head structure of a linked list
+ *				 	head structure of a linked list
  *		head	*hp		Pointer to the current
- *					head structure
+ *				 	head structure
  *
  *	functions called:
  *		a_uint	expr()		lkeval.c
@@ -283,9 +283,9 @@ newmode()
  *
  *	global variables:
  *		head	*headp		The pointer to the first
- *					head structure of a linked list
+ *				 	head structure of a linked list
  *		head	*hp		Pointer to the current
- *					head structure
+ *				 	head structure
  *		int	lkerr		error flag
  *		FILE *	stderr		c_library
  *

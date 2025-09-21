@@ -115,7 +115,7 @@ addpath (void)
       while (lbp->next)
         {
           lbp = lbp->next;
-        }
+	}
       lbp->next = lbph;
     }
   unget (getnb ());
@@ -166,7 +166,7 @@ addlib (void)
       for (lbph = lbphead; lbph; lbph = lbph->next)
         {
           foundcount += addfile (lbph->path, ip);
-        }
+	}
     }
   if (foundcount == 0)
     {
@@ -236,7 +236,7 @@ addfile (char *path, char *libfil)
       if (strlen (str) && (*strend != '/') && (*strend != LKDIRSEP))
         {
           strcat (str, LKDIRSEPSTR);
-        }
+	}
 #endif
     }
   else
@@ -272,7 +272,7 @@ addfile (char *path, char *libfil)
           /*Bingo!  'libfil' is the absolute path of the library */
           strcpy (str, libfil);
           path = NULL;          /*This way 'libfil' and 'path' will be rebuilt from 'str' */
-        }
+	}
     }
 
   if (path == NULL)
@@ -291,7 +291,7 @@ addfile (char *path, char *libfil)
               path[j + 1] = 0;
               break;
             }
-        }
+	}
       if (j <= 0)
         path[0] = 0;
     }
@@ -303,7 +303,7 @@ addfile (char *path, char *libfil)
       if (lbnhead == NULL)
         {
           lbnhead = lbnh;
-        }
+	}
       else
         {
           lbn = lbnhead;
@@ -312,7 +312,7 @@ addfile (char *path, char *libfil)
               lbn = lbn->next;
             }
           lbn->next = lbnh;
-        }
+	}
 
       lbnh->path = path;
       lbnh->libfil = strdup (libfil);
@@ -393,11 +393,11 @@ search (void)
                   if (fndsym (sp->s_id))
                     {
                       symfnd++;
-                    }
-                }
+		    }
+		}
               sp = sp->s_sp;
             }
-        }
+	}
     }
 }
 
@@ -505,14 +505,14 @@ fndsym (char *name)
                   if (lbfhead == NULL)
                     {
                       lbfhead = lbfh;
-                    }
+		    }
                   else
                     {
                       for (lbf = lbfhead; lbf->next != NULL; lbf = lbf->next)
                         ;
 
                       lbf->next = lbfh;
-                    }
+		    }
                   lbfh->libspc = ThisLibr->libspc;
                   lbfh->filspc = ThisLibr->filspc;
                   lbfh->relfil = strdup (ThisLibr->relfil);
@@ -522,13 +522,13 @@ fndsym (char *name)
                   (*aslib_targets[lbfh->type]->loadfile) (lbfh);
 
                   ThisLibr->loaded = 1;
-                }
+		}
 
               if (numfound == 0)
                 {
                   numfound++;
                   FirstFound = ThisLibr;
-                }
+		}
               else
                 {
                   char absPath1[PATH_MAX];
@@ -554,13 +554,13 @@ fndsym (char *name)
                         {
                           fprintf (stderr, "?ASlink-Warning-Definition of public symbol '%s'" " found more than once:\n", name);
                           fprintf (stderr, "   Library: '%s', Module: '%s'\n", FirstFound->libspc, FirstFound->relfil);
-                        }
+			}
                       fprintf (stderr, "   Library: '%s', Module: '%s'\n", ThisLibr->libspc, ThisLibr->relfil);
                       numfound++;
-                    }
-                }
+		    }
+		}
             }
-        }
+	}
     }
   return numfound;
 }
@@ -633,7 +633,7 @@ buildlibraryindex (void)
         {
           fprintf (stderr, "?ASlink-Error-Cannot open library file %s\n", lbnh->libspc);
           lkexit (1);
-        }
+	}
 
       for (i = 0; i < NELEM (aslib_targets); ++i)
         {
@@ -642,7 +642,7 @@ buildlibraryindex (void)
               This = (*aslib_targets[i]->buildlibraryindex) (lbnh, libfp, This, i);
               break;
             }
-        }
+	}
 
       if (i >= NELEM (aslib_targets))
         fprintf (stderr, "?ASlink-Error-Unknown library file format %s\n", lbnh->libspc);
@@ -672,7 +672,7 @@ freelibraryindex (void)
           ThisSym2Free = ThisSym;
           ThisSym = ThisSym->next;
           free (ThisSym2Free);
-        }
+	}
       free (ThisLibr->filspc);
       free (ThisLibr->relfil);
       ThisLibr2Free = ThisLibr;
@@ -722,7 +722,7 @@ load_sybmol (const char *sym, void *params)
           for (lbf = lbfhead; lbf->next != NULL; lbf = lbf->next)
               ;
           lbf->next = lbfh;
-        }
+	}
       (*aslib_targets[ls->type]->loadfile) (lbfh);
 
       return 1;
@@ -747,7 +747,7 @@ is_module_loaded (const char *filspc)
         {
           D ("  Module %s already loaded!\n", filspc);
           return 1;       /* Module already loaded */
-        }
+	}
     }
   return 0;
 }
@@ -797,7 +797,7 @@ fndsym (const char *name)
         {
           fprintf (stderr, "?ASlink-Error-Cannot open library file %s\n", lbnh->libspc);
           lkexit (1);
-        }
+	}
 
       for (i = 0; i < NELEM (aslib_targets); ++i)
         {
@@ -806,7 +806,7 @@ fndsym (const char *name)
               ret = (*aslib_targets[i]->fndsym) (name, lbnh, libfp, i);
               break;
             }
-        }
+	}
 
       if (i >= NELEM (aslib_targets))
         fprintf (stderr, "?ASlink-Error-Unknown library file format %s\n", lbnh->libspc);

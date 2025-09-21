@@ -93,7 +93,7 @@ int i;
 	/*
 	 * Intel Formats
 	 */
-	if (oflag == 1) {
+ 	if (oflag == 1) {
 		ixx(i);
 	} else
 	/*
@@ -192,15 +192,15 @@ lkflush()
  *
  *                              In an End of File record this field con-
  *                              sists of four ascii zeros, in a start
- *                              address record this is the program entry
- *                              address (low), or in a segment record
- *                              this is the high order address.
+ *				address record this is the program entry
+ *				address (low), or in a segment record
+ *				this is the high order address.
  *
  *      Record Type Field    -  This  field  identifies the record type,
  *                              which is either 0 for data records,  1
  *                              for an End of File record, 3 for a
- *                              start address, or 4 for a
- *                              segment record.  It consists
+ *				start address, or 4 for a
+ *				segment record.  It consists
  *                              of two ascii characters, with  the  high
  *                              digit of the record type first, followed
  *                              by the low digit of the record type.
@@ -219,161 +219,161 @@ lkflush()
  *                              first.
  */
 
-/*)Function     ixx(i)
+/*)Function	ixx(i)
  *
- *              int     i               1 - process data
- *                                      0 - end of data
+ *		int	i		1 - process data
+ *					0 - end of data
  *
- *      The function ixx() loads the output buffer with
- *      the relocated data.
+ *	The function ixx() loads the output buffer with
+ *	the relocated data.
  *
- *      local variables:
- *              a_uint  chksum          byte checksum
- *              a_uint  lo_addr         address within segment
- *              a_uint  hi_addr         segment number
- *              int     i               loop counter
- *              a_uint  j               temporary
- *              int     k               loop counter
- *              struct sym *sp          symbol pointer
- *              a_uint  symadr          symbol address
+ *	local variables:
+ *		a_uint	chksum		byte checksum
+ *		a_uint	lo_addr		address within segment
+ *		a_uint	hi_addr		segment number
+ *		int	i		loop counter
+ *		a_uint	j		temporary
+ *		int	k		loop counter
+ *		struct sym *sp		symbol pointer
+ *		a_uint	symadr		symbol address
  *
- *      global variables:
- *              int     a_bytes         T Line Address Bytes
- *              int     hilo            byte order
- *              FILE *  ofp             output file handle
- *              int     rtaflg          first output flag
- *              int     rtcnt           count of data words
- *              int     rtflg[]         output the data flag
- *              a_uint  rtval[]         relocated data
- *              char    rtbuf[]         output buffer
- *              a_uint  rtadr0          address temporary
- *              a_uint  rtadr1          address temporary
- *              a_uint  rtadr2          address temporary
+ *	global variables:
+ *		int	a_bytes		T Line Address Bytes
+ *		int	hilo		byte order
+ *		FILE *	ofp		output file handle
+ *		int	rtaflg		first output flag
+ *		int	rtcnt		count of data words
+ *		int	rtflg[]		output the data flag
+ *		a_uint	rtval[]		relocated data
+ *		char	rtbuf[]		output buffer
+ *		a_uint	rtadr0		address temporary
+ *		a_uint	rtadr1		address temporary
+ *		a_uint	rtadr2		address temporary
  *
- *      functions called:
- *              int     fprintf()       c_library
- *              VOID    iflush()        lkout.c
+ *	functions called:
+ *		int	fprintf()	c_library
+ *		VOID	iflush()	lkout.c
  *
- *      side effects:
- *              The data is placed into the output buffer.
+ *	side effects:
+ *		The data is placed into the output buffer.
  */
 
 /*
  * The number of Data Field bytes is:
  *
- *      1       Record Mark Field
- *      2       Record Length Field
- *      4       Load Address Field
- *      2       Record Type Field
- *      2       Checksum Field
+ *	1	Record Mark Field
+ *	2	Record Length Field
+ *	4	Load Address Field
+ *	2	Record Type Field
+ *	2	Checksum Field
  *
- *      Plus 32 data bytes (64 characters)
+ *	Plus 32 data bytes (64 characters)
  */
 
 VOID
 ixx(int i)
 {
-        int k;
-        struct sym *sp;
+	int k;
+	struct sym *sp;
         a_uint j, symadr, chksum;
 
-        if (i) {
+	if (i) {
                 if (TARGET_IS_6808 && ap->a_flag & A_NOLOAD)
                         return;
 
-                if (hilo == 0) {
-                        switch(a_bytes){
-                        default:
-                        case 2:
-                                j = rtval[0];
-                                rtval[0] = rtval[1];
-                                rtval[1] = j;
-                                break;
-                        case 3:
-                                j = rtval[0];
-                                rtval[0] = rtval[2];
-                                rtval[2] = j;
-                                break;
-                        case 4:
-                                j = rtval[0];
-                                rtval[0] = rtval[3];
-                                rtval[3] = j;
-                                j = rtval[2];
-                                rtval[2] = rtval[1];
-                                rtval[1] = j;
-                                break;
-                        }
-                }
-                for (i=0,rtadr2=0; i<a_bytes; i++) {
-                        rtadr2 = (rtadr2 << 8) | rtval[i];
-                }
-                if ((rtadr2 != rtadr1) || rtaflg) {
-                        /*
-                         * data bytes not contiguous between records
-                         */
-                        iflush();
-                        rtadr0 = rtadr1 = rtadr2;
-                        rtaflg = 0;
-                }
-                for (k=a_bytes; k<rtcnt; k++) {
-                        if (rtflg[k]) {
-                                rtbuf[(int) (rtadr1++ - rtadr0)] = rtval[k];
+		if (hilo == 0) {
+			switch(a_bytes){
+			default:
+			case 2:
+				j = rtval[0];
+				rtval[0] = rtval[1];
+				rtval[1] = j;
+				break;
+			case 3:
+				j = rtval[0];
+				rtval[0] = rtval[2];
+				rtval[2] = j;
+				break;
+			case 4:
+				j = rtval[0];
+				rtval[0] = rtval[3];
+				rtval[3] = j;
+				j = rtval[2];
+				rtval[2] = rtval[1];
+				rtval[1] = j;
+				break;
+			}
+		}
+		for (i=0,rtadr2=0; i<a_bytes; i++) {
+			rtadr2 = (rtadr2 << 8) | rtval[i];
+		}
+		if ((rtadr2 != rtadr1) || rtaflg) {
+			/*
+			 * data bytes not contiguous between records
+			 */
+			iflush();
+			rtadr0 = rtadr1 = rtadr2;
+			rtaflg = 0;
+		}
+		for (k=a_bytes; k<rtcnt; k++) {
+			if (rtflg[k]) {
+				rtbuf[(int) (rtadr1++ - rtadr0)] = rtval[k];
                                 if ((rtadr1 & 0xffff) == 0) {
-                                        iflush();
-                                }
-                                if (rtadr1 - rtadr0 == IXXMAXBYTES) {
-                                        iflush();
-                                }
-                        }
-                }
-        } else {
-                sp = lkpsym(".__.END.", 0);
-                if (sp && (sp->s_axp->a_bap->a_ofp == ofp)) {
-                        symadr = symval(sp);
+					iflush();
+				}
+				if (rtadr1 - rtadr0 == IXXMAXBYTES) {
+					iflush();
+				}
+			}
+		}
+	} else {
+		sp = lkpsym(".__.END.", 0);
+		if (sp && (sp->s_axp->a_bap->a_ofp == ofp)) {
+			symadr = symval(sp);
                         chksum =  0x04;
                         chksum += 0x05;
                         chksum += symadr;
                         chksum += symadr >> 8;
                         chksum += symadr >> 16;
                         chksum += symadr >> 24;
-#ifdef  LONGINT
+#ifdef	LONGINT
                         fprintf(ofp, ":04000005%08lX%02lX\n", symadr, (~chksum + 1) & 0x00ff);
 #else
                         fprintf(ofp, ":04000005%08X%02X\n", symadr, (~chksum + 1) & 0x00ff);
 #endif
-                }
+		}
 
-                fprintf(ofp, ":00000001FF\n");
-        }
+		fprintf(ofp, ":00000001FF\n");
+	}
 }
 
 
-/*)Function     iflush()
+/*)Function	iflush()
  *
- *      The function iflush() outputs the relocated data
- *      in the standard Intel format.
+ *	The function iflush() outputs the relocated data
+ *	in the standard Intel format.
  *
- *      local variables:
- *              a_uint  chksum          byte checksum
- *              a_uint  lo_addr         address within segment
- *              a_uint  hi_addr         segment number
- *              int     i               loop counter
- *              int     max             number of data bytes
- *              int     reclen          record length
+ *	local variables:
+ *		a_uint	chksum		byte checksum
+ *		a_uint	lo_addr		address within segment
+ *		a_uint	hi_addr		segment number
+ *		int	i		loop counter
+ *		int	max		number of data bytes
+ *		int	reclen		record length
  *
- *      global variables:
- *              int     a_bytes         T Line Address Bytes
- *              FILE *  ofp             output file handle
- *              int     rtaflg          first output flag
- *              char    rtbuf[]         output buffer
- *              a_uint  rtadr0          address temporary
- *              a_uint  rtadr1          address temporary
+ *	global variables:
+ *		int	a_bytes		T Line Address Bytes
+ *		FILE *	ofp		output file handle
+ *		int	rtaflg		first output flag
+ *		char	rtbuf[]		output buffer
+ *		a_uint	rtadr0		address temporary
+ *		a_uint	rtadr1		address temporary
  *
- *      functions called:
- *              int     fprintf()       c_library
+ *	functions called:
+ *		int	fprintf()	c_library
  *
- *      side effects:
- *              The data is output to the file defined by ofp.
+ *	side effects:
+ *		The data is output to the file defined by ofp.
  */
 
 /*
@@ -391,65 +391,65 @@ ixx(int i)
 VOID
 iflush()
 {
-        int i, max, reclen;
-        a_uint chksum, lo_addr, hi_addr;
+	int i, max, reclen;
+	a_uint chksum, lo_addr, hi_addr;
         // rom addresses, calculated based on the virtual ones
         a_uint rrtadr0 = rtadr0;
         // translate virtual addresses for gameboy
         if(TARGET_IS_GB){
                 if(rrtadr0 > 0x10000)
                         rrtadr0 = (rrtadr0>>16) * 0x4000 + (rrtadr0&0xffff) - 0x4000;
-        }
+	}
 
-        max = (int) (rtadr1 - rtadr0);
-        if (max) {
+	max = (int) (rtadr1 - rtadr0);
+	if (max) {
                 if (a_bytes > 2) {
                         static a_uint prev_hi_addr = 0;
 
                         hi_addr = (rrtadr0 >> 16) & 0xffff;
                         if ((hi_addr != prev_hi_addr) || rtaflg) {
                                 chksum =  0x02;
-                                chksum += 0x04;
-                                chksum += hi_addr;
-                                chksum += hi_addr >> 8;
-#ifdef  LONGINT
+				chksum += 0x04;
+				chksum += hi_addr;
+				chksum += hi_addr >> 8;
+#ifdef	LONGINT
                                 fprintf(ofp, ":02000004%04lX%02lX\n", hi_addr, (~chksum + 1) & 0x00ff);
 #else
                                 fprintf(ofp, ":02000004%04X%02X\n", hi_addr, (~chksum + 1) & 0x00ff);
 #endif
                                 prev_hi_addr = hi_addr;
-                        }
-                }
+			}
+		}
 
-                /*
-                 * Only the ":" and the checksum itself are excluded
-                 * from the checksum.  The record length includes
-                 * only the data bytes.
-                 */
+		/*
+		 * Only the ":" and the checksum itself are excluded
+		 * from the checksum.  The record length includes
+		 * only the data bytes.
+		 */
                 lo_addr = rrtadr0 & 0xffff;
-                reclen = max;
-                chksum = reclen;
-                chksum += lo_addr;
-                chksum += lo_addr >> 8;
-#ifdef  LONGINT
-                fprintf(ofp, ":%02X%04lX00", reclen, lo_addr);
+		reclen = max;
+		chksum = reclen;
+		chksum += lo_addr;
+		chksum += lo_addr >> 8;
+#ifdef	LONGINT
+		fprintf(ofp, ":%02X%04lX00", reclen, lo_addr);
 #else
-                fprintf(ofp, ":%02X%04X00", reclen, lo_addr);
+		fprintf(ofp, ":%02X%04X00", reclen, lo_addr);
 #endif
-                for (i=0; i<max; i++) {
-                        chksum += rtbuf[i];
-                        fprintf(ofp, "%02X", rtbuf[i] & 0x00ff);
-                }
-                /*
-                 * 2's complement
-                 */
-#ifdef  LONGINT
-                fprintf(ofp, "%02lX\n", (~chksum + 1) & 0x00ff);
+		for (i=0; i<max; i++) {
+			chksum += rtbuf[i];
+			fprintf(ofp, "%02X", rtbuf[i] & 0x00ff);
+		}
+		/*
+		 * 2's complement
+		 */
+#ifdef	LONGINT
+		fprintf(ofp, "%02lX\n", (~chksum + 1) & 0x00ff);
 #else
-                fprintf(ofp, "%02X\n", (~chksum + 1) & 0x00ff);
+		fprintf(ofp, "%02X\n", (~chksum + 1) & 0x00ff);
 #endif
-                rtadr0 = rtadr1;
-        }
+		rtadr0 = rtadr1;
+	}
 
 }
 
