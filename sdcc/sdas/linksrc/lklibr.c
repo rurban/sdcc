@@ -1,7 +1,7 @@
 /* lklibr.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2018  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -41,20 +41,20 @@
 
 /*)Module   lklibr.c
  *
- *  The module lklibr.c contains the functions which
- *  (1) specify the path(s) to library files [.LIB]
- *  (2) specify the library file(s) [.LIB] to search
- *  (3) search the library files for specific symbols
- *      and link the module containing this symbol
+ *	The module lklibr.c contains the functions which
+ *	(1) specify the path(s) to library files [.LIB]
+ *	(2) specify the library file(s) [.LIB] to search
+ *	(3) search the library files for specific symbols
+ *	    and link the module containing this symbol
  *
- *  lklibr.c contains the following functions:
- *      VOID    addpath()
- *      VOID    addlib()
- *      VOID    addfile()
- *      VOID    search()
- *      VOID    fndsym()
- *      VOID    library()
- *      VOID    loadfile()
+ *	lklibr.c contains the following functions:
+ *		VOID	addpath()
+ *		VOID	addlib()
+ *		VOID	addfile()
+ *		VOID	search()
+ *		VOID	fndsym()
+ *		VOID	library()
+ *		VOID	loadfile()
  *
  */
 
@@ -75,87 +75,83 @@ struct aslib_target *aslib_targets[] = {
   &aslib_target_lib,
 };
 
-/*)Function VOID    addpath()
+/*)Function	VOID	addpath()
  *
- *  The function addpath() creates a linked structure containing
- *  the paths to various object module library files.
+ *	The function addpath() creates a linked structure containing
+ *	the paths to various object module library files.
  *
- *  local variables:
- *      lbpath  *lbph       pointer to new path structure
- *      lbpath  *lbp        temporary pointer
+ *	local variables:
+ *		lbpath	*lbph		pointer to new path structure
+ *		lbpath	*lbp		temporary pointer
  *
- *  global variables:
- *      lbpath  *lbphead    The pointer to the first
- *                          path structure
+ *	global variables:
+ *		lbpath	*lbphead	The pointer to the first
+ *				 	path structure
  *
- *   functions called:
- *      int     getnb()     lklex.c
- *      VOID *  new()       lksym.c
- *      int     strlen()    c_library
- *      char *  strcpy()    c_library
- *      VOID    unget()     lklex.c
+ *	 functions called:
+ *		int	getnb()		lklex.c
+ *		VOID *	new()		lksym.c
+ *		int	strlen()	c_library
+ *		char *	strcpy()	c_library
+ *		VOID	unget()		lklex.c
  *
- *  side effects:
- *      An lbpath structure may be created.
+ *	side effects:
+ *		An lbpath structure may be created.
  */
 
 VOID
-addpath (void)
+addpath()
 {
-  struct lbpath *lbph, *lbp;
+	struct lbpath *lbph, *lbp;
 
-  lbph = (struct lbpath *) new (sizeof (struct lbpath));
-  if (lbphead == NULL)
-    {
-      lbphead = lbph;
-    }
-  else
-    {
-      lbp = lbphead;
-      while (lbp->next)
-        {
-          lbp = lbp->next;
+	lbph = (struct lbpath *) new (sizeof(struct lbpath));
+	if (lbphead == NULL) {
+		lbphead = lbph;
+	} else {
+		lbp = lbphead;
+		while (lbp->next)
+			lbp = lbp->next;
+		lbp->next = lbph;
 	}
-      lbp->next = lbph;
-    }
-  unget (getnb ());
-  lbph->path = strdup (ip);
+	unget(getnb());
+	lbph->path = (char *) new (strlen(ip)+1);
+	strcpy(lbph->path, ip);
 }
 
-/*)Function VOID    addlib()
+/*)Function	VOID	addlib()
  *
- *  The function addlib() tests for the existence of a
- *  library path structure to determine the method of
- *  adding this library file to the library search structure.
+ *	The function addlib() tests for the existance of a
+ *	library path structure to determine the method of
+ *	adding this library file to the library search structure.
  *
- *  This function calls the function addfile() to actually
- *  add the library file to the search list.
+ *	This function calls the function addfile() to actually
+ *	add the library file to the search list.
  *
- *  local variables:
- *      lbpath  *lbph       pointer to path structure
+ *	local variables:
+ *		lbpath	*lbph		pointer to path structure
  *
- *  global variables:
- *      lbpath  *lbphead    The pointer to the first
- *                          path structure
+ *	global variables:
+ *		lbpath	*lbphead	The pointer to the first
+ *				 	path structure
  *      ip a pointer to the library name
  *
- *   functions called:
- *      VOID    addfile()   lklibr.c
- *      int     getnb()     lklex.c
- *      VOID    unget()     lklex.c
+ *	 functions called:
+ *		VOID	addfile()	lklibr.c
+ *		int	getnb()		lklex.c
+ *		VOID	unget()		lklex.c
  *
- *  side effects:
- *      The function addfile() may add the file to
- *      the library search list.
+ *	side effects:
+ *		The function addfile() may add the file to
+ *		the library search list.
  */
 
 VOID
-addlib (void)
+addlib()
 {
-  struct lbpath *lbph;
+	struct lbpath *lbph;
   int foundcount = 0;
 
-  unget (getnb ());
+	unget(getnb());
 
   if (lbphead == NULL)
     {
@@ -327,78 +323,73 @@ addfile (char *path, char *libfil)
     }
 }
 
-/*)Function VOID    search()
+/*)Function	VOID	search()
  *
- *  The function search() looks through all the symbol tables
- *  at the end of pass 1.  If any undefined symbols are found
- *  then the function fndsym() is called. Function fndsym()
- *  searches any specified library files to automagically
- *  import the object modules containing the needed symbol.
+ *	The function search() looks through all the symbol tables
+ *	at the end of pass 1.  If any undefined symbols are found
+ *	then the function fndsym() is called. Function fndsym()
+ *	searches any specified library files to automagically
+ *	import the object modules containing the needed symbol.
  *
- *  After a symbol is found and imported by the function
- *  fndsym() the symbol tables are again searched.  The
- *  symbol tables are searched until no more symbols can be
- *  resolved within the library files.  This ensures that
- *  back references from one library module to another are
- *  also resolved.
+ *	After a symbol is found and imported by the function
+ *	fndsym() the symbol tables are again searched.  The
+ *	symbol tables are searched until no more symbols can be
+ *	resolved within the library files.  This ensures that
+ *	back references from one library module to another are
+ *	also resolved.
  *
- *  local variables:
- *      int     i           temporary counter
- *      sym     *sp         pointer to a symbol structure
- *      int     symfnd      found a symbol flag
+ *	local variables:
+ *		int	i		temporary counter
+ *		sym	*sp		pointer to a symbol structure
+ *		int	symfnd		found a symbol flag
  *
- *  global variables:
- *      sym     *symhash[]  array of pointers to symbol tables
+ *	global variables:
+ *		sym	*symhash[]	array of pointers to symbol tables
  *
- *   functions called:
- *      int     fndsym()    lklibr.c
+ *	 functions called:
+ *		int	fndsym()	lklibr.c
  *
- *  side effects:
- *      If a symbol is found then the library object module
- *      containing the symbol will be imported and linked.
+ *	side effects:
+ *		If a symbol is found then the library object module
+ *		containing the symbol will be imported and linked.
  */
 
 VOID
-search (void)
+search()
 {
-  struct sym *sp;
-  int i, symfnd;
+	struct sym *sp;
+	int i,symfnd;
 
-  /*
-   * Look for undefined symbols.  Keep
-   * searching until no more symbols are resolved.
-   */
-  symfnd = 1;
-  while (symfnd)
-    {
-      symfnd = 0;
-      /*
-       * Look through all the symbols
-       */
-      for (i = 0; i < NHASH; ++i)
-        {
-          sp = symhash[i];
-          while (sp)
-            {
-              /* If we find an undefined symbol
-               * (one where S_DEF is not set), then
-               * try looking for it.  If we find it
-               * in any of the libraries then
-               * increment symfnd.  This will force
-               * another pass of symbol searching and
-               * make sure that back references work.
-               */
-              if ((sp->s_type & S_DEF) == 0)
-                {
-                  if (fndsym (sp->s_id))
-                    {
-                      symfnd++;
-		    }
+	/*
+	 * Look for undefined symbols.  Keep
+	 * searching until no more symbols are resolved.
+	 */
+	symfnd = 1;
+	while (symfnd) {
+		symfnd = 0;
+		/*
+		 * Look through all the symbols
+		 */
+		for (i=0; i<NHASH; ++i) {
+			sp = symhash[i];
+			while (sp) {
+				/* If we find an undefined symbol
+				 * (one where S_DEF is not set), then
+				 * try looking for it.  If we find it
+				 * in any of the libraries then
+				 * increment symfnd.  This will force
+				 * another pass of symbol searching and
+				 * make sure that back references work.
+				 */
+				if ((sp->s_type & S_DEF) == 0) {
+					if (fndsym(sp->s_id)) {
+						symfnd++;
+					}
+				}
+				sp = sp->s_sp;
+			}
 		}
-              sp = sp->s_sp;
-            }
 	}
-    }
 }
 
 /*)Function VOID    fndsym(name)
@@ -821,32 +812,32 @@ fndsym (const char *name)
 }
 #endif /* INDEXLIB */
 
-/*)Function VOID    library()
+/*)Function	VOID	library()
  *
- *  The function library() links all the library object files
- *  contained in the lbfile structures.
+ *	The function library() links all the library object files
+ *	contained in the lbfile structures.
  *
- *  local variables:
- *      lbfile  *lbfh       pointer to lbfile structure
+ *	local variables:
+ *		lbfile	*lbfh		pointer to lbfile structure
  *
- *  global variables:
- *      lbfile  *lbfhead    pointer to first lbfile structure
- *      int     obj_flag    linked file/library object output flag
+ *	global variables:
+ *		lbfile	*lbfhead	pointer to first lbfile structure
+ *		int	obj_flag	linked file/library object output flag
  *
- *   functions called:
- *      VOID    loadfile    lklibr.c
+ *	 functions called:
+ *		VOID	loadfile	lklibr.c
  *
- *  side effects:
- *      Links all files contained in the lbfile structures.
+ *	side effects:
+ *		Links all files contained in the lbfile structures.
  */
 
 VOID
-library (void)
+library()
 {
-  struct lbfile *lbfh;
+	struct lbfile *lbfh;
 
-  for (lbfh = lbfhead; lbfh; lbfh = lbfh->next) {
-    obj_flag = lbfh->f_obj;
+	for (lbfh=lbfhead; lbfh; lbfh=lbfh->next) {
+		obj_flag = lbfh->f_obj;
     (*aslib_targets[lbfh->type]->loadfile) (lbfh);
   }
 

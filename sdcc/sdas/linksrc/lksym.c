@@ -1,7 +1,7 @@
 /* lksym.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2014  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@
  *
  *	global variables:
  *		sym * symhash[]		array of pointers to NHASH
- *				      	linked symbol lists
+ *					linked symbol lists
  *
  *	functions called:
  *		none
@@ -72,7 +72,7 @@
  */
 
 VOID
-syminit(void)
+syminit()
 {
 	struct sym **spp;
 
@@ -140,7 +140,7 @@ syminit(void)
  *
  */
 struct sym *
-newsym(void)
+newsym()
 {
 	a_uint ev;
 	int c, i, nsym;
@@ -219,7 +219,7 @@ newsym(void)
  *
  *	global varaibles:
  *		sym * symhash[]		array of pointers to NHASH
- *				      	linked symbol lists
+ *					linked symbol lists
  *              int     zflag           Disable symbol case sensitivity
  *
  *	functions called:
@@ -233,7 +233,9 @@ newsym(void)
  */
 
 struct sym *
-lkpsym(char *id, int f)
+lkpsym(id, f)
+char *id;
+int f;
 {
 	struct sym *sp;
 	int h;
@@ -250,7 +252,7 @@ lkpsym(char *id, int f)
 	sp = (struct sym *) new (sizeof(struct sym));
 	sp->s_sp = symhash[h];
 	symhash[h] = sp;
-        sp->s_id = strsto(id);   /* JLH */
+	sp->s_id = strsto(id);		/* JLH */
 	return (sp);
 }
 
@@ -276,7 +278,8 @@ lkpsym(char *id, int f)
  */
 
 a_uint
-symval(struct sym *tsp)
+symval(tsp)
+struct sym *tsp;
 {
 	a_uint val;
 
@@ -315,7 +318,8 @@ symval(struct sym *tsp)
  */
 
 VOID
-symdef(FILE *fp)
+symdef(fp)
+FILE *fp;
 {
 	struct sym *sp;
 	int i;
@@ -363,27 +367,29 @@ symdef(FILE *fp)
  */
 
 VOID
-symmod(FILE *fp, struct sym *tsp)
+symmod(fp, tsp)
+FILE *fp;
+struct sym *tsp;
 {
 	int i;
 	struct sym **p;
 
 	if ((hp = headp) != NULL) {
-                while(hp) {
-                        p = hp->s_list;
-                        for (i=0; i<hp->h_nsym; ++i) {
-                                if (p[i] == tsp) {
-                                        fprintf(fp,
-                                                "\n?ASlink-Warning-Undefined Global '%s' ",
-                                                tsp->s_id);
-                                        fprintf(fp,
-                                                "referenced by module '%s'\n",
-                                                hp->m_id);
-                                        lkerr++;
-                                }
-			}
-                        hp = hp->h_hp;
+	    while(hp) {
+		p = hp->s_list;
+		for (i=0; i<hp->h_nsym; ++i) {
+		    if (p[i] == tsp) {
+			fprintf(fp,
+				"\n?ASlink-Warning-Undefined Global %s ",
+				tsp->s_id);
+			fprintf(fp,
+				"referenced by module %s\n",
+				hp->m_id);
+			lkerr++;
+		    }
 		}
+	    hp = hp->h_hp;
+	    }
 	}
 }
 
@@ -396,7 +402,7 @@ symmod(FILE *fp, struct sym *tsp)
  *	The function symeq() compares the two name strings for a match.
  *	The return value is 1 for a match and 0 for no match.
  *
- *              cflag == 0      case sensitive compare
+ *		cflag == 0	case sensitve compare
  *		cflag != 0	case insensitive compare
  *
  *	local variables:
@@ -415,7 +421,9 @@ symmod(FILE *fp, struct sym *tsp)
  */
 
 int
-symeq(char *p1, char *p2, int cflag)
+symeq(p1, p2, cflag)
+char *p1, *p2;
+int cflag;
 {
 	int n;
 
@@ -448,7 +456,7 @@ symeq(char *p1, char *p2, int cflag)
  *	The function hash() computes a hash code using the sum
  *	of all characters mod table size algorithm.
  *
- *              cflag == 0      case sensitive hash
+ *		cflag == 0	case sensitve hash
  *		cflag != 0	case insensitive hash
  *
  *	local variables:
@@ -466,7 +474,9 @@ symeq(char *p1, char *p2, int cflag)
  */
 
 int
-hash(char *p, int cflag)
+hash(p, cflag)
+char *p;
+int cflag;
 {
 	int h;
 
@@ -517,7 +527,8 @@ hash(char *p, int cflag)
  */
 
 char *
-strsto(char *str)
+strsto(str)
+char *str;
 {
 	int  l;
 	char *p;
@@ -595,7 +606,8 @@ static	char *	pnext = NULL;
 static	int	bytes = 0;
 
 char *
-new(unsigned int n)
+new(n)
+unsigned int n;
 {
 	char *p,*q;
 	unsigned int i;
@@ -682,7 +694,8 @@ static	char *	pnext = NULL;
 static	int	bytes = 0;
 
 char *
-strsto(char *str)
+strsto(str)
+char *str;
 {
 	int  l;
 	char *p;
@@ -739,7 +752,8 @@ strsto(char *str)
  */
 
 char *
-new(unsigned int n)
+new(n)
+unsigned int n;
 {
 	char *p,*q;
 	unsigned int i;

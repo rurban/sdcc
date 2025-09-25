@@ -1,7 +1,7 @@
 /* lkrloc.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2014  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,10 +44,12 @@
  *		a_uint	adb_3b()
  *		a_uint	adb_4b()
  *		a_uint	adb_xb()
+ *		a_uint	adw_xb()
  *		a_uint	evword()
  *		VOID	prntval()
  *		VOID	reloc()
  *
+ *	lkrloc.c the local variable errmsg[].
  *
  */
 
@@ -74,7 +76,8 @@
  */
 
 VOID
-reloc(int c)
+reloc(c)
+int c;
 {
 	switch(ASxxxx_VERSION) {
 	case 3:
@@ -93,7 +96,7 @@ reloc(int c)
 }
 
 
-/*)Function a_uint              evword()
+/*)Function	a_uint 	evword()
  *
  *	The function evword() combines two byte values
  *	into a single word value.
@@ -114,7 +117,7 @@ reloc(int c)
  */
 
 a_uint
-evword(void)
+evword()
 {
 	a_uint v;
 
@@ -128,10 +131,10 @@ evword(void)
 	return(v);
 }
 
-/*)Function a_uint              adb_1b(v, i)
+/*)Function	a_uint 	adb_1b(v, i)
  *
- *              a_uint v        value to add to byte
- *              int i           rtval[] index
+ *		a_uint	v		value to add to byte
+ *		int	i		rtval[] index
  *
  *	The function adb_1b() adds the value of v to
  *	the single byte value contained in rtval[i].
@@ -152,7 +155,9 @@ evword(void)
  */
 
 a_uint
-adb_1b(a_uint v, int i)
+adb_1b(v, i)
+a_uint v;
+int i;
 {
 	a_uint j;
 
@@ -186,7 +191,9 @@ adb_1b(a_uint v, int i)
  */
 
 a_uint
-adb_2b(a_uint v, int i)
+adb_2b(v, i)
+a_uint v;
+int i;
 {
 	a_uint j;
 
@@ -228,7 +235,9 @@ adb_2b(a_uint v, int i)
  */
 
 a_uint
-adb_3b(a_uint v, int i)
+adb_3b(v, i)
+a_uint v;
+int i;
 {
 	a_uint j;
 
@@ -246,8 +255,8 @@ adb_3b(a_uint v, int i)
 		rtval[i+0] = (j >>  0) & ((a_uint) 0x000000FF);
 		rtval[i+1] = (j >>  8) & ((a_uint) 0x000000FF);
 		rtval[i+2] = (j >> 16) & ((a_uint) 0x000000FF);
-	}
-	return(j);
+    }
+    return(j);
 }
 
 /*)Function	a_uint 	adb_4b(v, i)
@@ -274,7 +283,9 @@ adb_3b(a_uint v, int i)
  */
 
 a_uint
-adb_4b(a_uint v, int i)
+adb_4b(v, i)
+a_uint v;
+int i;
 {
 	a_uint j;
 
@@ -296,8 +307,8 @@ adb_4b(a_uint v, int i)
 		rtval[i+1] = (j >>  8) & ((a_uint) 0x000000FF);
 		rtval[i+2] = (j >> 16) & ((a_uint) 0x000000FF);
 		rtval[i+3] = (j >> 24) & ((a_uint) 0x000000FF);
-	}
-	return(j);
+    }
+    return(j);
 }
 
 /*)Function	a_uint 	adb_xb(v, i)
@@ -327,10 +338,35 @@ adb_4b(a_uint v, int i)
  */
 
 a_uint
-adb_xb(a_uint v, int i)
+adb_xb(v, i)
+a_uint v;
+int i;
 {
 	a_uint j;
 
+#ifdef	LONGINT
+	switch(a_bytes){
+	case 1:
+		j = adb_1b(v, i);
+		j = (j & ((a_uint) 0x00000080l) ? j | ~((a_uint) 0x0000007Fl) : j & ((a_uint) 0x0000007Fl));
+		break;
+	case 2:
+		j = adb_2b(v, i);
+		j = (j & ((a_uint) 0x00008000l) ? j | ~((a_uint) 0x00007FFFl) : j & ((a_uint) 0x00007FFFl));
+		break;
+	case 3:
+		j = adb_3b(v, i);
+		j = (j & ((a_uint) 0x00800000l) ? j | ~((a_uint) 0x007FFFFFl) : j & ((a_uint) 0x007FFFFFl));
+		break;
+	case 4:
+		j = adb_4b(v, i);
+		j = (j & ((a_uint) 0x80000000l) ? j | ~((a_uint) 0x7FFFFFFFl) : j & ((a_uint) 0x7FFFFFFFl));
+		break;
+	default:
+		j = 0;
+		break;
+	}
+#else
 	switch(a_bytes){
 	case 1:
 		j = adb_1b(v, i);
@@ -352,7 +388,58 @@ adb_xb(a_uint v, int i)
 		j = 0;
 		break;
 	}
+#endif
 	return(j);
+}
+
+/*)Function	a_uint 	adw_xb(x, v, i)
+ *
+ *		int	x		number of bytes to allow
+ *		a_uint	v		value to add to byte
+ *		int	i		rtval[] index
+ *
+ *	The function adw_xb() adds the value of v to the
+ *	value contained in rtval[i] through rtval[i + a_bytes - 1].
+ *	The new value of rtval[i] .... is returned.
+ *	The rtflg[] is cleared for bytes of higher order than x.
+ *
+ *	local variable:
+ *		a_uint	j		temporary evaluation variable
+ *
+ *	global variables:
+ *		int	a_bytes		T line byte count
+ *		int	hilo		byte ordering parameter
+ *		int	rtflg[]		output byte flags
+ *
+ *	called functions:
+ *		none
+ *
+ *	side effects:
+ *		The value of rtval[] is changed.
+ *		The rtflg[] values corresponding to all bytes
+ *		of higher order than x are cleared to reflect
+ *		the fact that x bytes are selected.
+ *
+ */
+
+a_uint
+adw_xb(x, v, i)
+int x;
+a_uint v;
+int i;
+{
+	a_uint j;
+	int n;
+
+	j = adb_xb(v, i);
+	/*
+	 * X LS Bytes
+	 */
+	i += (hilo ? 0 : x);
+	for (n=0; n<(a_bytes-x); n++,i++) {
+		rtflg[i] = 0;
+	}
+	return (j);
 }
 
 /*)Function VOID prntval(fptr, v)
@@ -368,10 +455,10 @@ adb_xb(a_uint v, int i)
  *		none
  *
  *	global variables:
- *              int xflag               current radix
+ *		int	xflag		current radix
  *
  *	called functions:
- *              int fprintf()   c_library
+ *		int	fprintf()	c_library
  *
  *	side effects:
  *		none
@@ -379,10 +466,41 @@ adb_xb(a_uint v, int i)
  */
 
 VOID
-prntval(FILE *fptr, a_uint v)
+prntval(fptr, v)
+FILE *fptr;
+a_uint v;
 {
 	char *frmt;
 
+#ifdef	LONGINT
+	switch(xflag) {
+	default:
+	case 0:
+		switch(a_bytes) {
+		default:
+		case 2: frmt = "       %04lX\n"; break;
+		case 3: frmt = "     %06lX\n"; break;
+		case 4: frmt = "   %08lX\n"; break;
+		}
+		break;
+	case 1:
+		switch(a_bytes) {
+		default:
+		case 2: frmt = "     %06lo\n"; break;
+		case 3: frmt = "   %08lo\n"; break;
+		case 4: frmt = "%011lo\n"; break;
+		}
+		break;
+	case 2:
+		switch(a_bytes) {
+		default:
+		case 2: frmt = "      %05lu\n"; break;
+		case 3: frmt = "   %08lu\n"; break;
+		case 4: frmt = " %010lu\n"; break;
+		}
+		break;
+	}
+#else
 	switch(xflag) {
 	default:
 	case 0:
@@ -410,5 +528,8 @@ prntval(FILE *fptr, a_uint v)
 		}
 		break;
 	}
+#endif
 	fprintf(fptr, frmt, v & a_mask);
 }
+
+

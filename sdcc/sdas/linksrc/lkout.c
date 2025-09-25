@@ -93,7 +93,7 @@ int i;
 	/*
 	 * Intel Formats
 	 */
- 	if (oflag == 1) {
+	if (oflag == 1) {
 		ixx(i);
 	} else
 	/*
@@ -271,7 +271,8 @@ lkflush()
  */
 
 VOID
-ixx(int i)
+ixx(i)
+int i;
 {
 	int k;
 	struct sym *sp;
@@ -959,4 +960,5 @@ dflush()
 
 	rtadr0 = rtadr1;
 }
+
 

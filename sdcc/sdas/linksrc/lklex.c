@@ -1,7 +1,7 @@
 /* lklex.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2014  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,7 +35,6 @@
  *		int	get()
  *		VOID	getfid()
  *		VOID	getid()
- *              VOID    getSid()
  *		int	getmap()
  *		int	getnb()
  *		int	more()
@@ -67,13 +66,13 @@
  *
  *	local variables:
  *		char *	p		pointer to external string buffer
- *              int     c               current character value
  *
  *	global variables:
  *		char	ctype[]		a character array which defines the
  *					type of character being processed.
  *					This index is the character
  *					being processed.
+ *		char	id[]		string buffer
  *
  *	called functions:
  *		int	get()		lklex.c
@@ -87,7 +86,9 @@
  */
 
 VOID
-getid(char *id, int c)
+getid(id, c)
+int c;
+char *id;
 {
 	char *p;
 
@@ -199,7 +200,9 @@ getSid (char *id)
  */
 
 VOID
-getfid(char *str, int c)
+getfid(str, c)
+int c;
+char *str;
 {
 	char *p;
 
@@ -272,7 +275,7 @@ getnb()
  *	global variables:
  *		char	ctype[]		array of character types, one per
  *				 	ASCII character
- *
+ *		
  *	functions called:
  *		int	get()		lklex.c
  *		int	getnb()		lklex.c
@@ -655,11 +658,12 @@ endline()
  *
  *		char	*str		string to chop
  *
- *      The function chop_crlf() removes trailing LF or CR/LF from
- *      str, if present.
+ *	The function chop_crlf() removes
+ *	LF, CR, LF/CR, or CR/LF from str.
  *
  *	local variables:
- *              int     i               string length
+ *		char *	p		temporary string pointer
+ *		char	c		temporary character
  *
  *	global variables:
  *		none
@@ -668,16 +672,22 @@ endline()
  *		none
  *
  *	side effects:
- *		none
+ *		All CR and LF characters removed.
  */
 
 VOID
 chopcrlf(str)
 char *str;
 {
-        int i;
+	char *p;
+	char c;
 
-        i = strlen(str);
-        if (i >= 1 && str[i-1] == '\n') str[i-1] = 0;
-        if (i >= 2 && str[i-2] == '\r') str[i-2] = 0;
+	p = str;
+	do {
+		c = *p++ = *str++;
+		if ((c == '\r') || (c == '\n')) {
+			p--;
+		}
+	} while (c != 0);
 }
+

@@ -1,7 +1,7 @@
 /* lkrloc3.c */
 
 /*
- *  Copyright (C) 1989-2010  Alan R. Baldwin
+ *  Copyright (C) 1989-2021  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
  *	The module lkrloc3.c contains the functions which
  *	perform the version 3 relocation calculations.
  *
- *      lkrloc3.c contains the following functions:
+ *	lkrloc.c contains the following functions:
  *		a_uint	adb_lo()
  *		a_uint	adb_hi()
  *		VOID	erpdmp3()
@@ -54,9 +54,9 @@
  *
  */
 
-/*)Function VOID        reloc3(c)
+/*)Function	VOID	reloc3(c)
  *
- *                      int c           process code
+ *		int c			process code
  *
  *	The function reloc3() calls a particular relocation
  *	function determined by the process code.
@@ -65,10 +65,10 @@
  *		none
  *
  *	global variables:
- *              int lkerr                       error flag
+ *		int	lkerr		error flag
  *
  *	called functions:
- *              int fprintf()           c_library
+ *		int	fprintf()	c_library
  *		VOID	rele3()		lkrloc3.c
  *		VOID	relp3()		lkrloc3.c
  *		VOID	relr3()		lkrloc3.c
@@ -80,7 +80,8 @@
  */
 
 VOID
-reloc3(int c)
+reloc3(c)
+int c;
 {
 	switch(c) {
 
@@ -109,7 +110,7 @@ reloc3(int c)
 }
 
 
-/*)Function VOID        relt3()
+/*)Function	VOID	relt3()
  *
  *	The function relt3() evaluates a T line read by
  *	the linker. Each byte value read is saved in the
@@ -121,17 +122,19 @@ reloc3(int c)
  *		T xx xx nn nn nn nn nn ...
  *
  *
- *              In: "T n0 n1 n2 n3 ... nn"
+ *		In:	"T n0 n1 n2 n3 ... nn"
  *
- *              Out:     0       1        2    ..  rtcnt
- *                        +----+----+----+----+----+
- *              rtval | n0 | n1 | n2 | .. | nn |
- *                        +----+----+----+----+----+
- *              rtflag|  1 |  1 |  1 |  1 |  1 |
- *                        +----+----+----+----+----+
+ *		Out:	  0    1    2    ..  rtcnt
+ *			+----+----+----+----+----+
+ *		  rtval | n0 | n1 | n2 | .. | nn |
+ *			+----+----+----+----+----+
+ *		  rtflag|  1 |  1 |  1 |  1 |  1 |
+ *			+----+----+----+----+----+
+ *		  rterr |  0 |  0 |  x |  x |  x |
+ *			+----+----+----+----+----+
  *
- *      The T line contains the assembled code output by the assem-
- *      bler with xx xx being the offset address from the current area
+ * 	The  T  line contains the assembled code output by the assem-
+ *	bler with xx xx being the offset address from the  current  area
  *	base address and nn being the assembled instructions and data in
  *	byte format.
  *
@@ -139,13 +142,14 @@ reloc3(int c)
  *		none
  *
  *	global variables:
- *              int rtcnt               number of values evaluated
- *              int rtflg[]             array of evaluation flags
- *              int rtval[]             array of evaluation values
+ *		int	rtcnt		number of values evaluated
+ *		int	rterr[]		array of evaluation errors
+ *		int	rtflg[]		array of evaluation flags
+ *		int	rtval[]		array of evaluation values
  *
  *	called functions:
- *              int eval()              lkeval.c
- *              int more()              lklex.c
+ *		int	eval()		lkeval.c
+ *		int	more()		lklex.c
  *
  *	side effects:
  *		Linker input T line evaluated.
@@ -153,7 +157,7 @@ reloc3(int c)
  */
 
 VOID
-relt3(void)
+relt3()
 {
 	rtcnt = 0;
 	while (more()) {
@@ -258,7 +262,7 @@ relt3(void)
  */
 
 VOID
-relr3(void)
+relr3()
 {
 	int mode;
 	a_uint reli, relv;
@@ -696,7 +700,7 @@ char *errmsg3[] = {
 };
 
 
-/*)Function VOID        relp3()
+/*)Function	VOID	relp3()
  *
  *	The function relp3() evaluates a P line read by
  *	the linker.  The P line data is combined with the
@@ -707,41 +711,41 @@ char *errmsg3[] = {
  *
  *		P 0 0 nn nn n1 n2 xx xx
  *
- *      The P line provides the paging information to the linker as
- *      specified by a .setdp directive.  The format of the relocation
+ * 	The  P  line provides the paging information to the linker as
+ *	specified by a .setdp directive.  The format of  the  relocation
  *	information is identical to that of the R line.  The correspond-
  *	ing T line has the following information:
  *		T xx xx aa aa bb bb
  *
- *      Where aa aa is the area reference number which specifies the
- *      selected page area and bb bb is the base address of the page.
+ * 	Where  aa aa is the area reference number which specifies the
+ *	selected page area and bb bb is the base address  of  the  page.
  *	bb bb will require relocation processing if the 'n1 n2 xx xx' is
- *      specified in the P line.  The linker will verify that the base
+ *	specified in the P line.  The linker will verify that  the  base
  *	address is on a 256 byte boundary and that the page length of an
  *	area defined with the PAG type is not larger than 256 bytes.
  *
  *	local variable:
  *		areax	**a		pointer to array of area pointers
- *              int aindex              area index
- *              int mode                relocation mode
- *              a_uint  relv    relocation value
- *              int rindex              symbol / area index
- *              int rtp                 index into T data
- *              sym **s                 pointer to array of symbol pointers
+ *		int	aindex		area index
+ *		int	mode		relocation mode
+ *		a_uint	relv		relocation value
+ *		int	rindex		symbol / area index
+ *		int	rtp		index into T data
+ *		sym	**s		pointer to array of symbol pointers
  *
  *	global variables:
- *              head *hp                pointer to the head structure
- *              int lkerr               error flag
- *              sdp sdp                 base page structure
- *              FILE *stderr    standard error device
+ *		head	*hp		pointer to the head structure
+ *		int	lkerr		error flag
+ *		sdp	sdp		base page structure
+ *		FILE	*stderr		standard error device
  *
  *	called functions:
- *              a_uint adb_2b() lkrloc.c
- *              a_uint evword() lkrloc.c
- *              int eval()              lkeval.c
- *              int fprintf()   c_library
- *              int more()              lklex.c
- *              int symval()    lksym.c
+ *		a_uint	adb_2b()	lkrloc.c
+ *		a_uint	evword()	lkrloc.c
+ *		int	eval()		lkeval.c
+ *		int	fprintf()	c_library
+ *		int	more()		lklex.c
+ *		int	symval()	lksym.c
  *
  *	side effects:
  *		The P and T lines are combined to set
@@ -828,7 +832,7 @@ relp3()
 		relerp3("Page Definition Boundary Error");
 }
 
-/*)Function VOID        rele3()
+/*)Function	VOID	rele3()
  *
  *	The function rele3() closes all open output files
  *	at the end of the linking process.
@@ -837,8 +841,8 @@ relp3()
  *		none
  *
  *	global variables:
- *              int oflag               output type flag
- *              int uflag               relocation listing flag
+ *		int	oflag		output type flag
+ *		int	uflag		relocation listing flag
  *
  *	called functions:
  *		VOID	lkfclose()	lkbank.c
@@ -862,7 +866,7 @@ rele3()
 	}
 }
 
-/*)Function VOID        relerr3(str)
+/*)Function	VOID	relerr3(str)
  *
  *		char	*str		error string
  *
@@ -884,14 +888,15 @@ rele3()
  */
 
 VOID
-relerr3(char *str)
+relerr3(str)
+char *str;
 {
 	errdmp3(stderr, str);
 	if (mfp)
 		errdmp3(mfp, str);
 }
 
-/*)Function VOID        errdmp3(fptr, str)
+/*)Function	VOID	errdmp3(fptr, str)
  *
  *		FILE	*fptr		output file handle
  *		char	*str		error string
@@ -902,19 +907,19 @@ relerr3(char *str)
  *	the symbol / area error.
  *
  *	local variable:
- *              int mode                error mode
- *              int aindex              area index
- *              int lkerr               error flag
- *              int rindex              error index
- *              sym **s         pointer to array of symbol pointers
+ *		int	mode		error mode
+ *		int	aindex		area index
+ *		int	lkerr		error flag
+ *		int	rindex		error index
+ *		sym	**s		pointer to array of symbol pointers
  *		areax	**a		pointer to array of area pointers
  *		areax	*raxp		error area extension pointer
  *
  *	global variables:
- *              sdp sdp         base page structure
+ *		sdp	sdp		base page structure
  *
  *	called functions:
- *              int fprintf()   c_library
+ *		int	fprintf()	c_library
  *		VOID	prntval()	lkrloc.c
  *
  *	side effects:
@@ -925,7 +930,9 @@ relerr3(char *str)
 const char errdmp3_null_srcname[] = "<missing>";
 
 VOID
-errdmp3(FILE *fptr, char *str)
+errdmp3(fptr, str)
+FILE *fptr;
+char *str;
 {
 	int mode, aindex, rindex;
 	struct sym **s;
@@ -962,7 +969,7 @@ errdmp3(FILE *fptr, char *str)
 /*12345678901234567890123456789012345678901234567890123456789012345678901234*/
 /*        |                 |                 |                 |           */
 	fprintf(fptr,
-"         file              module            area              offset\n");
+"         file              module            area                   offset\n");
 	fprintf(fptr,
 "  Refby  %-14.14s    %-14.14s    %-14.14s    ",
                         (hp->h_lfile && hp->h_lfile->f_idp) ? hp->h_lfile->f_idp : errdmp3_null_srcname,
@@ -993,7 +1000,7 @@ errdmp3(FILE *fptr, char *str)
 	}
 }
 
-/*)Function VOID        relerp3(str)
+/*)Function	VOID	relerp3(str)
  *
  *		char	*str		error string
  *
@@ -1015,14 +1022,15 @@ errdmp3(FILE *fptr, char *str)
  */
 
 VOID
-relerp3(char *str)
+relerp3(str)
+char *str;
 {
 	erpdmp3(stderr, str);
 	if (mfp)
 		erpdmp3(mfp, str);
 }
 
-/*)Function VOID        erpdmp3(fptr, str)
+/*)Function	VOID	erpdmp3(fptr, str)
  *
  *		FILE	*fptr		output file handle
  *		char	*str		error string
@@ -1034,11 +1042,11 @@ relerp3(char *str)
  *		head	*thp		pointer to head structure
  *
  *	global variables:
- *              int             lkerr           error flag
- *              sdp             sdp                     base page structure
+ *		int	lkerr		error flag
+ *		sdp	sdp		base page structure
  *
  *	called functions:
- *              int fprintf()           c_library
+ *		int	fprintf()	c_library
  *		VOID	prntval()	lkrloc.c
  *
  *	side effects:
@@ -1047,7 +1055,9 @@ relerp3(char *str)
  */
 
 VOID
-erpdmp3(FILE *fptr, char *str)
+erpdmp3(fptr, str)
+FILE *fptr;
+char *str;
 {
 	struct head *thp;
 
@@ -1065,7 +1075,7 @@ erpdmp3(FILE *fptr, char *str)
 /*         111111111122222222223333333333444444444455555555556666666666777*/
 /*123456789012345678901234567890123456789012345678901234567890123456789012*/
 	fprintf(fptr,
-"         file              module            pgarea               pgoffset\n");
+"         file              module            pgarea            pgoffset\n");
 	fprintf(fptr,
 "  PgDef  %-14.14s    %-14.14s    %-14.14s    ",
 			thp->h_lfile->f_idp,

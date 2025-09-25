@@ -1,7 +1,7 @@
 /* lksdcdb.c */
 
 /*
- *  Copyright (C) 2001-2009  Alan R. Baldwin
+ *  Copyright (C) 2001-2014  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -103,7 +103,8 @@ VOID SDCDBfopen(void)
  *		the linker cdb output file.
  */
 
-VOID SDCDBcopy(char * str)
+VOID SDCDBcopy(str)
+char * str;
 {
 	FILE * xfp;
 
@@ -147,7 +148,9 @@ VOID SDCDBcopy(char * str)
  *		into the output file.
  */
 
-VOID DefineSDCDB(char *name, a_uint value)
+VOID DefineSDCDB(name, value)
+char *name;
+a_uint value;
 {
 	int  j;
 	char *p1;

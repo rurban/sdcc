@@ -1,7 +1,7 @@
 /* lkhead.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2014  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 /*Module	lkhead.c
  *
  *	The module lkhead.c contains the function newhead() which
- *	creates a head structure, the function module() which
+ *	creates a head structure ,the function module() which
  *	loads the module name into the current head structure,
  *	and newmode() which loads the linker merge modes.
  *

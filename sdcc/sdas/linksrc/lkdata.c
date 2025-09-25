@@ -1,7 +1,7 @@
 /* lkdata.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2017  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -98,6 +98,8 @@ int	page;		/*	current page number
 			 */
 int	lop;		/*	current line number on page
 			 */
+time_t	curtim;		/*	pointer to the current time string
+			 */
 int	pass;		/*	linker pass number
 			 */
 a_uint	pc;		/*	current relocation address
@@ -139,12 +141,27 @@ a_uint	s_mask;		/*	Sign Mask
 			 */
 a_uint	v_mask;		/*	Value Mask
 			 */
-int     gline;          /*      LST file relocation active
-                         *      for current line
+a_uint	p_mask;		/*	Page Mask
 			 */
-int     gcntr;          /*      LST file relocation active
-                         *      counter
+int	gline;		/*	Read a LST line flag
 			 */
+
+int	gcntr;		/*	Bytes processed in LST line
+			*/
+
+int	hline;		/*	Read a HLR line flag
+			 */
+int	listing;	/*	Assembled line listing bits
+			 */
+int	lmode;		/*	Assembled line listing mode
+			 */
+int	bytcnt;		/*	Assenbled bytes for this line
+			 */
+int	bgncnt;		/*	Assembled bytes for this line
+			 */
+char	eqt_id[128];	/*	Area name for this ELIST line
+			 */			
+			 
 /* sdld specific */
 char    *optsdcc;
 char    *optsdcc_module;
@@ -176,6 +193,7 @@ long    code_size = -1; /*      code size
  * 		struct	lfile	*f_flp;		lfile link
  *		int	f_type;			File type
  *		char	*f_idp;			Pointer to file spec
+ *		int	f_idx;			Index to file name
  *		int	f_obj;			Object output flag
  *	};
  */
@@ -232,6 +250,9 @@ FILE	*sfp = NULL;	/*	The file handle sfp points to the
 FILE	*tfp = NULL;	/*	File handle for input
 			 *	ASxxxx listing file
 			 */
+FILE	*hfp = NULL;	/*	File handle for input ASxxxx
+			 *	.lst to .rst hint file
+			 */
 
 /*
  *	The structures of head, bank, area, areax, and sym
@@ -256,8 +277,8 @@ FILE	*tfp = NULL;	/*	File handle for input
  *
  *	struct	head
  *	{
- *              struct  head   *h_hp;           Header link
- *              struct  lfile  *h_lfile;        Associated file
+ *		struct	head  *h_hp;		Header link
+ *		struct	lfile *h_lfile;		Associated file
  *		int	h_narea;		# of areas
  *		struct	areax **a_list;		Area list
  *		int	h_nsym;			# of symbols

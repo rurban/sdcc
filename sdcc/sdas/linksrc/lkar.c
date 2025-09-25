@@ -46,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 #endif
 
 
-#ifndef HAVE_STRNDUP
+//#ifndef HAVE_STRNDUP
 char *
 strndup (const char *str, size_t len)
 {
@@ -55,7 +55,7 @@ strndup (const char *str, size_t len)
   s[len] = '\0';
   return s;
 }
-#endif
+//#endif
 
 static int
 is_ar (FILE * libfp)

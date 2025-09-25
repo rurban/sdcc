@@ -1,7 +1,7 @@
 /* lkarea.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2017  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,12 +44,12 @@
  *	lkarea.c contains no global variables.
  */
 
-/*)Function VOID        newarea()
- *
+/*)Function	VOID	newarea()
+ * 
  *	The function newarea() creates and/or modifies area
  *	and areax structures for each A directive read from
  *	the .rel file(s).  The function lkparea() is called
- *      to find the area structure associated with this name.
+ *	to find tha area structure associated with this name.
  *	If the area does not yet exist then a new area
  *	structure is created and linked to any existing
  *	linked area structures. The area flags are copied
@@ -115,7 +115,7 @@
  *
  */
 VOID
-newarea(void)
+newarea()
 {
 	a_uint i;
 	int k, narea;
@@ -214,7 +214,8 @@ newarea(void)
  */
 
 VOID
-lkparea(char *id)
+lkparea(id)
+char *id;
 {
 	struct area *tap;
 	struct areax *taxp;
@@ -272,7 +273,7 @@ lkparea(char *id)
  *			area address.  The size of the area
  *			is the sum of the section sizes.
  *
- *      NOTE:           Multiple absolute (ABS) areas are
+ *		NOTE:	Multiple absolute (ABS) areas are
  *			never concatenated with each other,
  *			thus absolute area A and absolute area
  *			B will overlay each other if they begin
@@ -345,7 +346,7 @@ VOID lnksect(struct area *tap);
  * Resolve all bank/area addresses.
  */
 VOID
-lnkarea(void)
+lnkarea()
 {
         /* sdld specific */
         a_uint rloc[4] = { 0, 0, 0, 0 };
@@ -606,9 +607,9 @@ a_uint allocate_space(a_uint start, a_uint size, char *id, unsigned long *map,  
 }
 /* end sdld specific */
 
-/*)Function VOID        lnksect(tap)
+/*)Function	VOID	lnksect(tap)
  *
- *              area *  tap                     pointer to an area structure
+ *		area *	tap		pointer to an area structure
  *
  *	The function lnksect() is the function called by
  *	lnkarea() to resolve the areax addresses.  Refer
@@ -622,7 +623,7 @@ a_uint allocate_space(a_uint start, a_uint size, char *id, unsigned long *map,  
  *		areax *	taxp		pointer to an areax structure
  *
  *	global variables:
- *              int             lkerr           error flag
+ *		int	lkerr		error flag
  *
  *	functions called:
  *              none
@@ -633,7 +634,8 @@ a_uint allocate_space(a_uint start, a_uint size, char *id, unsigned long *map,  
  */
 
 VOID
-lnksect(struct area *tap)
+lnksect(tap)
+struct area *tap;
 {
 	a_uint size, addr;
 	struct areax *taxp;
@@ -743,7 +745,7 @@ lnksect(struct area *tap)
  */
 
 VOID
-setarea(void)
+setarea()
 {
 	a_uint v;
 	char id[NCPS];

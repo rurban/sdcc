@@ -1,7 +1,7 @@
 /* lkbank.c */
 
 /*
- *  Copyright (C) 2001-2009  Alan R. Baldwin
+ *  Copyright (C) 2001-2014  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -42,11 +42,11 @@
  */
 
 /*)Function	VOID	newbank()
- *
+ * 
  *	The function newbank() creates and/or modifies bank
  *	structures for each B directive read from
  *	the .rel file(s).  The function lkpbank() is called
- *      to find the bank structure associated with this name.
+ *	to find tha bank structure associated with this name.
  *	If the bank does not yet exist then a new bank
  *	structure is created and linked to any existing
  *	linked bank structures. The bank flags are copied
@@ -98,7 +98,7 @@
  *
  */
 VOID
-newbank(void)
+newbank()
 {
 	int i;
 	a_uint v;
@@ -233,12 +233,13 @@ newbank(void)
  *
  *	side effects:
  *		Bank structure may be created.
- *              Failure to allocate space for a structure
+ *		Failure to allocate space for astructure
  *		will terminate the linker.
  */
 
 VOID
-lkpbank(char *id)
+lkpbank(id)
+char *id;
 {
 	struct bank *tbp;
 
@@ -262,7 +263,7 @@ lkpbank(char *id)
 /*)Function	VOID	setbank()
  *
  *	The function setbank() sets the base address of the bank by
- *      finding the first area in the bank and initializing the
+ *	finding the the first area in the bank and initializing the
  *	value to the bank base address.  The bank base address is always
  *	specified in 'byte' addressing.  A first area which is not 'byte'
  *	addressed (e.g. a processor addressed by a 'word' of 2 or more bytes)
@@ -298,7 +299,7 @@ lkpbank(char *id)
  */
 
 VOID
-setbank(void)
+setbank()
 {
 	a_uint base;
 	int bytes;
@@ -338,7 +339,7 @@ setbank(void)
 	 * areas.  Set the area bank pointer to reference
 	 * bank[0] which has no file suffix.
 	 */
-        for (ap = areap; ap != NULL; ap = ap->a_ap) {
+	 for (ap = areap; ap != NULL; ap = ap->a_ap) {
 	 	if ((ap->a_flag & A4_BNK) == 0) {
 			ap->a_bp = bankp;
 		}
@@ -378,7 +379,8 @@ setbank(void)
  */
 
 VOID
-chkbank(FILE *fp)
+chkbank(fp)
+FILE *fp;
 {
 	a_uint alow, ahigh, blimit, bytes;
 
@@ -431,7 +433,7 @@ chkbank(FILE *fp)
  *		int	idx		position of FSEPX in file specification
  *		File *	fp		temporary file handle
  *		char *	frmt		temporary file type string
- *              char    str[]           File Specification String
+ *		char *	str[]		File Specification String
  *		struct bank *tbp	temporary bank pointer
  *
  *
@@ -464,7 +466,7 @@ chkbank(FILE *fp)
  */
 
 VOID
-lkfopen(void)
+lkfopen()
 {
 	int idx;
 	char * frmt;
@@ -618,7 +620,7 @@ lkfopen(void)
  */
 
 VOID
-lkfclose(void)
+lkfclose()
 {
 	struct bank *tbp;
 
@@ -630,7 +632,7 @@ lkfclose(void)
 	bp = bankp;
 	while (bp != NULL) {
 		ofp = bp->b_ofp;
-                if (ofp != NULL) {
+		if (ofp != NULL)	{
 			lkout(0);
 			if (ofp != stderr) {
 				fclose(ofp);

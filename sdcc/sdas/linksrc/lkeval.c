@@ -1,7 +1,7 @@
 /* lkeval.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2014  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@
  */
 
 a_uint
-eval(void)
+eval()
 {
 	int c, v;
 	a_uint n;
@@ -136,7 +136,8 @@ eval(void)
  */
 
 a_uint
-expr (int n)
+expr (n)
+int n;
 {
 	int c, p;
 	a_uint v, ve;
@@ -384,7 +385,8 @@ term(void)
  */
 
 int
-digit(int c, int r)
+digit(c, r)
+int c, r;
 {
 	if (r == 16) {
 		if (ctype[c] & RAD16) {
@@ -429,9 +431,10 @@ digit(int c, int r)
  *	side effects:
  *		none
  */
-
+ 
 int
-oprio(int c)
+oprio(c)
+int c;
 {
 	if (c == '*' || c == '/' || c == '%')
 		return (10);

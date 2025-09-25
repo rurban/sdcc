@@ -1,7 +1,7 @@
 /* lkmain.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2017  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -110,7 +110,7 @@ void Areas51 (void)
  *
  *	The function main() evaluates the command line arguments to
  *	determine if the linker parameters are to input through 'stdin'
- *      or read from a command file.  The functions nxtline() and parse()
+ *	or read from a command file.  The functiond nxtline() and parse()
  *	are to input and evaluate the linker parameters.  The linking process
  *	proceeds by making the first pass through each .rel file in the order
  *      presented to the linker.  At the end of the first pass the setarea(),
@@ -185,7 +185,9 @@ void Areas51 (void)
  */
 
 int
-main(int argc, char *argv[])
+main(argc, argv)
+int argc;
+char *argv[];
 {
 	int c, i, j, k;
 
@@ -283,9 +285,9 @@ main(int argc, char *argv[])
 		}
 	}
 
-        if (linkp == NULL)
+	if (linkp == NULL) {
                 usage(ER_FATAL);
-
+	}
 	/*
 	 * If no input file is specified
 	 * then assume a single file with
@@ -499,6 +501,7 @@ intsiz()
  *		FILE *	rfp		file hanlde for .rst
  *              FILE *  sfp             file handle for .rel
  *		FILE *	tfp		file handle for .lst
+ *		FILE *	yfp		file handle for .cdb
  *
  *	functions called:
  *		int	fclose()	c_library
@@ -786,7 +789,7 @@ link_main()
  */
 
 VOID
-map(void)
+map()
 {
 	int i;
 	struct head *hdp;
@@ -1196,7 +1199,6 @@ parse()
  *	Functions called:
  *		int	fclose()	c_library
  *		int	fprintf()	c_library
- *		VOID	getfid()	lklex.c
  *		int	nxtline()	lklex.c
  *		int	parse()		lkmain.c
  *
@@ -1289,7 +1291,6 @@ bassav()
  *				 	globl structure
  *		char	*ip		pointer into the REL file
  *				 	text line in ib[]
- *		int	lkerr		error flag
  *
  *	functions called:
  *		int	getnb()		lklex.c
@@ -1431,7 +1432,10 @@ setgbl()
  */
 
 FILE *
-afile(char *fn, char *ft, int wf)
+afile(fn, ft, wf)
+char *fn;
+char *ft;
+int wf;
 {
 	char *p1, *p2;
 	int c;

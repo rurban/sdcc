@@ -1,7 +1,7 @@
 /* lknoice.c */
 
 /*
- *  Copyright (C) 1989-2009  Alan R. Baldwin
+ *  Copyright (C) 1989-2014  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -72,8 +72,8 @@ static char currentFunction[NCPS];
 
 
 /*)Function	VOID	NoICEfopen()
- *
- *      The function NoICEfopen() opens the NoICE output file
+ * 
+ *	The function NoICEfile() opens the NoICE output file
  *	and sets the map flag, mflag, to create a map file.
  *	NoICE processing is performed during map generation.
  *
@@ -109,14 +109,14 @@ VOID NoICEfopen(void)
 
 
 /*)Function	VOID	NoICEmagic()
- *
+ * 
  *	The function NoICEmagic() passes any "magic Comments"
  *	to the NoICE output file.  Magic comments are those
  *	beginning with ";!".  Also a linked list of file names
  *	specified in ";!FILE" magic comments is created.  These
  *	file names are used to verify that symbols in the
  *	ASxxxx .rel files of the form str1.str2 are NoICE symbols.
- *
+ *	
  *	local variables:
  *		char	id[]		id string
  *		struct noicefn * np	pointer to new structure
@@ -182,16 +182,16 @@ VOID NoICEmagic(void)
 					while (tnp->n_np)
 						tnp = tnp->n_np;
 					tnp->n_np = np;
-                        	}
+				}
 				np->n_id = strsto(p1);
-                        }
+			}
 		}
 	}
 }
 
 
-/*)Function     VOID    DefineNoICE()
- *
+/*)Function	VOID	DefineNoIC()
+ * 
  *		char *		name	pointer to the symbol string
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
@@ -255,7 +255,7 @@ void DefineNoICE( char *name, a_uint value, struct bank *yp )
 			if (symeq(token1, np->n_id, 1)) {
 				k = j;
 				break;
-                        }
+			}
 			np = np->n_np;
 		}
 		j = k;
@@ -269,21 +269,21 @@ void DefineNoICE( char *name, a_uint value, struct bank *yp )
 			if (token3[0] == '.')
 			{
 				if (symeq( token3, ".FN", 1 ) != 0)
-                                {
+				{
 					/* Global function */
                                         DefineFunction( token2, value, yp );
-                        	}
+				}
 				else if (symeq( token3, ".SFN", 1 ) != 0)
-                                {
+				{
 					/* Static (file-scope) function */
 					DefineStaticFunction( token2, value, yp );
-                        	}
+				}
 				else if (symeq( token3, ".EFN", 1 ) != 0)
-                                {
+				{
 					/* End of function */
                                         DefineEndFunction( value, yp );
-                        	}
-                        }
+                                }
+			}
 			else
 			{
 				/* Function-scope var. */
@@ -297,7 +297,7 @@ void DefineNoICE( char *name, a_uint value, struct bank *yp )
                         	}
                                	DefineScoped( token1, value, yp );
                         }
-                        break;
+			break;
 
 		/* either file.symbol or file.line# */
 		case 3:
@@ -313,7 +313,7 @@ void DefineNoICE( char *name, a_uint value, struct bank *yp )
 				DefineEndFunction( 0, NULL );
                                 DefineScoped( token2, value, yp );
                         }
-                        break;
+			break;
 
 		/* NoICE file.func. is illegal */
 		case 4:
@@ -334,14 +334,14 @@ void DefineNoICE( char *name, a_uint value, struct bank *yp )
 
 
 /*)Function	VOID	DefineGlobal()
- *
+ * 
  *		char *		name	pointer to the symbol string
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
  *
  *	The function DefineGlobal() places a DEF statement
  *	in the .noi debug file for the global symbol.
- *
+ *	
  *	local variables:
  *		none
  *
@@ -360,19 +360,19 @@ void DefineNoICE( char *name, a_uint value, struct bank *yp )
 void DefineGlobal( char *name, a_uint value, struct bank *yp )
 {
 	fprintf( jfp, "DEF %s ", name );
-        PagedAddress( value, yp );
+	PagedAddress( value, yp );
 }
 
 
 /*)Function	VOID	DefineScoped()
- *
+ * 
  *		char *		name	pointer to the symbol string
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
  *
  *	The function DefineScoped() places a DEFS statement
  *	in the .noi debug file for the scoped symbol.
- *
+ *	
  *	local variables:
  *		none
  *
@@ -391,19 +391,19 @@ void DefineGlobal( char *name, a_uint value, struct bank *yp )
 void DefineScoped( char *name, a_uint value, struct bank *yp )
 {
 	fprintf( jfp, "DEFS %s ", name );
-        PagedAddress( value, yp );
+	PagedAddress( value, yp );
 }
 
 
 /*)Function	VOID	DefineFile()
- *
+ * 
  *		char *		name	pointer to the symbol string
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
  *
  *	The function DefineFile() places a FILE statement
  *	in the .noi debug file for the processed file.
- *
+ *	
  *	local variables:
  *		none
  *
@@ -440,7 +440,7 @@ void DefineFile( char *name, a_uint value, struct bank *yp )
 
 
 /*)Function	VOID	DefineFunction()
- *
+ * 
  *		char *		name	pointer to the symbol string
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
@@ -449,7 +449,7 @@ void DefineFile( char *name, a_uint value, struct bank *yp )
  *	in the .noi debug file for the processed symbol.  If
  *	a vaulue is present then a preceeding DEF statement is
  *	also placed in the .noi debug file.
- *
+ *	
  *	local variables:
  *		none
  *
@@ -472,15 +472,15 @@ void DefineFunction( char *name, a_uint value, struct bank *yp )
 	if (symeq( name, currentFunction, 1 ) == 0)
 	{
 		strcpy( currentFunction, name );
-		if (value != 0)
-		{
+                if (value != 0)
+                {
                         fprintf( jfp, "DEF %s ", name );
 		        PagedAddress( value, yp );
                         fprintf( jfp, "FUNC %s ", name );
 		        PagedAddress( value, yp );
-		}
-		else
-		{
+                }
+                else
+                {
                         fprintf( jfp, "FUNC %s\n", name );
 		}
 	}
@@ -488,7 +488,7 @@ void DefineFunction( char *name, a_uint value, struct bank *yp )
 
 
 /*)Function	VOID	DefineStaticFunction()
- *
+ * 
  *		char *		name	pointer to the symbol string
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
@@ -497,7 +497,7 @@ void DefineFunction( char *name, a_uint value, struct bank *yp )
  *	in the .noi debug file for the processed file.  If
  *	a value is present then a preceeding DEFS statement is
  *	also placed in the .noi debug file.
- *
+ *	
  *	local variables:
  *		none
  *
@@ -536,14 +536,14 @@ void DefineStaticFunction( char *name, a_uint value, struct bank *yp )
 
 
 /*)Function	VOID	DefineEndFunction()
- *
+ * 
  *		char *		name	pointer to the symbol string
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
  *
  *	The function DefineEndFunction() places an ENDF statement
  *	in the .noi debug file for the processed file.
- *
+ *	
  *	local variables:
  *		none
  *
@@ -581,14 +581,14 @@ void DefineEndFunction( a_uint value, struct bank *yp )
 
 
 /*)Function	VOID	DefineLine()
- *
+ * 
  *		char *		name	pointer to the symbol string
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
  *
  *	The function DefineLine() places a LINE statement
  *	in the .noi debug file for the processed file.
- *
+ *	
  *	local variables:
  *		int	indigit		converted digit
  *		int	lineNumber	converted line number
@@ -621,7 +621,7 @@ void DefineLine( char *lineString, a_uint value, struct bank *yp )
 
 
 /*)Function	VOID	PagedAddress()
- *
+ * 
  *		a_uint		value	value of symbol
  *		struct bank *	yp	pointer to associated bank
  *
@@ -629,7 +629,7 @@ void DefineLine( char *lineString, a_uint value, struct bank *yp )
  *	in the .noi debug file for the processed value.
  *	If the current bank is "mapped" then the page
  *	number preceeds the value as xx:.
- *
+ *	
  *	local variables:
  *		none
  *
@@ -654,3 +654,4 @@ void PagedAddress( a_uint value, struct bank *yp )
 }
 
 #endif
+
