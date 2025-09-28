@@ -1944,7 +1944,7 @@ isLoopCountable (ast * initExpr, ast * condExpr, ast * loopExpr, symbol ** sym, 
     return FALSE;
 
   /* don't reverse loop with volatile counter */
-  if (IS_VOLATILE ((*sym)->type))
+  if (isVolatile ((*sym)->type) || isAtomic ((*sym)->type))
     return FALSE;
 
   /* for now the symbol has to be of
@@ -2121,7 +2121,7 @@ isConformingBody (ast * pbody, symbol * sym, ast * body)
     return TRUE;
 
   /* if anything else is "volatile" */
-  if (IS_VOLATILE (TETYPE (pbody)))
+  if (isVolatile (TETYPE (pbody)) || isAtomic (TETYPE (pbody)))
     return FALSE;
 
   /* we will walk the body in a pre-order traversal for
@@ -2470,7 +2470,7 @@ isInitiallyTrue (ast *initExpr, ast * condExpr)
     return FALSE;
 
   /* don't defer condition test if volatile */
-  if (IS_VOLATILE ((sym)->type))
+  if (isVolatile ((sym)->type) || isAtomic ((sym)->type))
     return FALSE;
 
   if (!IS_AST_LIT_VALUE (init))
@@ -2867,6 +2867,7 @@ gatherImplicitVariables (ast * tree, ast * block)
           SPEC_EXTR (assignee->etype) = 0;
           SPEC_STAT (assignee->etype) = 0;
           SPEC_VOLATILE (assignee->etype) = 0;
+          SPEC_ATOMIC (assignee->etype) = 0;
           SPEC_ABSA (assignee->etype) = 0;
           SPEC_CONST (assignee->etype) = 0;
 
@@ -7172,11 +7173,13 @@ inlineTempVar (sym_link * type, long level)
   if (IS_SPEC (sym->type))
     {
       SPEC_VOLATILE (sym->type) = 0;
+      SPEC_ATOMIC (sym->type) = 0;
       SPEC_ADDRSPACE (sym->type) = 0;
     }
   else
     {
       DCL_PTR_VOLATILE (sym->type) = 0;
+      DCL_PTR_ATOMIC (sym->type) = 0;
       DCL_PTR_ADDRSPACE (sym->type) = 0;
     }
   SPEC_ABSA (sym->etype) = 0;

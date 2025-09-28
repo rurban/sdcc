@@ -74,7 +74,7 @@ bool uselessDecl = true;
 #define YYDEBUG 1
 
 %}
-%expect 3
+%expect 4
 
 %union {
     attribute  *attr;       /* attribute                              */
@@ -720,6 +720,16 @@ type_specifier_without_struct_or_union
                   $$=newLink(SPECIFIER);
                   werror (E_DECIMAL_FLOAT_UNSUPPORTED);
                }
+   | ATOMIC '(' type_name ')' {
+                  checkTypeSanity ($3, "(_Atomic)");
+                  $$=$3;
+                  if (SPEC_ATOMIC($$))
+                    werror (E_ATOMIC_SPEC_ATOMIC);
+                  if (SPEC_CONST($$) || SPEC_RESTRICT($$) || SPEC_VOLATILE($$) || SPEC_ATOMIC($$))
+                    werror (E_ATOMIC_SPEC_QUALIFIED);
+                  SPEC_ATOMIC($$) = 1;
+                  werror (E_ATOMIC_UNSUPPORTED);
+               }
    | DECIMAL128 {
                   $$=newLink(SPECIFIER);
                   werror (E_DECIMAL_FLOAT_UNSUPPORTED);
@@ -1214,6 +1224,7 @@ type_qualifier
                }
    | ATOMIC  {
                   $$=newLink(SPECIFIER);
+                  SPEC_ATOMIC($$) = 1;
                   werror (E_ATOMIC_UNSUPPORTED);
                }
    | ADDRSPACE_NAME {

@@ -152,7 +152,7 @@ typedef struct specifier
   unsigned b_const:1;               /* is a constant              */
   unsigned b_restrict:1;            /* is restricted              */
   unsigned b_volatile:1;            /* is marked as volatile      */
-  unsigned b_atomic:1;              /* is marked as _Atomic       */
+  bool     b_atomic:1;              /* is qualified as _Atomic    */
   struct symbol *addrspace;         /* is in named address space  */
   unsigned b_typedef:1;             /* is typedefed               */
   unsigned b_isregparm:1;           /* is the first parameter     */
@@ -213,6 +213,7 @@ typedef struct declarator
   unsigned ptr_const:1;             /* pointer is constant        */
   unsigned ptr_volatile:1;          /* pointer is volatile        */
   unsigned ptr_restrict:1;          /* pointer is resticted       */
+  bool ptr_atomic:1;                /* pointer is atomic          */
   bool array_vla:1;                 // Array is known to be a VLA.
   bool vla_check_visited:1;         // Already visited in check for VLA - implementation detail to prevent infinite recursion */
   struct symbol *ptr_addrspace;     /* pointer is in named address space  */
@@ -409,6 +410,7 @@ extern sym_link *validateLink (sym_link * l,
 #define DCL_PTR_CONST(l) validateLink(l, "DCL_PTR_CONST", #l, DECLARATOR, __FILE__, __LINE__)->select.d.ptr_const
 #define DCL_PTR_VOLATILE(l) validateLink(l, "DCL_PTR_VOLATILE", #l, DECLARATOR, __FILE__, __LINE__)->select.d.ptr_volatile
 #define DCL_PTR_RESTRICT(l) validateLink(l, "DCL_PTR_RESTRICT", #l, DECLARATOR, __FILE__, __LINE__)->select.d.ptr_restrict
+#define DCL_PTR_ATOMIC(l) validateLink(l, "DCL_PTR_ATOMIC", #l, DECLARATOR, __FILE__, __LINE__)->select.d.ptr_atomic
 #define DCL_ARRAY_VLA(l) validateLink(l, "DCL_ARRAY_VLA", #l, DECLARATOR, __FILE__, __LINE__)->select.d.array_vla
 #define DCL_PTR_ADDRSPACE(l) validateLink(l, "DCL_PTR_ADDRSPACE", #l, DECLARATOR, __FILE__, __LINE__)->select.d.ptr_addrspace
 #define DCL_TSPEC(l) validateLink(l, "DCL_TSPEC", #l, DECLARATOR, __FILE__, __LINE__)->select.d.tspec
@@ -617,6 +619,11 @@ extern symbol *fseq;
 extern symbol *fsneq;
 extern symbol *fslt;
 
+extern symbol *sdcc_atomic_load;
+extern symbol *sdcc_atomic_store;
+extern symbol *sdcc_atomic_exchange;
+extern symbol *sdcc_atomic_compare_exchange;
+
 extern symbol *fps16x16_add;
 extern symbol *fps16x16_sub;
 extern symbol *fps16x16_mul;
@@ -742,16 +749,17 @@ sym_link *typeFromStr (const char *);
 STORAGE_CLASS sclsFromPtr (sym_link * ptr);
 sym_link *newEnumType (symbol *enumlist, sym_link *userRequestedType);
 void promoteAnonStructs (int, structdef *);
-int isConstant (sym_link * type);
-int isVolatile (sym_link * type);
-int isRestrict (sym_link * type);
+int isConstant (sym_link *type);
+int isVolatile (sym_link *type);
+int isRestrict (sym_link *type);
+int isAtomic (sym_link *type);
 value *aggregateToPointer (value *);
 void leaveBlockScope (int block);
 void mergeKRDeclListIntoFuncDecl (symbol *funcDecl, symbol *kr_decls);
 symbol *prepareDeclarationSymbol (attribute *attr, sym_link *declSpecs, symbol *initDeclList);
 
-
 extern char *nounName (sym_link *);     /* noun strings */
 extern void printFromToType (sym_link *, sym_link *);
 
 #endif
+

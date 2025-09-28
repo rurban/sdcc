@@ -343,6 +343,10 @@ enum {
   E_COMPLIT_SCLASS_C23          = 313, /* compound literals with storage class specifier require ISO C23 or later */
   W_ENUM_UNDERLYING_BITINT      = 314, /* enum's underlying type may not be a bit-prcise type in ISO C23 */
   W_INVALID_BITINTWIDTH_1       = 315, /* signed bit-precise integer type may not have width 1 in ISO C23 */
+  E_ATOMIC_ARRAY                = 316, /* _Atomic array */
+  E_ATOMIC_FUNCTION             = 317, /* _Atomic function */
+  E_ATOMIC_SPEC_ATOMIC          = 318, /* _Atomic specifier on atomic type */
+  E_ATOMIC_SPEC_QUALIFIED       = 319, /* _Atomic specifier on qualified type */
 
   /* don't touch this! */
   NUMBER_OF_ERROR_MESSAGES             /* Number of error messages */

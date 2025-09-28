@@ -839,6 +839,7 @@ mergeSpec (sym_link * dest, sym_link * src, const char *name)
   SPEC_ABSA (dest) |= SPEC_ABSA (src);
   SPEC_VOLATILE (dest) |= SPEC_VOLATILE (src);
   SPEC_RESTRICT (dest) |= SPEC_RESTRICT (src);
+  SPEC_ATOMIC (dest) |= SPEC_ATOMIC (src);
   SPEC_ADDR (dest) |= SPEC_ADDR (src);
   SPEC_OCLS (dest) = SPEC_OCLS (src);
   SPEC_BLEN (dest) |= SPEC_BLEN (src);
@@ -943,6 +944,7 @@ mergeDeclSpec (sym_link * dest, sym_link * src, const char *name)
       DCL_PTR_CONST (decl) |= SPEC_CONST (spec);
       DCL_PTR_VOLATILE (decl) |= SPEC_VOLATILE (spec);
       DCL_PTR_RESTRICT (decl) |= SPEC_RESTRICT (spec);
+      DCL_PTR_ATOMIC (decl) |= SPEC_ATOMIC (spec);
       if (DCL_PTR_ADDRSPACE (decl) && SPEC_ADDRSPACE (spec) &&
         strcmp (DCL_PTR_ADDRSPACE (decl)->name, SPEC_ADDRSPACE (spec)->name))
         werror (E_SYNTAX_ERROR, yytext);
@@ -952,6 +954,7 @@ mergeDeclSpec (sym_link * dest, sym_link * src, const char *name)
       SPEC_CONST (spec) = 0;
       SPEC_VOLATILE (spec) = 0;
       SPEC_RESTRICT (spec) = 0;
+      SPEC_ATOMIC (spec) = 0;
       SPEC_ADDRSPACE (spec) = 0;
     }
 
@@ -1145,7 +1148,7 @@ newVoidLink ()
 /* getSize - returns size of a type chain in bytes                  */
 /*------------------------------------------------------------------*/
 unsigned int
-getSize (sym_link * p)
+getSize (sym_link *p)
 {
   /* if nothing return 0 */
   if (!p)
@@ -2029,6 +2032,18 @@ checkSClass (symbol *sym, int isProto)
     {
       werrorfl (sym->fileDef, sym->lineDef, E_BAD_RESTRICT);
       SPEC_RESTRICT (sym->etype) = 0;
+    }
+
+
+  if (IS_ARRAY (sym->type) && SPEC_ATOMIC (sym->etype))
+    {
+      werrorfl (sym->fileDef, sym->lineDef, E_ATOMIC_ARRAY);
+      SPEC_ATOMIC (sym->etype) = 0;
+    }
+  else if (IS_FUNC (sym->type) && SPEC_ATOMIC (sym->etype))
+    {
+      werrorfl (sym->fileDef, sym->lineDef, E_ATOMIC_FUNCTION);
+      SPEC_ATOMIC (sym->etype) = 0;
     }
 
   t = sym->type;
@@ -4415,6 +4430,11 @@ symbol *fseq;
 symbol *fsneq;
 symbol *fslt;
 
+symbol *sdcc_atomic_load;
+symbol *sdcc_atomic_store;
+symbol *sdcc_atomic_exchange;
+symbol *sdcc_atomic_compare_exchange;
+
 symbol *fps16x16_add;
 symbol *fps16x16_sub;
 symbol *fps16x16_mul;
@@ -4474,6 +4494,8 @@ _mangleFunctionName (const char *in)
 /* modifiers -          'S' - signed                               */
 /*                      'U' - unsigned                             */
 /*                      'C' - const                                */
+/*                      'V' - volatile                             */
+/*                      'A' - _Atomic                              */
 /* pointer modifiers -  'g' - generic                              */
 /*                      'x' - xdata                                */
 /*                      'p' - code                                 */
@@ -4490,7 +4512,9 @@ typeFromStr (const char *s)
   sym_link *r = newLink (DECLARATOR);
   int sign = 0;
   int usign = 0;
-  int constant = 0;
+  bool is_const = false;
+  bool is_volatile = false;
+  bool is_atomic = false;
 
   do
     {
@@ -4504,7 +4528,13 @@ typeFromStr (const char *s)
           usign = 1;
           break;
         case 'C':
-          constant = 1;
+          is_const = 1;
+          break;
+        case 'V':
+          is_volatile = 1;
+          break;
+        case 'A':
+          is_atomic = 1;
           break;
         case 'b':
           r->xclass = SPECIFIER;
@@ -4598,10 +4628,14 @@ typeFromStr (const char *s)
           SPEC_USIGN (r) = 1;
           usign = 0;
         }
-      if (IS_SPEC (r) && constant)
+      if (IS_SPEC (r))
         {
-          SPEC_CONST (r) = 1;
-          constant = 0;
+          SPEC_CONST (r) |= is_const;
+          SPEC_VOLATILE (r) |= is_volatile;
+          SPEC_ATOMIC (r) |= is_atomic;
+          is_const = false;
+          is_volatile = false;
+          is_atomic = false;
         }
       s++;
     }
@@ -4682,6 +4716,15 @@ initCSupport (void)
   fseq = funcOfType ("__fseq", boolType, floatType, 2, options.float_rent);
   fsneq = funcOfType ("__fsneq", boolType, floatType, 2, options.float_rent);
   fslt = funcOfType ("__fslt", boolType, floatType, 2, options.float_rent);
+
+  // void __sdcc_atomic_load (void *val, volatile const void *obj, size_t n);
+  sdcc_atomic_load = funcOfTypeVarg ("__sdcc_atomic_load", "v", 3, (const char * []){"vg*", "CVvg*", "Ui"});
+  // void __sdcc_atomic_store (volatile void *obj, void *val, size_t n);
+  sdcc_atomic_store = funcOfTypeVarg ("__sdcc_atomic_store", "v", 3, (const char * []){"Vvg*", "Cvg*", "Ui"});
+  // void __sdcc_atomic_exchange (volatile void *obj, void *val, size_t n);
+  sdcc_atomic_exchange = funcOfTypeVarg ("__sdcc_atomic_exchange", "v", 3, (const char * []){"Vvg*", "vg*", "Ui"});
+  // void __sdcc_atomic_compare_exchange (volatile void *obj, void *exp, void *val, size_t n);
+  sdcc_atomic_compare_exchange = funcOfTypeVarg ("__sdcc_atomic_compare_exchange", "v", 4, (const char * []){"Vvg*", "vg*", "Cvg*", "Ui"});
 
   fps16x16_add = funcOfType ("__fps16x16_add", fixed16x16Type, fixed16x16Type, 2, options.float_rent);
   fps16x16_sub = funcOfType ("__fps16x16_sub", fixed16x16Type, fixed16x16Type, 2, options.float_rent);
@@ -4868,16 +4911,9 @@ initCSupport (void)
         }
     }
 
-  {
-    const char *iparams[] = {"i", "i"};
-    const char *uiparams[] = {"Ui", "Ui"};
-    muls16tos32[0] = port->support.has_mulint2long ? funcOfTypeVarg ("__mulsint2slong", "l", 2, iparams) : 0;
-    muls16tos32[1] = port->support.has_mulint2long ? funcOfTypeVarg ("__muluint2ulong", "Ul", 2, uiparams) : 0;
-  }
-  {
-    const char *uiparams[] = {"Ul", "Uc"};
-    mulu32u8tou64 = port->support.has_mululonguchar2ulonglong ? funcOfTypeVarg ("__mululonguchar2ulonglong", "UL", 2, uiparams) : 0;
-  }
+  muls16tos32[0] = port->support.has_mulint2long ? funcOfTypeVarg ("__mulsint2slong", "l", 2, (const char * []){"i", "i"}) : 0;
+  muls16tos32[1] = port->support.has_mulint2long ? funcOfTypeVarg ("__muluint2ulong", "Ul", 2, (const char * []){"Ui", "Ui"}) : 0;
+  mulu32u8tou64 = port->support.has_mululonguchar2ulonglong ? funcOfTypeVarg ("__mululonguchar2ulonglong", "UL", 2, (const char * []){"Ul", "Uc"}) : 0;
 }
 
 /*-----------------------------------------------------------------*/
@@ -4906,8 +4942,7 @@ initBuiltIns ()
 
   if (!nonbuiltin_memcpy)
     {
-      const char *argTypeStrs[] = {"vg*", "Cvg*", "Ui"};
-      nonbuiltin_memcpy = funcOfTypeVarg ("__memcpy", "vg*", 3, argTypeStrs);
+      nonbuiltin_memcpy = funcOfTypeVarg ("__memcpy", "vg*", 3, (const char * []){"vg*", "Cvg*", "Ui"});
       FUNC_ISBUILTIN (nonbuiltin_memcpy->type) = 0;
       FUNC_ISREENT (nonbuiltin_memcpy->type) = options.stackAuto;
     }
@@ -5115,7 +5150,7 @@ newEnumType (symbol *enumlist, sym_link *userRequestedType)
 /* isConstant - check if the type is constant                        */
 /*-------------------------------------------------------------------*/
 int
-isConstant (sym_link * type)
+isConstant (sym_link *type)
 {
   if (!type)
     return 0;
@@ -5133,7 +5168,7 @@ isConstant (sym_link * type)
 /* isVolatile - check if the type is volatile                        */
 /*-------------------------------------------------------------------*/
 int
-isVolatile (sym_link * type)
+isVolatile (sym_link *type)
 {
   if (!type)
     return 0;
@@ -5151,7 +5186,7 @@ isVolatile (sym_link * type)
 /* isRestrict - check if the type is restricted                      */
 /*-------------------------------------------------------------------*/
 int
-isRestrict (sym_link * type)
+isRestrict (sym_link *type)
 {
   if (!type)
     return 0;
@@ -5163,6 +5198,24 @@ isRestrict (sym_link * type)
     return SPEC_RESTRICT (type);
   else
     return DCL_PTR_RESTRICT (type);
+}
+
+/*-------------------------------------------------------------------*/
+/* isAtomic - check if the type is atomic                            */
+/*-------------------------------------------------------------------*/
+int
+isAtomic (sym_link *type)
+{
+  if (!type)
+    return 0;
+
+  while (IS_ARRAY (type))
+    type = type->next;
+
+  if (IS_SPEC (type))
+    return SPEC_ATOMIC (type);
+  else
+    return DCL_PTR_ATOMIC (type);
 }
 
 /*-------------------------------------------------------------------*/

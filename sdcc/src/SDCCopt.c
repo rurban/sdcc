@@ -188,14 +188,12 @@ cnvToFcall (iCode * ic, eBBlock * ebp)
       /* push right */
       if (IS_REGPARM (FUNC_ARGS(func->type)->next->etype))
         {
-          newic = newiCode (SEND, right, NULL);
-          newic->argreg = SPEC_ARGREG(FUNC_ARGS(func->type)->next->etype);
+          newic = newiCodeParm (SEND, right, func->type, &bytesPushed);
+          newic->argreg = SPEC_ARGREG (FUNC_ARGS (func->type)->next->etype);
         }
       else
         {
-          newic = newiCode (IPUSH, right, NULL);
-          newic->parmPush = 1;
-          bytesPushed += getSize(operandType(right)) + (getSize(operandType(right)) % 2 && TARGET_PDK_LIKE); // pdk requires stack to be even-aligned
+          newic = newiCodeParm (IPUSH, right, func->type, &bytesPushed);
         }
 
       hTabAddItem (&iCodehTab, newic->key, newic);
@@ -208,14 +206,12 @@ cnvToFcall (iCode * ic, eBBlock * ebp)
       /* insert push left */
       if (IS_REGPARM (FUNC_ARGS(func->type)->etype))
         {
-          newic = newiCode (SEND, left, NULL);
-          newic->argreg = SPEC_ARGREG(FUNC_ARGS(func->type)->etype);
+          newic = newiCodeParm (SEND, left, func->type, &bytesPushed);
+          newic->argreg = SPEC_ARGREG (FUNC_ARGS (func->type)->etype);
         }
       else
         {
-          newic = newiCode (IPUSH, left, NULL);
-          newic->parmPush = 1;
-          bytesPushed += getSize(operandType(left)) + (getSize(operandType(left)) % 2 && TARGET_PDK_LIKE); // pdk requires stack to be even-aligned
+          newic = newiCodeParm (IPUSH, left, func->type, &bytesPushed);
         }
       hTabAddItem (&iCodehTab, newic->key, newic);
       addiCodeToeBBlock (ebp, newic, ip);
@@ -404,9 +400,7 @@ found:
         }
       else
         {
-          newic = newiCode (IPUSH, IC_RIGHT (ic), NULL);
-          newic->parmPush = 1;
-          bytesPushed += getSize(operandType(IC_RIGHT(ic))) + (getSize(operandType(IC_RIGHT(ic))) % 2 && TARGET_PDK_LIKE); // pdk requires stack to be even-aligned
+          newic = newiCodeParm (IPUSH, ic->right, func->type, &bytesPushed);
         }
       hTabAddItem (&iCodehTab, newic->key, newic);
       addiCodeToeBBlock (ebp, newic, ip);
@@ -512,9 +506,7 @@ found:
         }
       else
         {
-          newic = newiCode (IPUSH, IC_RIGHT (ic), NULL);
-          newic->parmPush = 1;
-          bytesPushed += getSize(operandType(IC_RIGHT(ic)));
+          newic = newiCodeParm (IPUSH, ic->right, func->type, &bytesPushed);
         }
       hTabAddItem (&iCodehTab, newic->key, newic);
       addiCodeToeBBlock (ebp, newic, ip);
@@ -637,9 +629,7 @@ found:
         }
       else
         {
-          newic = newiCode (IPUSH, IC_RIGHT (ic), NULL);
-          newic->parmPush = 1;
-          bytesPushed += getSize(operandType(IC_RIGHT(ic))) + (getSize(operandType(IC_RIGHT(ic))) % 2 && TARGET_PDK_LIKE); // pdk requires stack to be even-aligned
+          newic = newiCodeParm (IPUSH, ic->right, func->type, &bytesPushed);
         }
       hTabAddItem (&iCodehTab, newic->key, newic);
       addiCodeToeBBlock (ebp, newic, ip);
@@ -753,9 +743,7 @@ found:
         }
       else
         {
-          newic = newiCode (IPUSH, IC_RIGHT (ic), NULL);
-          newic->parmPush = 1;
-          bytesPushed += getSize(operandType(IC_RIGHT(ic)));
+          newic = newiCodeParm (IPUSH, ic->right, func->type, &bytesPushed);
         }
       hTabAddItem (&iCodehTab, newic->key, newic);
       addiCodeToeBBlock (ebp, newic, ip);
@@ -1057,10 +1045,7 @@ found:
         }
       else
         {
-          newic = newiCode (IPUSH, IC_RIGHT (ic), NULL);
-          newic->parmPush = 1;
-
-          bytesPushed += getSize(operandType(IC_RIGHT(ic))) + (getSize(operandType(IC_RIGHT(ic))) % 2 && TARGET_PDK_LIKE); // pdk requires stack to be even-aligned
+          newic = newiCodeParm (IPUSH, ic->right, func->type, &bytesPushed);
         }
       hTabAddItem (&iCodehTab, newic->key, newic);
       addiCodeToeBBlock (ebp, newic, ip);
@@ -1077,10 +1062,7 @@ found:
         }
       else
         {
-          newic = newiCode (IPUSH, IC_LEFT (ic), NULL);
-          newic->parmPush = 1;
-
-          bytesPushed += getSize(operandType(IC_LEFT(ic))) + (getSize(operandType(IC_LEFT(ic))) % 2 && TARGET_PDK_LIKE); // pdk requires stack to be even-aligned
+          newic = newiCodeParm (IPUSH, ic->left, func->type, &bytesPushed);
         }
       hTabAddItem (&iCodehTab, newic->key, newic);
       addiCodeToeBBlock (ebp, newic, ip);

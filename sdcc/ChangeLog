@@ -1,3 +1,15 @@
+2025-09-28 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* Merge atomic branch.
+
+2025-09-27 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/SDCCicode.c,
+	  src/SDCCicode.h,
+	  src/SDCCopt.c,
+	  src/SDCCsymt.c:
+	  Refactor parameter iCode generation (to prepare for atomic support functions).
+
 2025-09-25 Janko Stamenović
 
 	* sdas/linksrc/aslink.h
@@ -37,6 +49,18 @@
 	  sdas/linksrc/lksdcdb.c
 	  sdas/linksrc/lksym.c
 	  Undo whitespace changes of unchanged upstream lines in sdas/linksrc
+
+2025-09-21 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/SDCC.y,
+	  src/SDCCast.c,
+	  src/SDCCerr.h,
+	  src/SDCCerr.c,
+	  src/SDCCicode.h,
+	  src/SDCCicode.c,
+	  src/SDCCsymt.h,
+	  src/SDCCsymt.c:
+	  Foundations for handling _Atomic qualifier and specifier in the front-end.
 
 2025-09-09 Philipp Klaus Krause <philipp@colecovision.eu>
 
