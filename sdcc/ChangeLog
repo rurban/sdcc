@@ -1,3 +1,9 @@
+2025-10-14 Janko Stamenović
+
+	* sdas/linksrc/aslink.h
+	  sdas/linksrc/lklib.c
+	  gcc15 sdld compatibilty, lklib loadfile_lib remove fclose on null
+
 2025-09-28 Janko Stamenović
 
 	* sdas/linksrc/lkar.c
