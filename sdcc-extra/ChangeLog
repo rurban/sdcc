@@ -1,3 +1,10 @@
+2025-10-15 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* historygraphs/Makefile,
+	  stdcbench-z80-sizetable.p,
+	  historygraphs/*.svg:
+	  Update graphs.
+
 2025-09-12 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* historygraphs/Makefile,

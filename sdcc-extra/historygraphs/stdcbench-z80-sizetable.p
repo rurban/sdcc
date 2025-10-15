@@ -7,7 +7,7 @@ trans(x) = x < 10000 ? x : x - 18000
 set yrange [8000:14000]
 set ytics ("8000" 8000, "9000" 9000, "10000" 10000, "29000" 11000, "30000" 12000, "31000" 13000, "32000" 14000)
 set arrow from graph 0, first 6750 to graph 1, first 6750 nohead lt 500 lw 20 lc bgnd
-set label "c90lib module enabled" at 10221, 10500 front
+set label "c90lib module enabled" at 10221, 10000 front
 set arrow from 9256, 9140 to 9256, 8640 front
 set label "3.5.0" at 9256, 9140 front
 set arrow from 9618, 9089 to 9618, 8589 front
@@ -26,5 +26,5 @@ set arrow from 14208, trans(32142) to 14208, trans(31642)
 set label "4.3.0" at 14208, trans(32142)
 set arrow from 14648, trans(30052) to 14648, trans(29552)
 set label "4.4.0" at 14648, trans(30052)
-plot "stdcbench-z80-sizetable" using 1:(trans($4)) title "default", "stdcbench-z80-sizetable" using 1:(trans($2)) title "size", "stdcbench-z80-sizetable" using 1:(trans($3)) title "speed", 10500 lt rgb "white" lw 20 notitle
+plot "stdcbench-z80-sizetable" using 1:(trans($4)) title "default", "stdcbench-z80-sizetable" using 1:(trans($2)) title "size", "stdcbench-z80-sizetable" using 1:(trans($3)) title "speed", 10000 lt rgb "white" lw 20 notitle
 
