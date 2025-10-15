@@ -1,11 +1,25 @@
 2025-10-15 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* Merge rabbit branch.
+
+2025-10-15 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* local/*:
 	  Move configurations for old (no longer in use) machines to local/old, update configuration for powerpc64-linux-gnu, add configuration for freebsd-13-aarch64.
+
+2025-10-12 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* lib/variables.mk:
+	  Do not attempt to test incomplete --model-large support for Rabbit ports.
 
 2025-08-17 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* Merge f8l branch.
+
+2025-06-26 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* lib/variables.mk:
+	  Enable regression testing for r4k, r5k, r6k port.
 
 2025-06-26 Philipp Klaus Krause <philipp@colecovision.eu>
 
