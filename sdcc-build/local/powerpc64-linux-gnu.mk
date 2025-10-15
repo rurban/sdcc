@@ -3,7 +3,7 @@ MAKEJOBFLAGS = -j 80
 TARGETOS = powerpc64-linux-gnu
 HOSTOS = powerpc64-linux-gnu
 
-TARGETCC = cc
+TARGETCC = cc --std=gnu17
 TARGETCXX = c++
 
 # local includes and libraries
