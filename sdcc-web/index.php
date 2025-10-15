@@ -37,7 +37,7 @@
               <li><b>ucsim</b> <i>simulators</i>, originally written by Daniel Drotos; (GPL).</li>
               <li><b>sdcdb</b> <i>source level debugger</i>, originally written by Sandeep Dutta; (GPL).</li>
               <li><b>sdbinutils</b> <i>library archive utilities</i>, including sdar, sdranlib and sdnm, derived from GNU Binutils; (GPL)</li>
-              <li><b>SDCC run-time libraries</b>; (GPL+LE). Pic device libraries and header files are derived from Microchip header (.inc) and linker script (.lkr) files. Microchip requires that "The header files should state that they are only to be used with authentic Microchip devices" which makes them incompatible with the GPL.</li>
+              <li><b>SDCC run-time libraries</b>; (GPL+LE). Pic device libraries and header files are derived from Microchip header (.inc) and linker script (.lkr) files. Microchip requires that "The header files should state that they are only to be used with authentic Microchip devices" which would make them incompatible with the GPL.</li>
               <li><b>gcc-test</b> <i>regression tests</i>, derived from  <b>gcc-testsuite</b>; (no license explicitely specified, but since it is a part of GCC is probably GPL licensed)</li>
               <li><b>packihx</b>; (public domain)</li>
               <li><b>makebin</b>; (zlib/libpng License)</li>
@@ -69,6 +69,17 @@
             
             <h2><a name="News"></a>News</h2> 
 
+            <p><i><b>2025-10-15: SDCC got funding.</b></i></p>
+            <p>SDCC is primarily developed by unpaid volunteer work; though once in a while there was some outside support, in particular by university employees being allowed to work on SDCC a bit during paid time, and SDCC developers receiving hardware samples from microcontroller vendors.<br/>
+            However, sometimes the limitations of this are felt. In particular when I've had a few free hours to work on SDCC, started working on a feature or bug, but was not able to finish the work during the time I had, or simply was not able to even fully track down the cause of the bug. And when it took a long time until I could work again on that feature or bug, it took extra time or effort to get into it again. Sometimes I would instead start work on another aspect of SDCC instead. Having funding available for working on SDCC is IMO really helpful in these situations - instead of having to stop work on SDCC to go back to other paid work, I can just keep working on the feature or bug, since this then is paid work.
+SDCC developers have been applying for funding for SDCC projects, and we are happy to announce that two important such applications succeeded recently.</p>
+
+            <p>The <a href="https://nlnet.nl/commonsfund/">NGI0 Commons Fund</a> donates to <a href="https://sourceforge.net/p/sdcc/wiki/NGI0-Commons-SDCC">improve SDCC support for various target hardware, as well as implement machine-independent improvements to make SDCC more competitive vs. non-free compilers</a>. Hardware-specific improvements planned include improving support for Padauk's popular low-cost microcontrollers, improving support for the Rabbit microcontrollers common in older IoT devices, and improving support for Toshiba TLCS microcontrollers. The focus for machine-independent improvements will be in enhancing support for recent ISO C standards, an optimization to reduce memory usage for local variables, and implementing a link-time optimization to optimize out unused functions and objects. The latter is the one feature most-requested by SDCC users in recent years. This project in done jointly by five SDCC developers.</p>
+
+            <p>The <a href="https://www.sovereign.tech/programs/fund/">Sovereign Tech Fund</a> comissioned work on <a href="https://sourceforge.net/p/sdcc/wiki/STF-SDCC">improving SDCC for safety and security of embedded firmware</a>. We will improve support for aspects of modern C standards and dialects relevant to safety and security, get SDCC ready for post-quantum cryptography, work on mitigations for potential side-channel attacks and improve the reliability of SDCC via extended testing also covering less-commonly used command-line parameter combinations. This project is done by one SDCC developer.</p>
+
+            <p>We can imagine all this coming together e.g. when writing firmware for an IoT device based on an eZ80 or Rabbit 4000 SoC. The SDCC user writing this firmware will benefit from the improved support for the target architecture, modern C features for efficiency and convenience, general high level optimizations (all part of the NGI0 Commons project), modern C features relevant for safety and security, to help avoid bugs in the user-written code, efficient side-channel-free code generated for modern cryptography algorithms (all part of the STF project). And thanks to improved testing and fixed compiler bugs, the firmware will compile and work very reliably (depending on the details part of the STF or the NGI0 project).</p>
+
             <p><i><b>January 28th, 2025: SDCC 4.5.0 released.</b></i></p>
             <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, R800, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, MOS 6502, WDC 65C02, Padauk and PIC microprocessors is now available.
               (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
@@ -84,15 +95,7 @@
               <li>struct / union in initializers</li>
             </ul>
 
-            <p><i><b>January 25th, 2025: SDCC 4.5.0 RC3.</b></i></p>
-            <p>SDCC 4.5.0 Release Candidate 3 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows, x86 Windows, and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
-
-            <p><i><b>January 15th, 2025: SDCC 4.5.0 RC2 released.</b></i></p>
-            <p>SDCC 4.5.0 Release Candidate 2 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows, x86 Windows, and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
+            <p><a href="previous.php">Previous News</a></p>
 
             <!-- END NEWS -->
 
@@ -210,7 +213,7 @@
               <li>Michael Hope &lt;michaelh.AT.juju.net.nz&gt; - initial Z80 target, additional coding and bug fixes.</li>
               <li>Maarten Brock &lt;sourceforge.brock.AT.dse.nl&gt; - several bug fixes and improvements, esp. for mcs51 target</li>
               <li>Raphael Neider &lt;RNeider.AT.web.de&gt; - bug fixes and optimizations for PIC16, completion of the PIC14 target</li>
-              <li>Philipp Klaus Krause &lt;pkk.AT.spth.de&gt; - work on the STM8,Z80,Z180,Rabbit,GBZ80,TLCS-90 backends, compiler research</li>
+              <li>Philipp Klaus Krause &lt;pkk.AT.spth.de&gt; - work on the STM8, f8, Z80, Z180, Rabbit, SM83, TLCS-90, eZ80 backends, compiler research</li>
               <li>Leland Morrison &lt;enigmalee.AT.sourceforget.net&gt; - Rabbit 2000 support: the target code generator,
                 sdasrab assembler and ucsim support</li>
               <li>Molnár Károly &lt;molnarkaroly.AT.users.sf.net&gt; - adding pic devices, developing and maintaining pic device files
@@ -234,39 +237,6 @@
               <li>Malini Dutta &lt;malini.AT.mediaone.net&gt; - Sandeep's wife, for her patience and support.</li>
             </ul>
 
-            <!-- START PAST_NEWS -->
-
-            <h2><a name="Past_news"></a>Past news</h2>
-
-            <p><i><b>January 3rd, 2025: SDCC 4.5.0 RC1 released.</b></i></p>
-            <p>SDCC 4.5.0 Release Candidate 1 source, doc and binary packages for amd64 GNU/Linux, amd64 Windows, x86 Windows, and amd64 macOS are available in corresponding folders at:
-              <a href="http://sourceforge.net/projects/sdcc/files/">
-              http://sourceforge.net/projects/sdcc/files/</a>.</p>
-
-            <p><i><b>January 29th, 2024: SDCC 4.4.0 released.</b></i></p>
-            <p>A new release of SDCC, the portable optimizing compiler for STM8, MCS-51, DS390, HC08, S08, Z80, Z180, Rabbit, R800, SM83, eZ80 in Z80 mode, Z80N, TLCS-90, MOS 6502, WDC 65C02, Padauk and PIC microprocessors is now available.
-              (<a href="http://sdcc.sourceforge.net" target="_new">http://sdcc.sourceforge.net</a>).
-              Sources, documentation and binaries for GNU/Linux amd64, Windows x86, macOS amd64 are available.</p>
-            <p>SDCC 4.4.0 New Feature List:</p>
-            <ul>
-              <li>Optimizations for rotations.
-              <li>struct / union parameters for hc08, s08 and mos6502.</li>
-              <li>Many bug fixes for -ms08 --stack-auto.</li>
-              <li>struct / union return support for hc08 and s08 (caller side only).</li>
-              <li>Generalized constant propagation.</li>
-              <li>New command line option --syntax-only to only parse the input.</li>
-              <li>Added C99 header inttypes.h</li>
-              <li>Added library functions imaxabs, imaxdiv, llabs, strtoimax, strtoll, strtoull, strtoumax, wcsncmp, wcstoimax, wcstol, wcstoll, wcstoul, wcstoull, wcstoumax</li>
-              <li>New r800 port to better support the ASCII Corp R800 and Zilog Z280.</li>
-              <li>Changed the default calling convention for r2k, r2ka, r3ka, tlcs90, ez80-z80 from version 0 to 1 (this is an ABI break, and will require changes to user-written asm functions or their declarations).</li>
-              <li>Improved optimizations for code speed for stm8, pdk, z80 (and related).</li>
-              <li>New mos65c02 port to better support the WDC 65C02.</li>
-            </ul>
-
-            <!-- END PAST_NEWS -->
-
-            <p><a href="previous.php">Previous News</a></p>
-
 <?php include('./footer.php')?>
             </td>
           </tr>
@@ -275,3 +245,4 @@
     </div>
   </body>
 </html>
+
