@@ -1,3 +1,14 @@
+2025-10-17 Janko Stamenović
+
+	* aslink.h
+	  lkmain.c
+	  lkout.c
+	  lkrloc.c
+	  lkrloc3.c
+	  lksdcdb.c
+	  lksym.c
+	  One more sdld rebase step to upstream 
+
 2025-10-15 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* Merge rabbit branch.
@@ -25,7 +36,7 @@
 	  sdas/linksrc/lkrloc.c
 	  sdas/linksrc/lkrloc3.c
 	  sdas/linksrc/lksym.c
-	  One more sdld rebase step towards upstream
+	  One more rebase step toward the new base for sdld
 
 2025-10-14 Janko Stamenović
 
