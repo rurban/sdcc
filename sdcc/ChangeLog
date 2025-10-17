@@ -1,3 +1,8 @@
+2025-10-15 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/z80/gen.c:
+	  Improve passing of struct/union parameters for tlcs, ez80.
+
 2025-10-17 Janko Stamenović
 	  Fixing previous ChangeLog file references
 
