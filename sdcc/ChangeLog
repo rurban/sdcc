@@ -1,12 +1,15 @@
 2025-10-17 Janko Stamenović
+	  Fixing previous ChangeLog file references
 
-	* aslink.h
-	  lkmain.c
-	  lkout.c
-	  lkrloc.c
-	  lkrloc3.c
-	  lksdcdb.c
-	  lksym.c
+2025-10-17 Janko Stamenović
+
+	* sdas/linksrc/aslink.h
+	  sdas/linksrc/lkmain.c
+	  sdas/linksrc/lkout.c
+	  sdas/linksrc/lkrloc.c
+	  sdas/linksrc/lkrloc3.c
+	  sdas/linksrc/lksdcdb.c
+	  sdas/linksrc/lksym.c
 	  One more sdld rebase step to upstream 
 
 2025-10-15 Philipp Klaus Krause <philipp@colecovision.eu>
