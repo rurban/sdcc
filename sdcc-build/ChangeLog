@@ -1,3 +1,9 @@
+2025-10-18 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* local/aarch64-linux-gnu.mk,
+	  local/powerpc64-linux-gnu.mk:
+	  Fix configurations for powerpc64-linux-gnu, aarch64-linux-gnu.
+
 2025-10-15 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* Merge rabbit branch.

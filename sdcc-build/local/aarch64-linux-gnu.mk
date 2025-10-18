@@ -3,7 +3,7 @@ MAKEJOBFLAGS = -j 80
 TARGETOS = aarch64-linux-gnu
 HOSTOS = aarch64-linux-gnu
 
-TARGETCC = cc --std=gnu17
+TARGETCC = "cc --std=gnu17"
 TARGETCXX = c++
 
 # local includes and libraries
