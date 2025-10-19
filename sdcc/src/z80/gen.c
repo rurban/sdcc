@@ -3573,6 +3573,7 @@ static void pointPairToAop (PAIR_ID pairId, const asmop *aop, int offset)
       wassertl (!IS_SM83 && !IS_TLCS870, "The SM83 and TLCS-870 don't have a non-extended stack");
 
     case AOP_EXSTK:
+      ;
       int abso = aop->aopu.aop_stk + offset + _G.stack.offset + (aop->aopu.aop_stk > 0 ? _G.stack.param_offset : 0);
 
       if ((_G.pairs[pairId].last_type == AOP_STK || _G.pairs[pairId].last_type == AOP_EXSTK) && abs (_G.pairs[pairId].offset - abso) < (_G.preserveCarry ? 5 : 3))
@@ -3838,6 +3839,7 @@ aopGet (asmop *aop, int offset, bool bit16)
 
         case AOP_EXSTK:
         case AOP_STK:
+          ;
           int sp_offset = aop->aopu.aop_stk + offset + (aop->aopu.aop_stk > 0 ? _G.stack.param_offset : 0) + _G.stack.pushed + _G.stack.offset;
 
           if (IS_TLCS90 && !sp_offset) // Try to use (sp) addressing mode.
@@ -4087,6 +4089,7 @@ aopPut (asmop *aop, const char *s, int offset)
 
     case AOP_EXSTK:
     case AOP_STK:
+      ;
       int sp_offset = aop->aopu.aop_stk + offset + (aop->aopu.aop_stk > 0 ? _G.stack.param_offset : 0) + _G.stack.pushed + _G.stack.offset;
       if (IS_TLCS90 && !sp_offset)
         {
