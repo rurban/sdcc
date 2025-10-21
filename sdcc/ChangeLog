@@ -1,3 +1,13 @@
+2025-10-21 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/pdk/ralloc.c,
+	  src/pic14/gen.h,
+	  src/pic16/gen.h,
+	  src/pic16/genutils.h,
+	  src/stm8/ralloc.c,
+	  src/z80/ralloc.c:
+	  Code quality fixes inspired by GCC 15.2 -Wall -pedantic warnings.
+
 2025-10-19 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/z80/gen.c:
