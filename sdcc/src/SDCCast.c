@@ -1557,7 +1557,7 @@ gatherAutoInit (symbol * autoChain)
           /* insert the symbol into the symbol table */
           /* with level = 0 & name = rname       */
           newSym = copySymbol (sym);
-          addSym (SymbolTab, newSym, newSym->rname, 0, 0, 1);
+          addSym (SymbolTab, newSym, newSym->rname, 0, 0, true);
 
           /* now lift the code to main */
           if (IS_AGGREGATE (sym->type))
@@ -3787,7 +3787,7 @@ decorateType (ast *tree, RESULT_TYPE resultType, bool reduceTypeAllowed)
           SPEC_STAT (sym->etype) = 1;
           SPEC_ADDR (sym->etype) = SPEC_ADDR (AST_SYMBOL (tree->left->left)->etype) + element->offset;
           SPEC_ABSA (sym->etype) = 1;
-          addSym (SymbolTab, sym, sym->name, 0, 0, 0);
+          addSym (SymbolTab, sym, sym->name, 0, 0, false);
           allocGlobal (sym);
 
           AST_VALUE (tree) = symbolVal (sym);
@@ -4988,7 +4988,7 @@ decorateType (ast *tree, RESULT_TYPE resultType, bool reduceTypeAllowed)
               SPEC_STAT (sym->etype) = 1;
               SPEC_ADDR (sym->etype) = floatFromVal (valFromType (RTYPE (tree)));
               SPEC_ABSA (sym->etype) = 1;
-              addSym (SymbolTab, sym, sym->name, 0, 0, 0);
+              addSym (SymbolTab, sym, sym->name, 0, 0, false);
               allocGlobal (sym);
 
               newTree->left = newAst_VALUE (symbolVal (sym));
@@ -6200,7 +6200,7 @@ createLabel (symbol * label, ast * stmnt)
   if ((csym = findSym (LabelTab, NULL, label->name)))
     werror (E_DUPLICATE_LABEL, label->name);
   else
-    addSym (LabelTab, label, label->name, label->level, 0, 0);
+    addSym (LabelTab, label, label->name, label->level, 0, false);
 
   label->isitmp = 1;
   label->islbl = 1;
@@ -7009,7 +7009,7 @@ fixupInline (ast * tree, long level)
         {
           decls->level = level;
           decls->block = currBlockno = thisBlockBlockno;
-          addSym (SymbolTab, decls, decls->name, decls->level, decls->block, 0);
+          addSym (SymbolTab, decls, decls->name, decls->level, decls->block, false);
 
           if (decls->ival)
             fixupInlineInDeclarators (decls->ival, level);
@@ -7112,7 +7112,7 @@ fixupInline (ast * tree, long level)
 
       label->key = labelKey++;
       /* Add this label back into the symbol table */
-      addSym (LabelTab, label, label->name, label->level, 0, 0);
+      addSym (LabelTab, label, label->name, label->level, 0, false);
     }
 
   if (IS_AST_OP (tree) && (tree->opval.op == BLOCK))
@@ -7156,7 +7156,7 @@ inlineAddDecl (symbol * sym, ast * block, int addSymTab, int toFront)
         *decl = sym;
 
       if (addSymTab)
-        addSym (SymbolTab, sym, sym->name, sym->level, sym->block, 0);
+        addSym (SymbolTab, sym, sym->name, sym->level, sym->block, false);
     }
 }
 

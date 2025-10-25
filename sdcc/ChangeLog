@@ -1,5 +1,16 @@
 2025-10-25 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* src/SDCC.y,
+	  src/SDCCast.c,
+	  src/SDCCicode.c,
+	  src/SDCCmem.c,
+	  src/SDCCsymt.c,
+	  src/SDCCsymt.h,
+	  support/valdiag/tests/bug-3889.c:
+	  Fix remaining parts of bug #3889.
+
+2025-10-25 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* src/SDCCast.c,
 	  src/SDCCerr.c,
 	  src/SDCCerr.h,
