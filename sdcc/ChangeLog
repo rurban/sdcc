@@ -1,5 +1,10 @@
 2025-10-29 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* src/z80/peep.c:
+	  Fix jump distance calculation for Z80N add rr, a.
+
+2025-10-29 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* support/regression/MakeList:
 	  Disable memcpy-1.c test (which shall not compile for targets where size_t is less than 18 bits) for ez80 and stm8.
 	* src/SDCCattr.c:
