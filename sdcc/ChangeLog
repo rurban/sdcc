@@ -1,3 +1,11 @@
+2025-10-30 Janko Stamenović
+
+	* sdas/asxxsrc/asdbg.c
+	  sdas/asxxsrc/aslex.c
+	  sdas/asxxsrc/asmcro.c
+	  sdas/asxxsrc/assubr.c
+	  Start rebasing sdas assemblers to the current upstream
+
 2025-10-29 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* support/regression/tests/undefinedc23.c:
