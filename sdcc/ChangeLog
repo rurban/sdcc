@@ -1,3 +1,9 @@
+2025-11-02 Janko Stamenović
+
+	* sdas/asxxsrc/asdata.c
+	  sdas/asxxsrc/asxxxx.h
+	  More rebasing sdas assemblers to the current upstream
+
 2025-10-30 Janko Stamenović
 
 	* sdas/asxxsrc/asdbg.c
