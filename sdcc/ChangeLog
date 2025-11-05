@@ -1,3 +1,12 @@
+2025-11-06 Janko Stamenović
+
+	* sdas/asz80/z80.h
+	  sdas/asz80/z80adr.c
+	  sdas/asz80/z80mch.c
+	  sdas/asz80/z80pst.c
+	  sdas/asxxsrc/asxxxx.h
+	  Rebasing sdas assemblers to the current upstream: asz80
+
 2025-11-05 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/SDCCopt.c,
