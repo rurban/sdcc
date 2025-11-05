@@ -1,5 +1,11 @@
 2025-11-05 Philipp Klaus Krause <philipp@colecovision.eu>
 
+	* src/SDCCopt.c,
+	  support/regression/tests/bug-3894.c:
+	  Fix bug #3894.
+
+2025-11-05 Philipp Klaus Krause <philipp@colecovision.eu>
+
 	* Merge undefined branch.
 
 2025-11-04 Janko Stamenović
