@@ -949,6 +949,7 @@ genRightShift (iCode * ic)
   bool sign;
   reg_info *countreg = NULL;
   int count_offset=0;
+  bool restore_a = false;
   bool restore_y = false;
   bool x_in_regtemp = false;
 
@@ -993,6 +994,12 @@ genRightShift (iCode * ic)
     aopResult = forceZeropageAop (AOP (result), sameRegs (AOP (left), AOP (result)));
 #endif
 
+  if (!m6502_reg_a->isDead && !IS_AOP_WITH_A (AOP (result)))
+    {
+      storeRegTemp(m6502_reg_a, true);
+      restore_a=true;
+    }
+   
   /* load the count register */
   if (m6502_reg_y->isDead && !IS_AOP_WITH_Y (AOP (result)) && !IS_AOP_WITH_Y (AOP (left)))
     countreg = m6502_reg_y;
@@ -1134,6 +1141,8 @@ genRightShift (iCode * ic)
 
   if(restore_y)
     loadRegTemp(m6502_reg_y);
+  if(restore_a)
+    loadRegTemp(m6502_reg_a);
 
  release:
   freeAsmop (right, NULL);

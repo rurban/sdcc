@@ -1,3 +1,8 @@
+2025-11-08 Gabriele Gorla <gorlik@yahoo.com>
+
+  	* src/mos6502/genrshift.c:
+  	  Fix bug #3786.
+
 2025-11-06 Janko Stamenović
 
 	* sdas/asz80/z80.h
