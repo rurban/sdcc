@@ -2,6 +2,9 @@
 
   	* src/mos6502/genrshift.c:
   	  Fix bug #3786.
+  	* src/mos6502/genrshift.c,
+  	  src/mos6502/genlshift.c:
+      Small cosmetic cleanup.
 
 2025-11-06 Janko Stamenović
 
