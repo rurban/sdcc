@@ -199,7 +199,7 @@ reg_info* getDeadByteReg();
 reg_info* getFreeByteReg();
 reg_info* getFreeIdxReg();
 bool canBitOp (const operand* aop);
-
+bool keepTSX();
 
 // stack
 void pushReg (reg_info * reg, bool freereg);
