@@ -25,7 +25,7 @@
   <div class="submenu">
     <a href="http://sourceforge.net/project/showfiles.php?group_id=599"><i>File releases</i></a><br />
     <a href="https://sourceforge.net/p/sdcc/code/HEAD/tree/trunk/sdcc/"><i>svn repository</i></a><br />
-    <a href="https://sourceforge.net/p/sdcc/git-mirror/ci/trunk/tree/"><i>git mirror</i></a><br />
+    <a href="https://sourceforge.net/p/sdcc/git-mirror/ref/trunk/"><i>git mirror</i></a><br />
     <a href="https://sourceforge.net/p/sdcc/mailman/"><i>Mailing lists</i></a><br />
     <a href="https://sourceforge.net/p/sdcc/_list/tickets"><i>Issue trackers</i></a><br />
     <a href="https://sourceforge.net/p/sdcc/discussion/"><i>Forum</i></a><br />

@@ -1,3 +1,8 @@
+2025-11-11 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* left_menu.inc:
+	  Fix link to git mirror in left menu, so it works even when git mirror status page needs refresh.
+
 2025-11-05 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* left_menu.inc:
