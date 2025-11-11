@@ -888,7 +888,7 @@ genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
   emitComment (TRACEGEN, __func__);
 
 
-    size = AOP_SIZE (left);
+  size = AOP_SIZE (left);
   /* test the LEFT size !!! */
   size = AOP_SIZE (result);
   emitComment (TRACEGEN|VVDBG, "  %s - result size=%d, left size=%d",
@@ -904,19 +904,19 @@ genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
 #if 1
       if (sign)
         {
-      bool needpulla = pushRegIfSurv (m6502_reg_a);
-      loadRegFromAop (m6502_reg_a, AOP (left), size - 1);
-      signExtendA();
-      for(offset=0;offset<size; offset++)
-        storeRegToAop (m6502_reg_a, AOP (result), offset);
+	  bool needpulla = pushRegIfSurv (m6502_reg_a);
+	  loadRegFromAop (m6502_reg_a, AOP (left), size - 1);
+	  signExtendA();
+	  for(offset=0;offset<size; offset++)
+	    storeRegToAop (m6502_reg_a, AOP (result), offset);
 
-      pullOrFreeReg (m6502_reg_a, needpulla);
+	  pullOrFreeReg (m6502_reg_a, needpulla);
      
         }
       else
         {
-      for(offset=0;offset<size; offset++)
-        storeConstToAop (0, AOP (result), offset);
+	  for(offset=0;offset<size; offset++)
+	    storeConstToAop (0, AOP (result), offset);
         }
 #else
       bool needpulla = pushRegIfSurv (m6502_reg_a);
@@ -925,18 +925,18 @@ genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
 	  /* get sign in acc.7 */
 	  loadRegFromAop (m6502_reg_a, AOP (left), size - 1);
 	}
-//      addSign (result, LSB, sign);
-  int offset = LSB;
-  int size = (AOP_SIZE (result) - offset);
-  if (size > 0) {
-    if (sign) {
-      signExtendA();
-      while (size--)
-        storeRegToAop (m6502_reg_a, AOP (result), offset++);
-    } else
-      while (size--)
-        storeConstToAop (0, AOP (result), offset++);
-  }
+      //      addSign (result, LSB, sign);
+      int offset = LSB;
+      int size = (AOP_SIZE (result) - offset);
+      if (size > 0) {
+	if (sign) {
+	  signExtendA();
+	  while (size--)
+	    storeRegToAop (m6502_reg_a, AOP (result), offset++);
+	} else
+	  while (size--)
+	    storeConstToAop (0, AOP (result), offset++);
+      }
       pullOrFreeReg (m6502_reg_a, needpulla);
 #endif
     }
@@ -987,6 +987,12 @@ m6502_genRightShift (iCode * ic)
 
   emitComment (TRACEGEN, __func__);
 
+  aopOp (right, ic);
+  aopOp (left, ic);
+  aopOp (result, ic);
+
+  printIC(ic);
+
   /* if signed then we do it the hard way preserve the
      sign bit moving it inwards */
   sign = !SPEC_USIGN (getSpec (operandType (left)));
@@ -997,12 +1003,6 @@ m6502_genRightShift (iCode * ic)
      by 2**E2 if unsigned or if it has a non-negative value,
      otherwise the result is implementation defined ", MY definition
      is that the sign does not get propagated */
-
-  aopOp (right, ic);
-  aopOp (left, ic);
-  aopOp (result, ic);
-
-  printIC(ic);
 
   /* if the shift count is known then do it
      as efficiently as possible */
@@ -1036,14 +1036,12 @@ m6502_genRightShift (iCode * ic)
       restore_a=true;
     }
    
-  /* load the count register */
+  /* find a count register */
   if (m6502_reg_y->isDead && !IS_AOP_WITH_Y (AOP (result)) && !IS_AOP_WITH_Y (AOP (left)))
     countreg = m6502_reg_y;
   else if (m6502_reg_x->isDead && !IS_AOP_WITH_X (AOP (result)) && !IS_AOP_WITH_X (AOP (left))
            && AOP_TYPE(left)!=AOP_SOF && AOP_TYPE(result)!=AOP_SOF )
     countreg = m6502_reg_x;
-  else if (m6502_reg_a->isDead && !IS_AOP_WITH_A (AOP (result)) && !IS_AOP_WITH_A (AOP (left)))
-    countreg = m6502_reg_a;
   else if (!IS_AOP_WITH_Y (AOP (result)) && !IS_AOP_WITH_Y (AOP (left)))
     {
       // Y is live
@@ -1061,9 +1059,8 @@ m6502_genRightShift (iCode * ic)
 
   if (!sameRegs (AOP (left), AOP(result)))
     {
-      size = AOP_SIZE (result);
       for (offset=0; offset<size; offset++)
-	  transferAopAop (AOP (left), offset, AOP(result), offset);
+	transferAopAop (AOP (left), offset, AOP(result), offset);
     }
 
   if (countreg)
@@ -1071,6 +1068,7 @@ m6502_genRightShift (iCode * ic)
       if(!IS_AOP_WITH_A(AOP (right)))
         {
           m6502_useReg(countreg);
+          emitComment (TRACEGEN|VVDBG, "%s: load countreg", __func__);
           loadRegFromAop (countreg, AOP (right), 0);
         }
       emitCmp(countreg, 0);
@@ -1078,14 +1076,16 @@ m6502_genRightShift (iCode * ic)
     }
   else
     {
-      emitComment (TRACEGEN|VVDBG, "  count is not a register");
-      bool needpulla = pushRegIfUsed (m6502_reg_a);
+      bool needpulla = false;
+
+      emitComment (TRACEGEN|VVDBG, "%s: count is not a register", __func__);
+      needpulla = pushRegIfUsed (m6502_reg_a);
+
       loadRegFromAop (m6502_reg_a, AOP (right), 0);
       storeRegTemp (m6502_reg_a, true);
       count_offset=getLastTempOfs();
       pullOrFreeReg(m6502_reg_a, needpulla);
       emit6502op ("dec", TEMPFMT, count_offset);
-      // FIXME: could keep it literal
       dirtyRegTemp(getLastTempOfs() );
       emitBranch ("bmi", tlbl1);
     }
@@ -1099,13 +1099,13 @@ m6502_genRightShift (iCode * ic)
   else
     loadRegFromAop (m6502_reg_a, AOP (result), size-1);
 
-  safeEmitLabel (tlbl);
+  safeEmitLabel (tlbl); // loop label
 
   if(IS_AOP_XA (AOP (result)))
     {
       if(sign)
 	{
-	  emit6502op("cpx", "#0x80");
+          emitCmp(m6502_reg_x, 0x80);
 	  emitRegTempOp("ror", getLastTempOfs() );
 	}
       else
@@ -1135,8 +1135,6 @@ m6502_genRightShift (iCode * ic)
   else
     {
       emit6502op("dec", TEMPFMT, count_offset );
-      // FIXME: could keep it literal
-      dirtyRegTemp(getLastTempOfs() );
       emit6502op("bpl", "%05d$", safeLabelNum (tlbl));
     }
 
@@ -1149,7 +1147,7 @@ m6502_genRightShift (iCode * ic)
   if (x_in_regtemp)
     loadRegTemp(m6502_reg_x);
 
-  safeEmitLabel (tlbl1);
+  safeEmitLabel (tlbl1); // end label
 
   // After loop, countreg is always 0
   if (countreg)

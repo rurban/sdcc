@@ -1,3 +1,8 @@
+2025-11-11 Gabriele Gorla <gorlik@yahoo.com>
+
+  	* src/mos6502/genrshift.c:
+  	  Don't allow A to be a count register.
+  	
 2025-11-11 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* Merge undefined branch.
