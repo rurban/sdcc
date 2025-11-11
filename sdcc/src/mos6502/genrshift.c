@@ -165,7 +165,8 @@ static void XAccSRsh (int shCount)
 /**************************************************************************
  * XAccRsh - right shift register pair XA by known count
  *************************************************************************/
-void XAccRsh (int shCount, bool sign)
+void
+XAccRsh (int shCount, bool sign)
 {
   int i;
 
@@ -882,7 +883,7 @@ static void
 genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
 {
   bool restore_x = false;
-  int size;
+  int size, offset;
 
   emitComment (TRACEGEN, __func__);
 
@@ -901,7 +902,6 @@ genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
   else if (shCount >= (size * 8))
     {
 #if 1
-      int offset;
       if (sign)
         {
       bool needpulla = pushRegIfSurv (m6502_reg_a);
@@ -1026,6 +1026,10 @@ m6502_genRightShift (iCode * ic)
     aopResult = forceZeropageAop (AOP (result), sameRegs (AOP (left), AOP (result)));
 #endif
 
+  size = AOP_SIZE (result);
+  tlbl = safeNewiTempLabel (NULL);
+  tlbl1 = safeNewiTempLabel (NULL);
+
   if (!m6502_reg_a->isDead && !IS_AOP_WITH_A (AOP (result)))
     {
       storeRegTemp(m6502_reg_a, true);
@@ -1055,26 +1059,12 @@ m6502_genRightShift (iCode * ic)
       loadRegFromAop (countreg, AOP (right), 0);
     }
 
-  /* now move the left to the result if they are not the
-     same */
-#if 0
-  if (IS_AOP_YX (AOP (result)))
-    {
-      loadRegFromAop (m6502_reg_yx, AOP (left), 0);
-    }
-  else 
-#endif
   if (!sameRegs (AOP (left), AOP(result)))
     {
       size = AOP_SIZE (result);
       for (offset=0; offset<size; offset++)
 	  transferAopAop (AOP (left), offset, AOP(result), offset);
     }
-
-  tlbl = safeNewiTempLabel (NULL);
-  size = AOP_SIZE (result);
-  offset = 0;
-  tlbl1 = safeNewiTempLabel (NULL);
 
   if (countreg)
     {

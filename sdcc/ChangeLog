@@ -13,6 +13,9 @@
   	  src/mos6502/genlshift.c,
   	  src/mos6502/genrshift.c:
   	  Partial fix for bug #3851.
+   	* src/mos6502/genlshift.c,
+  	  src/mos6502/genrshift.c:
+  	  Left shift optimizations.
   	  
 2025-11-08 Gabriele Gorla <gorlik@yahoo.com>
 

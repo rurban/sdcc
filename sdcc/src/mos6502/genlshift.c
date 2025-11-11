@@ -677,7 +677,7 @@ static void
 genLeftShiftLiteral (operand * left, operand * result, int shCount)
 {
   bool restore_x = false;
-  int size;
+  int size, offset;
 
   emitComment (TRACEGEN, __func__);
 
@@ -691,8 +691,8 @@ genLeftShiftLiteral (operand * left, operand * result, int shCount)
     }
   else if (shCount >= (size * 8))
     {
-      while (size--)
-	storeConstToAop (0, AOP (result), size);
+      for(offset=0;offset<size; offset++)
+        storeConstToAop (0, AOP (result), offset);
     } 
   else
     {
@@ -732,6 +732,7 @@ m6502_genLeftShift (iCode * ic)
   symbol *tlbl, *tlbl1;
   reg_info *countreg = NULL;
   int count_offset = 0;
+  bool restore_a = false;
   bool restore_y = false;
   bool x_in_regtemp = false;
 
@@ -770,53 +771,19 @@ m6502_genLeftShift (iCode * ic)
     aopResult = forceZeropageAop (AOP (result), sameRegs (AOP (left), AOP (result)));
 #endif
 
-  /* load the count register */
-  if (m6502_reg_y->isDead && !IS_AOP_WITH_Y (AOP (result)) && !IS_AOP_WITH_Y (AOP (left)))
-    countreg = m6502_reg_y;
-  else if (m6502_reg_x->isDead && !IS_AOP_WITH_X (AOP (result)) && !IS_AOP_WITH_X (AOP (left))
-           && AOP_TYPE(left)!=AOP_SOF && AOP_TYPE(result)!=AOP_SOF)
-    countreg = m6502_reg_x;
-  else if (m6502_reg_a->isDead && !IS_AOP_WITH_A (AOP (result)) && !IS_AOP_WITH_A (AOP (left)))
-    countreg = m6502_reg_a;
-  else if (!IS_AOP_WITH_Y (AOP (result)) && !IS_AOP_WITH_Y (AOP (left)))
+  size = AOP_SIZE (result);
+  tlbl = safeNewiTempLabel (NULL);
+  tlbl1 = safeNewiTempLabel (NULL);
+
+  if (!m6502_reg_a->isDead && !IS_AOP_WITH_A (AOP (result)))
     {
-      // Y is live
-      storeRegTemp(m6502_reg_y, true);
-      restore_y=true;
-      countreg = m6502_reg_y;
+      storeRegTemp(m6502_reg_a, true);
+      restore_a=true;
     }
 
-  if(countreg)
-    {
-      m6502_useReg (countreg);
-      emitComment (TRACEGEN|VVDBG, "%s: load countreg", __func__);
-      loadRegFromAop (countreg, AOP (right), 0);
-      if(IS_AOP_XA(AOP(right)))
-	m6502_freeReg(m6502_reg_xa);
-    }
-  else
-    {
-      emitComment (TRACEGEN|VVDBG, "%s: count is not a register", __func__);
-      bool needpulla = pushRegIfUsed (m6502_reg_a);
-      loadRegFromAop (m6502_reg_a, AOP (right), 0);
-      storeRegTemp (m6502_reg_a, true);
-      count_offset=getLastTempOfs();
-      pullOrFreeReg(m6502_reg_a, needpulla);
-    }
-
-  /* now move the left to the result if they are not the
-     same */
-#if 0
-  if (IS_AOP_YX (AOP (result)))
-    {
-    loadRegFromAop (m6502_reg_yx, AOP (left), 0);
-    }
-  else
-#endif 
   if (!sameRegs (AOP (left), AOP (result)))
     {
-      size = AOP_SIZE (result);
-      for (offset=0; offset<size; offset++)
+      for (offset=1; offset<size; offset++)
           transferAopAop (AOP (left), offset, AOP (result), offset);
     }
 
@@ -827,35 +794,51 @@ m6502_genLeftShift (iCode * ic)
       x_in_regtemp = true;
     }
 
-  tlbl = safeNewiTempLabel (NULL);
-  size = AOP_SIZE (result);
-  offset = 0;
-  tlbl1 = safeNewiTempLabel (NULL);
+  if (m6502_reg_y->isDead && !IS_AOP_WITH_Y (AOP (result)) && !IS_AOP_WITH_Y (AOP (left)))
+    countreg = m6502_reg_y;
 
-  if (countreg)
+  if(countreg)
     {
+      if(!IS_AOP_WITH_A (AOP (right)))
+        loadRegFromAop (m6502_reg_a, AOP (left), 0);
+      m6502_useReg (countreg);
+      emitComment (TRACEGEN|VVDBG, "%s: load countreg", __func__);
+      loadRegFromAop (countreg, AOP (right), 0);
+      if(IS_AOP_XA(AOP(right)))
+	m6502_freeReg(m6502_reg_xa);
+      if(IS_AOP_WITH_A (AOP (right)))
+        loadRegFromAop (m6502_reg_a, AOP (left), 0);
       emitCmp(countreg, 0);
       emitBranch ("beq", tlbl1);
     }
   else
     {
+      bool needpulla=false;
+
+      emitComment (TRACEGEN|VVDBG, "%s: count is not a register", __func__);
+      if(IS_AOP_WITH_A (AOP (left)))
+        needpulla = pushRegIfUsed (m6502_reg_a);
+
+      loadRegFromAop (m6502_reg_a, AOP (right), 0);
+      storeRegTemp (m6502_reg_a, true);
+      count_offset=getLastTempOfs();
+      pullOrFreeReg(m6502_reg_a, needpulla);
+      loadRegFromAop (m6502_reg_a, AOP (left), 0);
       emit6502op ("dec", TEMPFMT, count_offset);
-      // FIXME: could keep it literal
       dirtyRegTemp(getLastTempOfs() );
       emitBranch ("bmi", tlbl1);
     }
 
   safeEmitLabel (tlbl); // loop label
 
+      rmwWithReg ("asl", m6502_reg_a);
+
   if(IS_AOP_XA (AOP (result)))
     {
-      rmwWithReg ("asl", m6502_reg_a);
       emitRegTempOp( "rol", getLastTempOfs() );
     }
   else
     {
-      rmwWithAop ("asl", AOP (result), 0);
-
       for (offset = 1; offset < size; offset++)
 	  rmwWithAop ("rol", AOP (result), offset);
     }
@@ -868,12 +851,15 @@ m6502_genLeftShift (iCode * ic)
   else
     {
       emit6502op("dec", TEMPFMT, count_offset );
-      // FIXME: could keep it literal
-      dirtyRegTemp(getLastTempOfs() );
+//      dirtyRegTemp(getLastTempOfs() );
       emit6502op("bpl", "%05d$", safeLabelNum (tlbl));
     }
 
+  if (x_in_regtemp)
+    loadRegTemp(m6502_reg_x);
+
   safeEmitLabel (tlbl1); // end label
+  storeRegToAop (m6502_reg_a, AOP(result) , 0);
 
   // After loop, countreg is always 0
   if (countreg)
@@ -887,9 +873,6 @@ m6502_genLeftShift (iCode * ic)
       emitComment (TRACEGEN|VVDBG, "  pull null (1) ");
       loadRegTemp(NULL);
     }
-
-  if (x_in_regtemp)
-    loadRegTemp(m6502_reg_x);
 
   if (maskedtopbyte)
     {
@@ -910,6 +893,8 @@ m6502_genLeftShift (iCode * ic)
 
   if(restore_y)
     loadRegTemp(m6502_reg_y);
+  if(restore_a)
+    loadRegTemp(m6502_reg_a);
 
  release:
   freeAsmop (right, NULL);
