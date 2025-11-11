@@ -716,17 +716,13 @@ genLeftShiftLiteral (operand * left, operand * result, int shCount)
 	}
       loadOrFreeRegTemp(m6502_reg_x, restore_x);
     }
-
-  //  freeAsmop (right, NULL);
-  freeAsmop (left, NULL);
-  freeAsmop (result, NULL);
 }
 
 /**************************************************************************
  * genLeftShift - generates code for left shifting
  *************************************************************************/
 void
-genLeftShift (iCode * ic)
+m6502_genLeftShift (iCode * ic)
 {
   operand *right  = IC_RIGHT (ic);
   operand *left   = IC_LEFT (ic);
@@ -793,14 +789,14 @@ genLeftShift (iCode * ic)
   if(countreg)
     {
       m6502_useReg (countreg);
-      emitComment (TRACEGEN|VVDBG, "  load countreg");
+      emitComment (TRACEGEN|VVDBG, "%s: load countreg", __func__);
       loadRegFromAop (countreg, AOP (right), 0);
       if(IS_AOP_XA(AOP(right)))
 	m6502_freeReg(m6502_reg_xa);
     }
   else
     {
-      emitComment (TRACEGEN|VVDBG, "  count is not a register");
+      emitComment (TRACEGEN|VVDBG, "%s: count is not a register", __func__);
       bool needpulla = pushRegIfUsed (m6502_reg_a);
       loadRegFromAop (m6502_reg_a, AOP (right), 0);
       storeRegTemp (m6502_reg_a, true);
@@ -810,11 +806,14 @@ genLeftShift (iCode * ic)
 
   /* now move the left to the result if they are not the
      same */
+#if 0
   if (IS_AOP_YX (AOP (result)))
     {
     loadRegFromAop (m6502_reg_yx, AOP (left), 0);
     }
-  else if (!sameRegs (AOP (left), AOP (result)))
+  else
+#endif 
+  if (!sameRegs (AOP (left), AOP (result)))
     {
       size = AOP_SIZE (result);
       for (offset=0; offset<size; offset++)
@@ -846,7 +845,7 @@ genLeftShift (iCode * ic)
       emitBranch ("bmi", tlbl1);
     }
 
-  safeEmitLabel (tlbl);
+  safeEmitLabel (tlbl); // loop label
 
   if(IS_AOP_XA (AOP (result)))
     {
@@ -874,7 +873,7 @@ genLeftShift (iCode * ic)
       emit6502op("bpl", "%05d$", safeLabelNum (tlbl));
     }
 
-  safeEmitLabel (tlbl1);
+  safeEmitLabel (tlbl1); // end label
 
   // After loop, countreg is always 0
   if (countreg)

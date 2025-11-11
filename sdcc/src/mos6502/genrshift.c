@@ -33,7 +33,8 @@
 /**************************************************************************
  * AccSRsh - signed right shift accumulator by known count
  *************************************************************************/
-static void AccSRsh (int shCount)
+static void
+AccSRsh (int shCount)
 {
   int i;
 
@@ -899,19 +900,50 @@ genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
     }
   else if (shCount >= (size * 8))
     {
+#if 1
+      int offset;
+      if (sign)
+        {
+      bool needpulla = pushRegIfSurv (m6502_reg_a);
+      loadRegFromAop (m6502_reg_a, AOP (left), size - 1);
+      signExtendA();
+      for(offset=0;offset<size; offset++)
+        storeRegToAop (m6502_reg_a, AOP (result), offset);
+
+      pullOrFreeReg (m6502_reg_a, needpulla);
+     
+        }
+      else
+        {
+      for(offset=0;offset<size; offset++)
+        storeConstToAop (0, AOP (result), offset);
+        }
+#else
       bool needpulla = pushRegIfSurv (m6502_reg_a);
       if (sign)
 	{
 	  /* get sign in acc.7 */
 	  loadRegFromAop (m6502_reg_a, AOP (left), size - 1);
 	}
-      addSign (result, LSB, sign);
+//      addSign (result, LSB, sign);
+  int offset = LSB;
+  int size = (AOP_SIZE (result) - offset);
+  if (size > 0) {
+    if (sign) {
+      signExtendA();
+      while (size--)
+        storeRegToAop (m6502_reg_a, AOP (result), offset++);
+    } else
+      while (size--)
+        storeConstToAop (0, AOP (result), offset++);
+  }
       pullOrFreeReg (m6502_reg_a, needpulla);
+#endif
     }
   else
     {
       if(AOP_TYPE(left)==AOP_SOF || AOP_TYPE(result)==AOP_SOF)
-	restore_x=storeRegTempIfUsed(m6502_reg_x);
+	restore_x = storeRegTempIfUsed(m6502_reg_x);
 
       switch (size)
 	{
@@ -938,7 +970,7 @@ genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
  * genRightShift - generate code for right shifting
  *************************************************************************/
 void
-genRightShift (iCode * ic)
+m6502_genRightShift (iCode * ic)
 {
   operand *right  = IC_RIGHT (ic);
   operand *left   = IC_LEFT (ic);
@@ -1019,17 +1051,20 @@ genRightShift (iCode * ic)
   if(countreg && IS_AOP_WITH_A(AOP (right)))
     {
       m6502_useReg(countreg);
+      emitComment (TRACEGEN|VVDBG, "%s: load countreg", __func__);
       loadRegFromAop (countreg, AOP (right), 0);
     }
 
   /* now move the left to the result if they are not the
      same */
-  // TODO: can we keep it in A?
+#if 0
   if (IS_AOP_YX (AOP (result)))
     {
       loadRegFromAop (m6502_reg_yx, AOP (left), 0);
     }
-  else if (!sameRegs (AOP (left), AOP(result)))
+  else 
+#endif
+  if (!sameRegs (AOP (left), AOP(result)))
     {
       size = AOP_SIZE (result);
       for (offset=0; offset<size; offset++)
