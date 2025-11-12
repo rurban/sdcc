@@ -354,7 +354,7 @@ shiftRLongInPlace (operand * result, int shift, int ofs, int sign, bool msb_in_a
  *
  * @param left  pointer to the src aop
  * @param result  pointer to the dst aop
- * @param shift  number of shifts (must be >=16 and <24)
+ * @param shift  number of shifts (must be >=24 and <32)
  *************************************************************************/
 static void
 shiftRLong1 (operand * left, operand * result, int shift, int sign)
@@ -560,7 +560,7 @@ shiftRLong2 (operand * left, operand * result, int shift, int sign)
  *
  * @param left  pointer to the src aop
  * @param result  pointer to the dst aop
- * @param shift  number of shifts (must be >0 and <8)
+ * @param shift  number of shifts (must be >=8 and <16)
  *************************************************************************/
 static void
 shiftRLong3 (operand * left, operand * result, int shift, int sign)
@@ -887,14 +887,12 @@ genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
 
   emitComment (TRACEGEN, __func__);
 
-
-  size = AOP_SIZE (left);
+//  size = AOP_SIZE (left);
   /* test the LEFT size !!! */
   size = AOP_SIZE (result);
   emitComment (TRACEGEN|VVDBG, "  %s - result size=%d, left size=%d",
                __func__, size, AOP_SIZE (left));
 
-  /* I suppose that the left size >= result size */
   if (shCount == 0)
     {
       genCopy (result, left);
@@ -957,14 +955,12 @@ genRightShiftLiteral (operand * left, operand * result, int shCount, int sign)
 	  genrsh32 (result, left, shCount, sign);
 	  break;
 	default:
-	  wassertl (0, "Invalid operand size in right shift.");
+	  emitcode("ERROR", "%s: Invalid operand size %d", __func__, size);
 	  break;
 	}
       loadOrFreeRegTemp(m6502_reg_x, restore_x);
     }
 }
-
-// TODO: can refactor lots of left shift with right shift
 
 /**************************************************************************
  * genRightShift - generate code for right shifting
@@ -1042,75 +1038,86 @@ m6502_genRightShift (iCode * ic)
   else if (m6502_reg_x->isDead && !IS_AOP_WITH_X (AOP (result)) && !IS_AOP_WITH_X (AOP (left))
            && AOP_TYPE(left)!=AOP_SOF && AOP_TYPE(result)!=AOP_SOF )
     countreg = m6502_reg_x;
-  else if (!IS_AOP_WITH_Y (AOP (result)) && !IS_AOP_WITH_Y (AOP (left)))
+  else //if (!IS_AOP_WITH_Y (AOP (result)) && !IS_AOP_WITH_Y (AOP (left)))
     {
       // Y is live
-      storeRegTemp(m6502_reg_y, true);
-      restore_y=true;
+      //	emitcode("ERROR", "%s: countreg is null", __func__);
+      if(!m6502_reg_y->isDead && !IS_AOP_WITH_Y (AOP (result)))
+        {
+	  storeRegTemp(m6502_reg_y, true);
+	  restore_y=true;
+        }
       countreg = m6502_reg_y;
     }
 
-  if(countreg && IS_AOP_WITH_A(AOP (right)))
+  bool lsb_in_a = ( IS_AOP_XA (AOP (result)) || IS_AOP_XA (AOP (left)) || size==1);
+  bool msb_in_x = lsb_in_a && AOP_TYPE(result)!=AOP_DIR;
+
+  if(lsb_in_a)
     {
-      m6502_useReg(countreg);
-      emitComment (TRACEGEN|VVDBG, "%s: load countreg", __func__);
+      if(size==2)
+	{
+	  loadRegFromAop (m6502_reg_x, AOP (left), 1);
+	  if(msb_in_x)
+	    {
+	      storeRegTempAlways(m6502_reg_x, true);
+	      dirtyRegTemp (getLastTempOfs());
+	      x_in_regtemp = true;
+	    }
+	  else
+	    storeRegToAop (m6502_reg_x, AOP(result) , 1);
+	}
+    }
+  else if (!sameRegs (AOP (left), AOP (result)))
+    {
+      for (offset=0; offset<size-1; offset++)
+	transferAopAop (AOP (left), offset, AOP (result), offset);
+    }
+
+  int a_loc = ( lsb_in_a )? 0 : size-1;
+
+  emitComment (TRACEGEN|VVDBG, "%s: load countreg", __func__);
+  if(IS_AOP_WITH_A (AOP (right)))
+    {
+      loadRegFromAop (countreg, AOP (right), 0);
+      loadRegFromAop (m6502_reg_a, AOP (left), a_loc);
+    }
+  else
+    {
+      loadRegFromAop (m6502_reg_a, AOP (left), a_loc);
       loadRegFromAop (countreg, AOP (right), 0);
     }
 
-  if (!sameRegs (AOP (left), AOP(result)))
-    {
-      for (offset=0; offset<size; offset++)
-	transferAopAop (AOP (left), offset, AOP(result), offset);
-    }
+  m6502_useReg (countreg);
+  if(IS_AOP_XA(AOP(right)))
+    m6502_freeReg(m6502_reg_xa);
 
-  if (countreg)
-    {
-      if(!IS_AOP_WITH_A(AOP (right)))
-        {
-          m6502_useReg(countreg);
-          emitComment (TRACEGEN|VVDBG, "%s: load countreg", __func__);
-          loadRegFromAop (countreg, AOP (right), 0);
-        }
-      emitCmp(countreg, 0);
-      emitBranch ("beq", tlbl1);
-    }
-  else
-    {
-      bool needpulla = false;
+  emitCmp(countreg, 0);
+  emitBranch ("beq", tlbl1);
 
-      emitComment (TRACEGEN|VVDBG, "%s: count is not a register", __func__);
-      needpulla = pushRegIfUsed (m6502_reg_a);
-
-      loadRegFromAop (m6502_reg_a, AOP (right), 0);
-      storeRegTemp (m6502_reg_a, true);
-      count_offset=getLastTempOfs();
-      pullOrFreeReg(m6502_reg_a, needpulla);
-      emit6502op ("dec", TEMPFMT, count_offset);
-      dirtyRegTemp(getLastTempOfs() );
-      emitBranch ("bmi", tlbl1);
-    }
-
-  if(IS_AOP_XA (AOP (result)))
-    {  
-      storeRegTempAlways(m6502_reg_x, true);
-      dirtyRegTemp (getLastTempOfs());
-      x_in_regtemp = true;
-    }
-  else
-    loadRegFromAop (m6502_reg_a, AOP (result), size-1);
+// FIXME: find a good solution for this
+//  if(IS_AOP_WITH_A (AOP (right)) && sameRegs (AOP (left), AOP (result)) )
+//    loadRegFromAop (m6502_reg_a, AOP (left), a_loc);
 
   safeEmitLabel (tlbl); // loop label
 
-  if(IS_AOP_XA (AOP (result)))
+  if(lsb_in_a && size==2)
     {
       if(sign)
 	{
           emitCmp(m6502_reg_x, 0x80);
-	  emitRegTempOp("ror", getLastTempOfs() );
+	  if(msb_in_x)
+	    emitRegTempOp("ror", getLastTempOfs() );
+	  else
+	    rmwWithAop ("ror", AOP (result), 1);
 	}
       else
-	emitRegTempOp( "lsr", getLastTempOfs() );
-
+        {
+	  if(msb_in_x)
+	    emitRegTempOp( "lsr", getLastTempOfs() );
+	  else
+	    rmwWithAop ("lsr", AOP (result), 1);
+        }
       rmwWithReg ("ror", m6502_reg_a);
     }
   else
@@ -1127,35 +1134,30 @@ m6502_genRightShift (iCode * ic)
         rmwWithAop ("ror", AOP (result), offset);
     }
 
-  if (countreg)
-    {
-      rmwWithReg("dec", countreg);
-      emit6502op("bne", "%05d$", safeLabelNum (tlbl));
-    }
-  else
-    {
-      emit6502op("dec", TEMPFMT, count_offset );
-      emit6502op("bpl", "%05d$", safeLabelNum (tlbl));
-    }
-
-  if(!IS_AOP_XA (AOP (result)))
-    storeRegToAop (m6502_reg_a, AOP (result), size-1);
-
-  if (!countreg)
-    loadRegTemp(NULL);
+  rmwWithReg("dec", countreg);
+  emit6502op("bne", "%05d$", safeLabelNum (tlbl));
 
   if (x_in_regtemp)
     loadRegTemp(m6502_reg_x);
 
   safeEmitLabel (tlbl1); // end label
 
-  // After loop, countreg is always 0
-  if (countreg)
+  if(lsb_in_a)
     {
-      m6502_dirtyReg(countreg);
-      countreg->isLitConst = 1;
-      countreg->litConst = 0;
+      storeRegToAop (m6502_reg_a, AOP(result) , 0);
+      if(size==2)
+        {
+	  if(msb_in_x)
+	    storeRegToAop (m6502_reg_x, AOP(result) , 1);
+        }
     }
+  else
+    storeRegToAop (m6502_reg_a, AOP(result) , size-1);
+
+  // After loop, countreg is always 0
+  m6502_dirtyReg(countreg);
+  countreg->isLitConst = 1;
+  countreg->litConst = 0;
 
   if(restore_y)
     loadRegTemp(m6502_reg_y);
