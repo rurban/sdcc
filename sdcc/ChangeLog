@@ -1,3 +1,12 @@
+2025-11-14 Janko Stamenović
+
+	* sdas/asrab/rab.h
+	  sdas/asrab/rabadr.c
+	  sdas/asrab/rabmch.c
+	  sdas/asrab/rabpst.c
+	  sdas/asxxsrc/asxxxx.h
+	  Rebasing sdas assemblers to the current upstream: asrab
+
 2025-11-11 Gabriele Gorla <gorlik@yahoo.com>
 
   	* src/mos6502/genrshift.c:
