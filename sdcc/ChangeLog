@@ -1,3 +1,12 @@
+2025-11-15 Janko Stamenović
+
+	* sdas/asstm8/stm8.h
+	  sdas/asstm8/stm8adr.c
+	  sdas/asstm8/stm8mch.c
+	  sdas/asstm8/stm8pst.c
+	  sdas/asxxsrc/asxxxx.h
+	  Rebasing sdas assemblers to the current upstream: asst8
+
 2025-11-14 Janko Stamenović
 
 	* sdas/asrab/rab.h
