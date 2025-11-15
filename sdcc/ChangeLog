@@ -1,5 +1,14 @@
 2025-11-15 Janko Stamenović
 
+	* sdas/as8051/i51adr.c
+	  sdas/as8051/i51mch.c
+	  sdas/as8051/i51pst.c
+	  sdas/as8051/i8051.h
+	  sdas/asxxsrc/asxxxx.h
+	  Rebasing sdas assemblers to the current upstream: as8051
+
+2025-11-15 Janko Stamenović
+
 	* sdas/as8xcxxx/ds8.h
 	  sdas/as8xcxxx/ds8adr.c
 	  sdas/as8xcxxx/ds8mch.c
