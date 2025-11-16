@@ -6194,6 +6194,73 @@ static void genRLC (iCode * ic)
 }
 
 /**************************************************************************
+ * genRot8 - rotate a 8-bit value by a known amount
+ *************************************************************************/
+static void
+genRot8(iCode *ic, int shCount)
+{
+  operand *left   = IC_LEFT (ic);
+  operand *result = IC_RESULT (ic);
+
+  //  int size, offset;
+  //  char *shift;
+  bool resultInA = false;
+  bool needpulla = false;
+
+  emitComment (TRACEGEN, __func__);
+  emitComment (TRACEGEN, "%s - size=1 shCount=%d",__func__, shCount);
+  /* rotate 8 bit value */
+  aopOp (left, ic);
+  aopOp (result, ic);
+  printIC(ic);
+
+  if(IS_AOP_WITH_A(AOP(result))) resultInA=true;
+  if(!resultInA) needpulla=pushRegIfSurv(m6502_reg_a);
+  loadRegFromAop (m6502_reg_a, AOP (left), 0);
+
+  if(shCount>5)
+    {
+      // right
+      shCount=8-shCount;
+
+      while(shCount--)
+	{
+	  storeRegTemp (m6502_reg_a, true);
+	  emit6502op("lsr", TEMPFMT, getLastTempOfs() );
+	  rmwWithReg ("ror", m6502_reg_a);
+	  loadRegTemp(NULL);
+	}
+    }
+  else
+    {
+      if(shCount>=4)
+	{
+	  shCount-=4;
+	  rmwWithReg ("asl", m6502_reg_a);
+	  emit6502op ("adc", "#0x80");
+	  rmwWithReg ("rol", m6502_reg_a);
+	  rmwWithReg ("asl", m6502_reg_a);
+	  emit6502op ("adc", "#0x80");
+	  rmwWithReg ("rol", m6502_reg_a);  
+	}
+      if(shCount>0)
+	{
+	  // left
+	  while(shCount--)
+	    {
+	      emit6502op ("cmp", "#0x80");
+	      rmwWithReg ("rol", m6502_reg_a);
+	    }
+	}
+    }
+  storeRegToAop (m6502_reg_a, AOP (result), 0);
+  pullOrFreeReg (m6502_reg_a, needpulla);
+
+  freeAsmop (left, NULL);
+  freeAsmop (result, NULL);
+}
+
+/**************************************************************************
  * genRot - generates code for rotation
  *************************************************************************/
 static void
@@ -6202,12 +6269,14 @@ genRot (iCode *ic)
   operand *left = IC_LEFT (ic);
   operand *right = IC_RIGHT (ic);
   unsigned int lbits = bitsForType (operandType (left));
-  if (IS_OP_LITERAL (right) && operandLitValueUll (right) % lbits == 1)
+  if (IS_OP_LITERAL (right) && lbits==8 )
+    genRot8(ic, operandLitValueUll (right) % lbits );
+  else if (IS_OP_LITERAL (right) && operandLitValueUll (right) % lbits == 1)
     genRLC (ic);
   else if (IS_OP_LITERAL (right) && operandLitValueUll (right) % lbits ==  lbits - 1)
     genRRC (ic);
   else
-    wassertl (0, "Unsupported rotation.");
+    emitcode("ERROR", "%s - Unimplemented rotation (lbits=%d)", __func__, lbits);    
 }
 
 /**************************************************************************

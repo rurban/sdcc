@@ -1,3 +1,9 @@
+2025-11-16 Gabriele Gorla <gorlik@yahoo.com>
+
+  	* src/mos6502/gen.c,
+  	  src/mos6502/main.c:
+  	  Implement 8-bit rotate with constant.
+
 2025-11-16 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* Merge undefined branch.
