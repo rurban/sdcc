@@ -1,3 +1,7 @@
+2025-11-16 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
+
+	* support/scripts/sdcc.nsi: update some Rabbit related paths
+
 2025-11-15 Janko Stamenović
 
 	* sdas/as6500/r6500.h
