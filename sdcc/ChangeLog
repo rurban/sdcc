@@ -1,3 +1,13 @@
+2025-11-16 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* Merge undefined branch.
+
+2025-11-16 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/SDCCutil.c,
+	  support/regression/tests/idf_ucn_utf8.c:
+	  Update identifier check for current (git master branch as of 2025-11-16) libu8ident.
+
 2025-11-16 Erik Petrich <epetrich AT ivorytower.norman.ok.us>
 
 	* support/scripts/sdcc.nsi: update some Rabbit related paths
@@ -64,6 +74,21 @@
   	  src/mos6502/genlshift.c:
   	  Refactor right and left shifts.
   	
+2025-11-11 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* aclocal.m4,
+	  configure,
+	  configure.ac,
+	  sdccconf_in.h,
+	  src/SDCC.lex,
+	  src/SDCCerr.c,
+	  src/SDCCerr.h,
+	  src/SDCCsymt.c,
+	  src/SDCCutil.c,
+	  src/SDCCutil.h,
+	  support/valdiag/tests/undefinedc23.c:
+	  Implement N3565 resolution for C23 UB on invalid characters in identifiers, modified to allow _, and potentially $.
+
 2025-11-11 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* Merge undefined branch.
