@@ -10,6 +10,9 @@
   	* src/mos6502/gen.c,
   	  src/mos6502/main.c:
   	  Implement generic rotate with constant.
+   	* src/mos6502/genplus.c,
+  	  src/mos6502/genminus.c:
+  	  Optimize genPlusInc and genMinusDec.
 
 2025-11-16 Philipp Klaus Krause <philipp@colecovision.eu>
 
