@@ -7,6 +7,9 @@
   	  src/mos6502/genlshift.c,
   	  src/mos6502/genrshift.c:
   	  Fix unused variable warnings.
+  	* src/mos6502/gen.c,
+  	  src/mos6502/main.c:
+  	  Implement generic rotate with constant.
 
 2025-11-16 Philipp Klaus Krause <philipp@colecovision.eu>
 
