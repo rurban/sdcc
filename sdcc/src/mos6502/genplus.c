@@ -147,13 +147,14 @@ genPlusInc (iCode * ic)
       if (size > 1)
 	emitBranch ("bcc", tlbl);
     }
+
   for (offset = 1; offset < size; offset++)
     {
-    rmwWithAop ("inc", AOP (result), offset);
-    if(AOP(result)->type==AOP_REG) m6502_dirtyReg(AOP(result)->aopu.aop_reg[offset]);
-    if ((offset + 1) < size)
-      emitBranch ("bne", tlbl);
-  }
+      rmwWithAop ("inc", AOP (result), offset);
+      if(AOP(result)->type==AOP_REG) m6502_dirtyReg(AOP(result)->aopu.aop_reg[offset]);
+      if ((offset + 1) < size)
+	emitBranch ("bne", tlbl);
+    }
 
   if (size > 1)
     safeEmitLabel (tlbl);
