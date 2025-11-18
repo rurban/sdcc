@@ -1,3 +1,7 @@
+2025-11-18 Gabriele Gorla <gorlik@yahoo.com>
+  	* device/lib/mos6502/fabsf.s:
+  	  Use ZP addressing to store fabs result.
+
 2025-11-16 Gabriele Gorla <gorlik@yahoo.com>
 
   	* src/mos6502/gen.c,
