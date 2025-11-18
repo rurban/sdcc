@@ -1,6 +1,9 @@
 2025-11-18 Gabriele Gorla <gorlik@yahoo.com>
   	* device/lib/mos6502/fabsf.s:
   	  Use ZP addressing to store fabs result.
+  	* src/mos6502/gen.c,
+  	  support/regression/fwk/lib/testfwk.c:
+      Fix bug #3863
 
 2025-11-16 Gabriele Gorla <gorlik@yahoo.com>
 
