@@ -126,7 +126,6 @@ regTrackAop(reg_info *reg, asmop *aop, int offset)
   if(!aop)
     emitcode(";ERROR","  %s : called with NULL aop", __func__ );
 
-  //  emitComment (ALWAYS /*REGOPS|VVDBG*/, "  reg %s = A %d", reg->name, offset);
   switch(reg->rIdx)
     {
     case A_IDX:
@@ -135,6 +134,7 @@ regTrackAop(reg_info *reg, asmop *aop, int offset)
       reg->aop = aop;
       reg->aop->op = aop->op;
       reg->aopofs = offset;
+      emitComment (REGOPS|VVDBG, "%s -  reg %s = A+%d", __func__, reg->name, offset);
       break;
     case XA_IDX:
       regTrackAop(m6502_reg_a, aop, offset);
@@ -156,8 +156,8 @@ regTrackAop(reg_info *reg, asmop *aop, int offset)
 void
 dirtyRegAop(reg_info *reg, asmop *aop, int offset)
 {
-  emitComment (REGOPS|VVDBG, " %s - reg=%08x  asmop=%08d off=%d",
-	       __func__, reg, aop, offset);
+  emitComment (REGOPS|VVDBG, " %s - reg=%s  asmop=%08x off=%d",
+	       __func__, reg?reg->name:"NULL", aop, offset);
 
   if(reg==m6502_reg_xa)
     {
@@ -3178,6 +3178,7 @@ void
 freeAsmop (operand * op, asmop * aaop)
 {
   asmop *aop;
+  emitComment (TRACE_AOP, "%s", __func__);
 
   if (!op)
     aop = aaop;
@@ -3196,7 +3197,7 @@ freeAsmop (operand * op, asmop * aaop)
     int stackAdjust;
     int loffset;
 
-    emitComment (TRACE_AOP, "  freeAsmop restoring stacked %s", aopName (aop));
+    emitComment (TRACE_AOP, "%s -  freeAsmop restoring stacked %s", __func__, aopName (aop));
     aop->stacked = 0;
     stackAdjust = 0;
     for (loffset = 0; loffset < aop->size; loffset++)
@@ -4014,7 +4015,7 @@ static void genUminus (iCode * ic)
       loadRegFromAop (m6502_reg_a, AOP (left), 0);
       rmwWithReg ("neg", m6502_reg_a);
       if (maskedtopbyte)
-	emit6502op ("and", IMMDFMT, topbytemask);
+        emit6502op ("and", IMMDFMT, topbytemask);
       //      m6502_freeReg (m6502_reg_a);
       storeRegToFullAop (m6502_reg_a, AOP (result), SPEC_USIGN (operandType (left)));
       goto release;
@@ -6950,6 +6951,11 @@ static void genPointerGet (iCode * ic, iCode * ifx)
   emitComment (TRACEGEN|VVDBG, "  %s dst: %s size=%d",
                __func__, aopName(AOP(result)), AOP_SIZE(result) );
 
+  if(findRegAop (AOP(result), 0)==m6502_reg_a )
+    {
+      m6502_dirtyReg(m6502_reg_a);
+    }
+
   if (AOP_TYPE (left) == AOP_REG)
     {
       char hstring[3] ="";
@@ -7183,8 +7189,10 @@ static void genPointerGet (iCode * ic, iCode * ifx)
 
   if(IS_AOP_XA(AOP(left)) && !rematOffset)
     {
-      if(ptr_aop && ptr_aop->type==AOP_DIR)
+      if(ptr_aop && ptr_aop->type==AOP_DIR && !sameRegs(ptr_aop, AOP(result)))
+        {
         use_dptr=false;
+        }
       else
         {
           restore_a_from_dptr = !m6502_reg_a->isDead;
@@ -7793,7 +7801,9 @@ genPointerSet (iCode * ic)
   if(IS_AOP_XA(AOP(result)) && !rematOffset)
     {
       if(ptr_aop && ptr_aop->type==AOP_DIR)
+        {
         use_dptr=false;
+        }
       else
         {
           restore_a_from_dptr = !m6502_reg_a->isDead;
@@ -8706,9 +8716,9 @@ genm6502iCode (iCode *ic)
 
     case '=':
       if (POINTER_SET (ic))
-	genPointerSet (ic);
+        genPointerSet (ic);
       else
-	genAssign (ic);
+        genAssign (ic);
       break;
 
     case IFX:
@@ -8733,14 +8743,14 @@ genm6502iCode (iCode *ic)
 
     case SEND:
       if (!regalloc_dry_run)
-	addSet (&_S.sendSet, ic);
+        addSet (&_S.sendSet, ic);
       else
-	{
-	  set * sendSet = NULL;
-	  addSet (&sendSet, ic);
-	  genSend (sendSet);
-	  deleteSet (&sendSet);
-	}
+        {
+	      set * sendSet = NULL;
+	      addSet (&sendSet, ic);
+	      genSend (sendSet);
+	      deleteSet (&sendSet);
+        }
       break;
 
     case DUMMY_READ_VOLATILE:
