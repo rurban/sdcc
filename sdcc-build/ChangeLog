@@ -1,7 +1,7 @@
 2025-11-20 Philipp Klaus Krause <philipp@colecovision.eu>
 
-	* sdcc-build/lib/variables.mk:
-	  Fix for ez80 port.
+	* lib/variables.mk:
+	  Fix for ez80 port regression testing.
 
 2025-10-18 Philipp Klaus Krause <philipp@colecovision.eu>
 
