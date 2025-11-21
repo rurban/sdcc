@@ -173,10 +173,24 @@ genlsh16 (operand * result, operand * left, int shCount)
     }
   else if(IS_AOP_XA(AOP(result)))
     {
-      /*  1 <= shCount <= 7 */
-      // TODO: count > 2 efficient?
-      loadRegFromAop (m6502_reg_xa, AOP (left), 0);
-      XAccLsh (m6502_reg_x, shCount);
+      if(shCount==1 && !IS_AOP_XA(AOP(left)))
+        {
+          loadRegFromAop (m6502_reg_a, AOP (left), 0);
+	  emit6502op ("asl", "a");
+          m6502_dirtyReg(m6502_reg_a);
+          storeRegTemp(m6502_reg_a, true);
+          loadRegFromAop (m6502_reg_a, AOP (left), 1);
+	  emit6502op ("rol", "a");
+          transferRegReg(m6502_reg_a, m6502_reg_x, true);
+          loadRegTemp(m6502_reg_a);
+        }
+      else
+        {
+	  /*  1 <= shCount <= 7 */
+	  // TODO: count > 2 efficient?
+	  loadRegFromAop (m6502_reg_xa, AOP (left), 0);
+	  XAccLsh (m6502_reg_x, shCount);
+	}
     }
   else if(aopCanShift(AOP(result)) && shCount <= 4)
     {
@@ -207,14 +221,12 @@ genlsh16 (operand * result, operand * left, int shCount)
     }
   else
     {
-      reg_info *reg;
-      reg=m6502_reg_x;
       needpulla = storeRegTempIfSurv (m6502_reg_a);
-      needpullx = storeRegTempIfSurv (reg);
+      needpullx = storeRegTempIfSurv (m6502_reg_x);
       loadRegFromAop (m6502_reg_xa, AOP (left), 0);
-      XAccLsh (reg, shCount);
+      XAccLsh (m6502_reg_x, shCount);
       storeRegToFullAop (m6502_reg_xa, AOP (result), 0);
-      loadOrFreeRegTemp (reg, needpullx);
+      loadOrFreeRegTemp (m6502_reg_x, needpullx);
       loadOrFreeRegTemp (m6502_reg_a, needpulla);
     }
 
