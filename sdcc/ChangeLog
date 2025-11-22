@@ -9,6 +9,8 @@
   	  Cosmetic changes.
    	* src/mos6502/tempops.c:
    	  Improve tempops debugging messages.
+   	* src/mos6502/gen.c:
+   	  Refactor genUminusFloat().
   	  
 2025-11-21 Janko Stamenović
 

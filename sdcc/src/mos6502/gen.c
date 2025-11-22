@@ -3948,27 +3948,22 @@ genCpl (iCode * ic)
 static void
 genUminusFloat (operand * op, operand * result)
 {
-  int size, offset = 0;
-  bool needpula;
+  int size, offset;
+  bool needpulla;
 
   emitComment (TRACEGEN, __func__);
 
   /* for this we just copy and then flip the bit */
+  size = AOP_SIZE (op);
+  needpulla = pushRegIfSurv (m6502_reg_a);
 
-  size = AOP_SIZE (op) - 1;
+  for(offset=0; offset<size-1; offset++)
+    transferAopAop (AOP (op), offset, AOP (result), offset);
 
-  while (size--)
-    {
-      transferAopAop (AOP (op), offset, AOP (result), offset);
-      offset++;
-    }
-
-  needpula = pushRegIfSurv (m6502_reg_a);
-  loadRegFromAop (m6502_reg_a, AOP (op), offset);
+  loadRegFromAop (m6502_reg_a, AOP (op), size-1);
   emit6502op ("eor", "#0x80");
-  //  m6502_useReg (m6502_reg_a);
-  storeRegToAop (m6502_reg_a, AOP (result), offset);
-  pullOrFreeReg (m6502_reg_a, needpula);
+  storeRegToAop (m6502_reg_a, AOP (result), size-1);
+  pullOrFreeReg (m6502_reg_a, needpulla);
 }
 
 /**************************************************************************
@@ -6375,7 +6370,9 @@ genRot8(iCode *ic, int shCount)
   printIC(ic);
 
   if(IS_AOP_WITH_A(AOP(result))) resultInA=true;
-  if(!resultInA) needpulla=pushRegIfSurv(m6502_reg_a);
+  if(!resultInA)
+    needpulla=pushRegIfSurv(m6502_reg_a);
+
   loadRegFromAop (m6502_reg_a, AOP (left), 0);
 
   if(shCount>5)
@@ -7191,7 +7188,7 @@ static void genPointerGet (iCode * ic, iCode * ifx)
     {
       if(ptr_aop && ptr_aop->type==AOP_DIR && !sameRegs(ptr_aop, AOP(result)))
         {
-        use_dptr=false;
+	  use_dptr=false;
         }
       else
         {
@@ -7802,7 +7799,7 @@ genPointerSet (iCode * ic)
     {
       if(ptr_aop && ptr_aop->type==AOP_DIR)
         {
-        use_dptr=false;
+	  use_dptr=false;
         }
       else
         {
@@ -8746,10 +8743,10 @@ genm6502iCode (iCode *ic)
         addSet (&_S.sendSet, ic);
       else
         {
-	      set * sendSet = NULL;
-	      addSet (&sendSet, ic);
-	      genSend (sendSet);
-	      deleteSet (&sendSet);
+	  set * sendSet = NULL;
+	  addSet (&sendSet, ic);
+	  genSend (sendSet);
+	  deleteSet (&sendSet);
         }
       break;
 
