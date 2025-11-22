@@ -1,3 +1,8 @@
+2025-11-22 Gabriele Gorla <gorlik@yahoo.com>
+
+  	* src/mos6502/peeph.def:
+  	  Added more peephole rules to remove dead loads.
+  	  
 2025-11-21 Janko Stamenović
 
 	* sdas/asgb/gb.h
@@ -13,7 +18,7 @@
   	  src/mos6502/genlshift.c:
   	  Optimize right/left shift 16-bit values by 1.
   	* src/mos6502/peeph.def:
-  	  Added several rules to remove dead loads.
+  	  Added several peephole rules to remove dead loads.
   	 	  
 2025-11-20 Gabriele Gorla <gorlik@yahoo.com>
 
