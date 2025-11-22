@@ -283,8 +283,6 @@ emitRegTempOp( char *op, int offset)
     }
 }
 
-
-
 void
 dirtyRegTemp (int temp_reg_idx)
 {
