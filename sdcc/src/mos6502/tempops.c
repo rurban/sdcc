@@ -148,11 +148,10 @@ storeRegTempIfUsed (reg_info *reg)
 void
 loadRegTempAt (reg_info * reg, int offset)
 {
-  int regidx = reg->rIdx;
   char loadOp[4] = "ld?";
   
-  if (offset<0)
-    emitcode("ERROR", " %s - reg temp stack underflow", __func__);
+  if (offset<0 || offset>_S.tempOfs)
+    emitcode("ERROR", " %s - called with illegal offset %d (tempOfs=%d)", __func__, offset, _S.tempOfs);
 
   if(_S.tempAttr[offset].isLiteral)
     {
@@ -160,7 +159,7 @@ loadRegTempAt (reg_info * reg, int offset)
       return;
     }
 
-  switch (regidx)
+  switch (reg->rIdx)
     {
     case A_IDX:
     case X_IDX:
@@ -177,7 +176,7 @@ loadRegTempAt (reg_info * reg, int offset)
       emit6502op (loadOp, TEMPFMT, offset);
       break;
     default:
-      emitcode("ERROR","loadRegTempAt called with illegal regidx %d", regidx);
+      emitcode("ERROR","%s - called with illegal regidx %d", __func__, reg->rIdx);
     }
   
   m6502_useReg (reg);
@@ -192,6 +191,10 @@ loadRegTempAt (reg_info * reg, int offset)
 void
 loadRegTemp (reg_info * reg)
 {
+
+  if(_S.tempOfs==0)
+    emitcode("ERROR", "%s - temp stack is empty", __func__);
+
   // pop off stack, unused
   if (reg == NULL)
     {
@@ -215,7 +218,7 @@ loadRegTemp (reg_info * reg)
       loadRegTemp(m6502_reg_x);
       break;
     default:
-      emitcode("ERROR", "bad reg in loadRegTemp()");
+      emitcode("ERROR", "%s - called with illegal regidx %d", __func__, reg->rIdx);
       break;
     }
 
@@ -266,6 +269,9 @@ loadRegTempNoFlags (reg_info * reg, bool needpull)
 void
 emitRegTempOp( char *op, int offset)
 {
+  if (offset<0 || offset>=_S.tempOfs)
+    emitcode("ERROR", " %s - called with illegal offset %d (tempOfs=%d)", __func__, offset, _S.tempOfs);
+
   if(_S.tempAttr[offset].isLiteral)
     {
       emit6502op(op, IMMDFMT, _S.tempAttr[offset].literalValue );
@@ -284,9 +290,9 @@ emitRegTempOp( char *op, int offset)
 }
 
 void
-dirtyRegTemp (int temp_reg_idx)
+dirtyRegTemp (int offset)
 {
-  _S.tempAttr[temp_reg_idx].isLiteral=false;
-  _S.tempAttr[temp_reg_idx].aop=NULL;
+  _S.tempAttr[offset].isLiteral=false;
+  _S.tempAttr[offset].aop=NULL;
 }
 

@@ -7,6 +7,8 @@
   	  src/mos6502/genplus.c,
   	  src/mos6502/genminus.c:
   	  Cosmetic changes.
+   	* src/mos6502/tempops.c:
+   	  Improve tempops debugging messages.
   	  
 2025-11-21 Janko Stamenović
 
