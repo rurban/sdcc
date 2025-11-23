@@ -1,3 +1,16 @@
+2025-11-23 Benedikt Freisen <b.freisen AT gmx.net>
+
+	* doc/sdccman.lyx,
+	  src/SDCC.y,
+	  src/SDCCast.c,
+	  src/SDCCerr.c,
+	  src/SDCCerr.h,
+	  src/SDCCglue.c,
+	  src/SDCCsymt.c,
+	  src/SDCCsymt.h,
+	  support/regression/tests/constexpr.c:
+	  Add constexpr support (slightly incomplete, C23, RFE #850).
+
 2025-11-22 Gabriele Gorla <gorlik@yahoo.com>
 
   	* src/mos6502/peeph.def:
