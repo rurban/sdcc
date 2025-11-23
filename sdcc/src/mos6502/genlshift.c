@@ -176,11 +176,11 @@ genlsh16 (operand * result, operand * left, int shCount)
           loadRegFromAop (m6502_reg_a, AOP (left), 0);
 	  emit6502op ("asl", "a");
           m6502_dirtyReg(m6502_reg_a);
-          storeRegTemp(m6502_reg_a, true);
+          fastSaveA();
           loadRegFromAop (m6502_reg_a, AOP (left), 1);
 	  emit6502op ("rol", "a");
           transferRegReg(m6502_reg_a, m6502_reg_x, true);
-          loadRegTemp(m6502_reg_a);
+          fastRestoreA();
         }
       else
         {
@@ -388,7 +388,7 @@ shiftLLong2 (operand * left, operand * result, int shift)
   bool needpulla = false;
 
   wassertl(shift>=16, "shiftLLong2 - shift<16");
-  wassertl(shift<24,  "shiftLLong2 - shift>=24");
+  wassertl(shift<24,  "shiftLLong2 - shift>23");
 
   needpulla = pushRegIfUsed (m6502_reg_a);
 
@@ -571,8 +571,8 @@ shiftLLong4 (operand * left, operand * result, int shift)
       loadRegFromAop (m6502_reg_a, AOP (left), 3);
       rmwWithReg ("lsr", m6502_reg_a);
       if(shift!=7)
+        fastSaveA();
 	//             storeRegTempAlways(m6502_reg_a, true);
-	m6502_pushReg(m6502_reg_a, false);
       loadRegFromAop (m6502_reg_a, AOP (left), 2);
       rmwWithReg ("ror", m6502_reg_a);
       storeRegToAop (m6502_reg_a, AOP (result), 3);
@@ -587,7 +587,7 @@ shiftLLong4 (operand * left, operand * result, int shift)
       storeRegToAop (m6502_reg_a, AOP (result), 0);
       if(shift!=7)
 	{
-	  m6502_pullReg(m6502_reg_a);
+          fastRestoreA();
 	  //        loadRegTemp(m6502_reg_a);
 	  while(shift!=7)
 	    {

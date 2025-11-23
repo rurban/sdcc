@@ -11,6 +11,11 @@
    	  Improve tempops debugging messages.
    	* src/mos6502/gen.c:
    	  Refactor genUminusFloat().
+   	* src/mos6502/gen.c,
+   	  src/mos6502/gen.h,
+   	  src/mos6502/genlshift.c,
+   	  src/mos6502/tempops.c:
+   	  Add fastSaveA() and fastRestoreA().
   	  
 2025-11-21 Janko Stamenović
 

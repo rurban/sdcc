@@ -30,6 +30,34 @@
 #include "gen.h"
 #include "dbuf_string.h"
 
+static bool fast_save = false;
+
+bool
+fastSaveA()
+{
+  if(m6502_reg_y->isFree && m6502_reg_y->isDead)
+    {
+      transferRegReg(m6502_reg_a, m6502_reg_y, true);
+      fast_save = true;
+    }
+  else
+    {
+      storeRegTemp(m6502_reg_a, true);
+      fast_save = false;
+    }
+  return true;
+}
+
+bool
+fastRestoreA()
+{
+  if(fast_save)
+    transferRegReg(m6502_reg_y, m6502_reg_a, true);
+  else
+    loadRegTemp(m6502_reg_a);
+  return true;
+}
+
 /**************************************************************************
  * Store register onto the REGTEMP stack. If freereg is true,
  * reg is marked free and available for reuse. If force is true,

@@ -1258,23 +1258,14 @@ loadRegFromAop (reg_info * reg, asmop * aop, int loffset)
       }
     else if(aop->type == AOP_SOF)
       {
-	bool use_y = (m6502_reg_y->isFree && m6502_reg_y->isDead);
 	m6502_freeReg(m6502_reg_x);
 	loadRegFromAop (m6502_reg_a, aop, loffset);
 	if(aop->size >= 2)
 	  {
-	    if(use_y)
-	      transferRegReg (m6502_reg_a, m6502_reg_y, true);
-	    else
-	      storeRegTemp(m6502_reg_a, true);
-
+            fastSaveA();
 	    loadRegFromAop (m6502_reg_a, aop, loffset + 1);
 	    transferRegReg(m6502_reg_a, m6502_reg_x, true);
-
-	    if(use_y)
-	      transferRegReg (m6502_reg_y, m6502_reg_a, true);
-	    else
-	      loadRegTemp(m6502_reg_a);
+            fastRestoreA();
 	  }
 	if(aop->size == 1)
 	  loadRegFromConst (m6502_reg_x, 0);
@@ -1820,11 +1811,8 @@ storeRegSignToUpperAop (reg_info * reg, asmop * aop, int loffset, bool isSigned)
       if(reg!=m6502_reg_a)
         {
           symbol *tlbl = safeNewiTempLabel (NULL);
-          if(reg==m6502_reg_x)
-            emit6502op("cpx","#0x80");
-          else
-            emit6502op("cpy","#0x80");
 
+          emitCmp (reg, 0x80);
           loadRegFromConst (reg, 0);
           emitBranch ("bcc", tlbl);
           loadRegFromConst (reg, 0xff);
