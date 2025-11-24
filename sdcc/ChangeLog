@@ -3,6 +3,8 @@
   	* src/mos6502/genplus.c,
   	  src/mos6502/genminus.c:
   	  Refactor m6502_genPlus() and m6502_genMinus().
+  	* src/mos6502/peeph.def:
+  	  Peephole rules to improve fastSaveA() and fastRestoreA().
   	  
 2025-11-23 Benedikt Freisen <b.freisen AT gmx.net>
 
