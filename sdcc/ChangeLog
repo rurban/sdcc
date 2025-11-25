@@ -1,3 +1,10 @@
+2025-11-25 Benedikt Freisen <b.freisen AT gmx.net>
+
+	* device/include/stddef.h,
+	  doc/sdccman.lyx,
+	  support/regression/tests/containerof.c:
+	  Add the containerof macro (C2y, N3398).
+
 2025-11-23 Gabriele Gorla <gorlik@yahoo.com>
 
   	* src/mos6502/genplus.c,
