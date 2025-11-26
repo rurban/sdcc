@@ -134,43 +134,6 @@
 	  support/valdiag/tests/arraybounds.c:
 	  Use [static] notation in standard library headers to enable improved diagnostics on passing null pointers where invalid. Rewrite mechanism for announcing built-in functions by ports.
 
-||||||| .merge-left.r15882
-  	* src/mos6502/peeph.def:
-  	  Added more peephole rules to remove dead loads.
-   	* src/mos6502/genrshift.c,
-  	  src/mos6502/genlshift.c,
-  	  src/mos6502/genplus.c,
-  	  src/mos6502/genminus.c:
-  	  Cosmetic changes.
-   	* src/mos6502/tempops.c:
-   	  Improve tempops debugging messages.
-   	* src/mos6502/gen.c:
-   	  Refactor genUminusFloat().
-   	* src/mos6502/gen.c,
-   	  src/mos6502/gen.h,
-   	  src/mos6502/genlshift.c,
-   	  src/mos6502/tempops.c:
-   	  Add fastSaveA() and fastRestoreA().
-  	  
-=======
-	* src/mos6502/peeph.def:
-	  Added more peephole rules to remove dead loads.
-	* src/mos6502/genrshift.c,
-	  src/mos6502/genlshift.c,
-	  src/mos6502/genplus.c,
-	  src/mos6502/genminus.c:
-	  Cosmetic changes.
-	* src/mos6502/tempops.c:
-	  Improve tempops debugging messages.
-	* src/mos6502/gen.c:
-	  Refactor genUminusFloat().
-	* src/mos6502/gen.c,
-	  src/mos6502/gen.h,
-	  src/mos6502/genlshift.c,
-	  src/mos6502/tempops.c:
-	  Add fastSaveA() and fastRestoreA().
-
->>>>>>> .merge-right.r15888
 2025-11-21 Janko Stamenović
 
 	* sdas/asgb/gb.h
@@ -182,49 +145,14 @@
 
 2025-11-21 Gabriele Gorla <gorlik@yahoo.com>
 
-<<<<<<< .working
-  	* src/mos6502/genrshift.c,
-  	  src/mos6502/genlshift.c:
-  	  Optimize right/left shift 16-bit values by 1.
-  	* src/mos6502/peeph.def:
-  	  Added several peephole rules to remove dead loads.
-
-||||||| .merge-left.r15882
-  	* src/mos6502/genrshift.c,
-  	  src/mos6502/genlshift.c:
-  	  Optimize right/left shift 16-bit values by 1.
-  	* src/mos6502/peeph.def:
-  	  Added several peephole rules to remove dead loads.
-  	 	  
-=======
 	* src/mos6502/genrshift.c,
 	  src/mos6502/genlshift.c:
 	  Optimize right/left shift 16-bit values by 1.
 	* src/mos6502/peeph.def:
 	  Added several peephole rules to remove dead loads.
 
->>>>>>> .merge-right.r15888
 2025-11-20 Gabriele Gorla <gorlik@yahoo.com>
 
-<<<<<<< .working
-  	* src/mos6502/stackops.c,
-  	  src/mos6502/genlshift.c,
-  	  src/mos6502/genplus.c,
-  	  src/mos6502/genminus.c,
-  	  src/mos6502/gen.h,
-  	  src/mos6502/gen.c:
-  	  Partial fix for bug #3851.
-
-||||||| .merge-left.r15882
-  	* src/mos6502/stackops.c,
-  	  src/mos6502/genlshift.c,
-  	  src/mos6502/genplus.c,
-  	  src/mos6502/genminus.c,
-  	  src/mos6502/gen.h,
-  	  src/mos6502/gen.c:
-  	  Partial fix for bug #3851.
-  	  
-=======
 	* src/mos6502/stackops.c,
 	  src/mos6502/genlshift.c,
 	  src/mos6502/genplus.c,
@@ -233,7 +161,6 @@
 	  src/mos6502/gen.c:
 	  Partial fix for bug #3851.
 
->>>>>>> .merge-right.r15888
 2025-11-20 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/SDCC.y,
@@ -255,10 +182,9 @@
 
 2025-11-19 Gabriele Gorla <gorlik@yahoo.com>
 
-<<<<<<< .working
-  	* src/mos6502/ralloc.c,
-  	  src/mos6502/gen.c:
-  	  Improve register tracking.
+	* src/mos6502/ralloc.c,
+	  src/mos6502/gen.c:
+	  Improve register tracking.
 
 2025-11-19 Philipp Klaus Krause <philipp@colecovision.eu>
 
@@ -271,38 +197,13 @@
 	  support/valdiag/tests/arraybounds.c:
 	  Generalize  [static] parameter warning to also warn on dereference of invalid pointers. Improve pointer arithmetic support in static analysis for such warnings.
 
-||||||| .merge-left.r15882
-  	* src/mos6502/ralloc.c,
-  	  src/mos6502/gen.c:
-  	  Improve register tracking.
-  	  
-=======
-	* src/mos6502/ralloc.c,
-	  src/mos6502/gen.c:
-	  Improve register tracking.
-
->>>>>>> .merge-right.r15888
 2025-11-18 Gabriele Gorla <gorlik@yahoo.com>
 
-<<<<<<< .working
-  	* device/lib/mos6502/fabsf.s:
-  	  Use ZP addressing to store fabs result.
-  	* src/mos6502/gen.c,
-  	  support/regression/fwk/lib/testfwk.c:
-	  Fix bug #3863
-||||||| .merge-left.r15882
-  	* device/lib/mos6502/fabsf.s:
-  	  Use ZP addressing to store fabs result.
-  	* src/mos6502/gen.c,
-  	  support/regression/fwk/lib/testfwk.c:
-      Fix bug #3863
-=======
 	* device/lib/mos6502/fabsf.s:
 	  Use ZP addressing to store fabs result.
 	* src/mos6502/gen.c,
 	  support/regression/fwk/lib/testfwk.c:
 	  Fix bug #3863
->>>>>>> .merge-right.r15888
 
 2025-11-17 Philipp Klaus Krause <philipp@colecovision.eu>
 
