@@ -223,8 +223,11 @@ m6502_genOr (iCode * ic, iCode * ifx)
       }
     }
 
-
   needpulla = fastSaveAIfSurv();
+
+  // prevent from saving A again
+  if(needpulla)
+    m6502_reg_a->isDead=true;
 
   emitComment (TRACEGEN|VVDBG, "  %s: general path", __func__);
 
