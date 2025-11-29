@@ -1,3 +1,9 @@
+2025-11-29 Gabriele Gorla <gorlik@yahoo.com>
+
+	* src/mos6502/genplus.c,
+	  src/mos6502/genminus.c:
+	  Refactor genPlus and genMinus.
+	  
 2025-11-29 Benedikt Freisen <b.freisen AT gmx.net>
 
 	* doc/sdccman.lyx,
