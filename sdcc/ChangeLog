@@ -1,3 +1,8 @@
+2025-11-30 Gabriele Gorla <gorlik@yahoo.com>
+
+	* src/mos6502/tempops.c:
+	  Add more debugging information to temp reg operations.
+	
 2025-11-29 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* Merge arraybounds branch.
