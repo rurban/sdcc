@@ -9,7 +9,7 @@ AC_CONFIG_SRCDIR([Makefile.in])
 # ===========================================================================
 AC_CANONICAL_HOST
 
-AC_CONFIG_HEADERS([sdccconf.h:sdccconf_in.h sdas/linksrc/asxxxx_config.h])
+AC_CONFIG_HEADERS([sdccconf.h:sdccconf_in.h])
 
 AC_PROG_AWK
 

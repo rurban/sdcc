@@ -3091,7 +3091,7 @@ case $host_os in *\ *) host_os=`echo "$host_os" | sed 's/ /-/g'`;; esac
 
 
 
-ac_config_headers="$ac_config_headers sdccconf.h:sdccconf_in.h sdas/linksrc/asxxxx_config.h"
+ac_config_headers="$ac_config_headers sdccconf.h:sdccconf_in.h"
 
 
 for ac_prog in gawk mawk nawk awk
@@ -9724,7 +9724,6 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "sdccconf.h") CONFIG_HEADERS="$CONFIG_HEADERS sdccconf.h:sdccconf_in.h" ;;
-    "sdas/linksrc/asxxxx_config.h") CONFIG_HEADERS="$CONFIG_HEADERS sdas/linksrc/asxxxx_config.h" ;;
     "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
     "src/ds390/Makefile") CONFIG_FILES="$CONFIG_FILES src/ds390/Makefile" ;;
     "sdas/as8xcxxx/Makefile") CONFIG_FILES="$CONFIG_FILES sdas/as8xcxxx/Makefile" ;;
