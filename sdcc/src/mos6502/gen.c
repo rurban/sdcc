@@ -2461,6 +2461,8 @@ setupDPTR(operand *op, int offset, char * rematOfs, bool savea)
         transferRegReg(m6502_reg_y, m6502_reg_a, true);
       else
         m6502_freeReg(m6502_reg_a);
+      if(IS_AOP_XA(AOP(op)))
+        m6502_freeReg(m6502_reg_x);
       return 0;
     }
 }
@@ -7080,7 +7082,7 @@ static void genPointerGet (iCode * ic, iCode * ifx)
            || ( AOP_TYPE(left) == AOP_REG && AOP(left)->aopu.aop_reg[1]->isLitConst ) ) )
 #else
     // index can only be a register
-    if (rematOffset && AOP_TYPE(left) == AOP_REG &&
+    if (AOP_TYPE(left) == AOP_REG &&
         (AOP_SIZE(left) == 1|| AOP(left)->aopu.aop_reg[1]->isLitConst ))
 #endif
       {
@@ -7089,8 +7091,14 @@ static void genPointerGet (iCode * ic, iCode * ifx)
         char *dst_reg;
         char idx_reg;
 
+        if(!rematOffset)
+          rematOffset="0x0000";
+
         if(AOP_SIZE(left)==2)
+          {
           hi_offset=(AOP(left)->aopu.aop_reg[1]->litConst)<<8;
+            m6502_freeReg(m6502_reg_x);
+          }
 
         if(AOP_TYPE(left)==AOP_REG)
 	  {
@@ -7135,7 +7143,7 @@ static void genPointerGet (iCode * ic, iCode * ifx)
 
         if(idx_reg=='A' || idx_reg=='M')
 	  {
-            if(dst_reg[2]=='x' || m6502_reg_x->aop==&tsxaop)
+            if(dst_reg[2]=='x' || m6502_reg_x->aop==&tsxaop || AOP_TYPE(result)==AOP_SOF)
 	      {
 		py = storeRegTempIfSurv(m6502_reg_y);
 		loadRegFromAop(m6502_reg_y, AOP(left), 0 );
@@ -7156,15 +7164,11 @@ static void genPointerGet (iCode * ic, iCode * ifx)
 	    //             loadRegFromAop (m6502_reg_a, AOP (right), 0);
 	    //             dst_reg="lda";
 	    pa = storeRegTempIfSurv(m6502_reg_a);
-	    emit6502op("lda", "(%s+%d+0x%04x),%c",
-		       rematOffset, litOffset, hi_offset, idx_reg );
-
-	    storeRegToAop (m6502_reg_a, AOP (result), 0);
-            if(AOP_SIZE(result)==2)
+            for(offset=0; offset<AOP_SIZE(result); offset++)
               {
-		emit6502op("lda", "(%s+%d+0x%04x),%c",
-			   rematOffset, litOffset+1, hi_offset, idx_reg );
-		storeRegToAop (m6502_reg_a, AOP (result), 1);
+		emit6502op("lda", "(%s+0x%04x+%d),%c",
+			   rematOffset, litOffset+hi_offset, offset, idx_reg );
+		storeRegToAop (m6502_reg_a, AOP (result), offset);
               }
 	    loadOrFreeRegTemp(m6502_reg_a,pa);
 	  }
@@ -7722,10 +7726,9 @@ genPointerSet (iCode * ic)
 #endif
       {
         emitComment (TRACEGEN|VVDBG,"  %s - absolute with 8-bit index", __func__);
-        emitComment (TRACEGEN|VVDBG,"    reg : %d  size:%d", AOP(result)->aopu.aop_reg[0]->rIdx,  AOP_SIZE(result) );
         
-        emitComment (TRACEGEN|VVDBG,"    AOP TYPE(result)=%d",AOP_TYPE (result));
-        emitComment (TRACEGEN|VVDBG,"    AOP(result) reg=%d",AOP(result)->aopu.aop_reg[0]->rIdx);
+        emitComment (TRACEGEN|VVDBG,"    result TYPE=%d",AOP_TYPE (result));
+        emitComment (TRACEGEN|VVDBG,"    AOP(result) reg=%s  size=%d",AOP(result)->aopu.aop_reg[0]->name, AOP_SIZE(result));
         unsigned int hi_offset=0;
         char src_reg = 0;
         char idx_reg;
@@ -7737,7 +7740,10 @@ genPointerSet (iCode * ic)
         
         
         if(AOP_SIZE(result)==2)
+          {
           hi_offset=(AOP(result)->aopu.aop_reg[1]->litConst)<<8;
+            m6502_freeReg(m6502_reg_x);
+          }
         
         //  if ( ( AOP_TYPE(result) == AOP_REG && AOP(result)->aopu.aop_reg[0]->isLitConst ) )
         //      emitcode("ERROR","");

@@ -3,6 +3,8 @@
 	* src/mos6502/genplus.c,
 	  src/mos6502/genminus.c:
 	  Fix bug in c90-isort.
+  	* src/mos6502/gen.c:
+  	  Improve genPointerGet and genPointerSet.
 
 2025-12-07 Philipp Klaus Krause <philipp@colecovision.eu>
 
