@@ -69,14 +69,13 @@ genPlusInc (iCode * ic)
         {
           if(m6502_reg_x->isLitConst)
             {
-	      //              loadRegFromConst(m6502_reg_x, m6502_reg_x->litConst - bcount);
-              emit6502op ("ldx", "0x%02x", (m6502_reg_x->litConst + bcount)&0xff );
+	      loadRegFromConst(m6502_reg_x, m6502_reg_x->litConst + bcount);
 	      return true;
             }
           else if(bcount<4)
             {
 	      while (bcount--)
-		emit6502op ("inx", "");
+		rmwWithReg ("inc", m6502_reg_x);
 
 	      return true;
             }
@@ -93,7 +92,7 @@ genPlusInc (iCode * ic)
           emitSetCarry (0);
           accopWithAop ("adc", AOP (right), 0);
           emitBranch ("bcc", tlbl);
-          emit6502op ("inx", "");
+	  rmwWithReg ("inc", m6502_reg_x);
           safeEmitLabel (tlbl);
           m6502_dirtyReg(m6502_reg_x);
         }
