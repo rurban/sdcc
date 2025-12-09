@@ -588,7 +588,6 @@ shiftLLong4 (operand * left, operand * result, int shift)
       if(shift!=7)
 	{
           fastRestoreA();
-	  //        loadRegTemp(m6502_reg_a);
 	  while(shift!=7)
 	    {
 	      rmwWithReg ("lsr", m6502_reg_a);
@@ -804,7 +803,7 @@ m6502_genLeftShift (iCode * ic)
       //	emitcode("ERROR", "%s: countreg is null", __func__);
       if(!m6502_reg_y->isDead && !IS_AOP_WITH_Y (AOP (result)))
         {
-	  storeRegTemp(m6502_reg_y, true);
+	  storeRegTemp(m6502_reg_y, !IS_AOP_WITH_Y (AOP (right)));
 	  restore_y=true;
         }
       countreg = m6502_reg_y;
