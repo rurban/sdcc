@@ -3,6 +3,9 @@
 	* device/lib/mos6502/__stdc_bit_width.s,
 	  device/lib/mos6502/__stdc_count_ones.s:
 	  Add assembly implementations of stdc_bit_width and stdc_count_ones.
+  	* src/mos6502/genlshift.c,
+	  src/mos6502/genrshift.c:
+	  Add optimization for longlong shifts.
 	
 2025-12-09 Gabriele Gorla <gorlik@yahoo.com>
 
