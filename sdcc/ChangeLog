@@ -3,8 +3,11 @@
 	* support/regression/tests/bitcount.c.in,
 	  support/regression/tests/bitcountleading.c.in,
 	  support/regression/tests/bitfirst.c.in,
-	  support/regression/tests/bitfirstleading.c.in:
-	  Partial fix for bug #3900.
+	  support/regression/tests/bitfirstleading.c.in,
+	  device/include/stdbit.h,
+	  device/lib/__stdc_trailing_ones.c,
+	  support/regression/tests/bitcounttrailing.c.in:
+	  Fix bug #3900.
 
 2025-12-10 Gabriele Gorla <gorlik@yahoo.com>
 
