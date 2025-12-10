@@ -1,3 +1,11 @@
+2025-12-10 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* support/regression/tests/bitcount.c.in,
+	  support/regression/tests/bitcountleading.c.in,
+	  support/regression/tests/bitfirst.c.in,
+	  support/regression/tests/bitfirstleading.c.in:
+	  Partial fix for bug #3900.
+
 2025-12-10 Gabriele Gorla <gorlik@yahoo.com>
 
 	* device/lib/mos6502/__stdc_bit_width.s,
@@ -6,7 +14,7 @@
   	* src/mos6502/genlshift.c,
 	  src/mos6502/genrshift.c:
 	  Add optimization for longlong shifts.
-	
+
 2025-12-09 Gabriele Gorla <gorlik@yahoo.com>
 
 	* src/mos6502/genplus.c,
@@ -26,7 +34,7 @@
   	  device/lib/mos65c02/_srulonglong.c,
   	  device/lib/mos65c02/_srslonglong.c:
   	  Enable longlong shifts without support routines.
-  	  
+
 2025-12-07 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* Merge _Optional branch.
