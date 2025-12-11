@@ -2,6 +2,8 @@
 
 	* src/mos6502/genplus.c:
 	  Minor genPlus optimizations.
+  	* src/mos6502/gen.c:
+  	  Pointer handling improvements.
 	  
 2025-12-10 Philipp Klaus Krause <philipp@colecovision.eu>
 
