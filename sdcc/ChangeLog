@@ -1,3 +1,10 @@
+2025-12-11 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/z80/gen.c,
+	  src/z80/peeph.def,
+	  src/z80/ralloc2.cc:
+	  Mitigate z80 code size regression from _Optional branch merge.
+
 2025-12-09 Gabriele Gorla <gorlik@yahoo.com>
 
 	* src/mos6502/genplus.c:
