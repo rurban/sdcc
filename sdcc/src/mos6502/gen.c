@@ -123,8 +123,6 @@ regTrackAop(reg_info *reg, asmop *aop, int offset)
 {
   if(!reg)
     emitcode(";ERROR","  %s : called with NULL reg", __func__ );
-  if(!aop)
-    emitcode(";ERROR","  %s : called with NULL aop", __func__ );
 
   switch(reg->rIdx)
     {
@@ -132,9 +130,15 @@ regTrackAop(reg_info *reg, asmop *aop, int offset)
     case X_IDX:
     case Y_IDX:
       reg->aop = aop;
-      reg->aop->op = aop->op;
-      reg->aopofs = offset;
-      emitComment (REGOPS|VVDBG, "%s -  reg %s = A+%d", __func__, reg->name, offset);
+      if(aop)
+        {
+          reg->aop->op = aop->op;
+          reg->aopofs = offset;
+          emitComment (REGOPS|VVDBG, "%s -  reg %s = A+%d", __func__, reg->name, offset);
+        }
+      else
+        emitComment (REGOPS|VVDBG, "%s -  reg %s = cleared", __func__, reg->name);
+
       break;
     case XA_IDX:
       regTrackAop(m6502_reg_a, aop, offset);
@@ -986,8 +990,8 @@ transferRegReg (reg_info *sreg, reg_info *dreg, bool freesrc)
           if(m6502_reg_y->isLitConst) {
             loadRegFromConst (m6502_reg_x, m6502_reg_y->litConst);
           } else if(m6502_reg_a->isFree) {
-            emit6502op ("tya", "");
-            emit6502op ("tax", "");
+            transferRegReg(m6502_reg_y, m6502_reg_a, freesrc);
+            transferRegReg(m6502_reg_a, m6502_reg_x, true);
           } else {
             if (IS_MOS65C02) {
               emit6502op ("phy", "");
@@ -1074,7 +1078,7 @@ transferRegReg (reg_info *sreg, reg_info *dreg, bool freesrc)
       dreg->isLitConst = sreg->isLitConst;
       dreg->litConst = sreg->litConst;
     }
-  else if(sreg->aop)
+  else
     {
       regTrackAop(dreg, sreg->aop, sreg->aopofs);
     }
