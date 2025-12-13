@@ -5726,8 +5726,16 @@ skip_byte:
         }
       else if (aopRS (result) && aopOnStack (source, soffset + i, 1) && !aopOnStack (result, roffset + i, 1))
         {
-          if (requiresHL (source) && !hl_free && (aopInReg (result, roffset + i, L_IDX) || aopInReg (result, roffset + i, H_IDX)))
+          if (source->type == AOP_EXSTK && !IY_RESERVED && !IS_SM83 && !IS_TLCS870)
             {
+              if (!iy_free)
+                _push (PAIR_IY);
+              cheapMove (result, roffset + i, source, soffset + i, a_free);
+              if (!iy_free)
+                _pop (PAIR_IY);
+            }
+          else if (requiresHL (source) && !hl_free && (aopInReg (result, roffset + i, L_IDX) || aopInReg (result, roffset + i, H_IDX)))
+            {emit2(";A");
               if (!a_free)
                 _push (PAIR_AF);
               _push (PAIR_HL);
@@ -5736,14 +5744,6 @@ skip_byte:
               cheapMove (result, roffset + i, ASMOP_A, 0, true);
               if (!a_free)
                 _pop (PAIR_AF);
-            }
-          else if (source->type == AOP_EXSTK && !IY_RESERVED && !IS_SM83 && !IS_TLCS870)
-            {
-              if (!iy_free)
-                _push (PAIR_IY);
-              cheapMove (result, roffset + i, source, soffset + i, a_free);
-              if (!iy_free)
-                _pop (PAIR_IY);
             }
           else
             {

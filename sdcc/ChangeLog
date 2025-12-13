@@ -1,3 +1,11 @@
+2025-12-13 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/z80/gen.c,
+	  src/z80/peeph.def,
+	  support/regression/tests/far_rabbit_fields.c,
+	  support/regression/tests/far_rabbits.c.in:
+	  Fixes for TLCS-90 and Rabbit __far support.
+
 2025-12-13 Gabriele Gorla <gorlik@yahoo.com>
 
 	* src/mos6502/gen.c:
