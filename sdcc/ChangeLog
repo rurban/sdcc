@@ -8,7 +8,9 @@
 	  src/SDCCmain.c,
 	  src/SDCCpeeph.c,
 	  src/SDCCsymt.c,
-	  src/SDCCsymt.h:
+	  src/SDCCsymt.h,
+	  src/SDCCdwarf2.c,
+	  src/SDCCdwarf2.h:
 	  Improve const correctness for strings.
 
 2025-12-11 Philipp Klaus Krause <philipp@colecovision.eu>
