@@ -1,3 +1,16 @@
+2025-12-13 Philipp Klaus Krause <philipp@colecovision.eu>
+
+	* src/SDCCast.c,
+	  src/SDCCglobl.h,
+	  src/SDCCglue.c,
+	  src/SDCCicode.c,
+	  src/SDCCicode.h,
+	  src/SDCCmain.c,
+	  src/SDCCpeeph.c,
+	  src/SDCCsymt.c,
+	  src/SDCCsymt.h:
+	  Improve const correctness for strings.
+
 2025-12-11 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/z80/gen.c,
