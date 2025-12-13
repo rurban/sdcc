@@ -2310,6 +2310,56 @@ rmwWithAop (char *rmwop, asmop * aop, int loffset)
 }
 
 /**************************************************************************
+ * load reg from DPTR at offset dofs
+ *************************************************************************/
+static void
+loadRegFromDPTR(reg_info *reg, int dofs)
+{
+  int regidx=reg->rIdx;
+
+  if(_S.DPTRAttr[dofs].isLiteral)
+    {
+
+  if(reg->isLitConst
+     && reg->litConst == _S.DPTRAttr[dofs].literalValue )
+      emitComment (TRACEGEN, " %s: DPTR[%d] has same literal %02x",
+                   __func__, dofs, reg->litConst);
+      else
+        loadRegFromConst(reg, _S.DPTRAttr[dofs].literalValue);
+
+      return;
+    }
+
+  if ( reg->aop && _S.DPTRAttr[dofs].aop && sameRegs (reg->aop, _S.DPTRAttr[dofs].aop) 
+       && (reg->aopofs == dofs) )
+    {
+      emitComment (TRACEGEN, " %s: register already has result", __func__);
+      return;
+    }
+
+  switch(regidx)
+    {
+    case A_IDX:
+      emit6502op ("lda", DPTRFMT, dofs);
+      break;
+    case X_IDX:
+      emit6502op ("ldx", DPTRFMT, dofs);
+      break;
+    case Y_IDX:
+      emit6502op ("ldy", DPTRFMT, dofs);
+      break;
+    default:
+      emitcode("ERROR","  %s: illegal register index %d", __func__, regidx);
+      return;
+    }
+
+  reg->isLitConst=_S.DPTRAttr[dofs].isLiteral;
+  reg->litConst=_S.DPTRAttr[dofs].literalValue;
+  reg->aop=_S.DPTRAttr[dofs].aop;
+  reg->aopofs=_S.DPTRAttr[dofs].aopofs;
+}
+
+/**************************************************************************
  * stores reg in DPTR at offset dofs
  *************************************************************************/
 static void
@@ -7279,9 +7329,9 @@ static void genPointerGet (iCode * ic, iCode * ifx)
   loadOrFreeRegTemp (m6502_reg_a, needpulla);
 
   if(restore_x_from_dptr)
-    emit6502op ("ldx", "*(DPTR+1)");
+    loadRegFromDPTR(m6502_reg_x, 1);
   if(restore_a_from_dptr)
-    emit6502op ("lda", "*(DPTR+0)");
+    loadRegFromDPTR(m6502_reg_a, 0);
 
  release:
   freeAsmop (left, NULL);
@@ -7939,9 +7989,9 @@ genPointerSet (iCode * ic)
     }
 
   if(restore_x_from_dptr)
-    emit6502op ("ldx", "*(DPTR+1)");
+    loadRegFromDPTR(m6502_reg_x, 1);
   if(restore_a_from_dptr)
-    emit6502op ("lda", "*(DPTR+0)");
+    loadRegFromDPTR(m6502_reg_a, 0);
     
   freeAsmop (result, NULL);
   freeAsmop (right, NULL);    
