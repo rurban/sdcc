@@ -7217,6 +7217,8 @@ static void genPointerGet (iCode * ic, iCode * ifx)
 		py = storeRegTempIfSurv(m6502_reg_y);
 		loadRegFromAop(m6502_reg_y, AOP(left), 0 );
 		idx_reg='y';
+                if(AOP_TYPE(result)==AOP_SOF)
+                  px = storeRegTempIfSurv(m6502_reg_x);
 	      }
 	    else
 	      {
@@ -7785,16 +7787,10 @@ genPointerSet (iCode * ic)
       goto release;
     }
   
-#if 1
   // abs,x or abs,y with index in register or memory
-  if (rematOffset
+  if ( !bit_field 
       && ( AOP_SIZE(result)==1
            || ( AOP_TYPE(result) == AOP_REG && AOP(result)->aopu.aop_reg[1]->isLitConst ) ) )
-#else
-    // abs,x or abs,y with index in register
-    if (rematOffset && AOP_TYPE(result)== AOP_REG
-        && ( AOP_SIZE(result) == 1 || AOP(result)->aopu.aop_reg[1]->isLitConst ) )
-#endif
       {
         emitComment (TRACEGEN|VVDBG,"  %s - absolute with 8-bit index", __func__);
         
@@ -7807,6 +7803,9 @@ genPointerSet (iCode * ic)
         bool py = false;
         bool pa = false;
         bool restore_a_from_idx = false;
+
+        if(!rematOffset)
+          rematOffset="0x0000";
         
         if(AOP_SIZE(result)==2)
           {
@@ -7848,10 +7847,15 @@ genPointerSet (iCode * ic)
 	      }
 	  }
         
-        loadRegFromAop (m6502_reg_a, AOP (right), 0);
+        if(!px && AOP_TYPE(right)==AOP_SOF)
+          px = storeRegTempIfSurv(m6502_reg_x);
         
-        emit6502op("sta", "(%s+0x%04x+%d),%s",
-                   rematOffset, hi_offset, litOffset, idx_reg->name );
+        for (offset=0; offset<size; offset++)
+          {
+            loadRegFromAop (m6502_reg_a, AOP (right), offset);        
+            emit6502op("sta", "(%s+0x%04x+%d),%s",
+                   rematOffset, hi_offset+litOffset, offset, idx_reg->name );
+          }
         
         if(restore_a_from_idx)
           transferRegReg(idx_reg, m6502_reg_a, true);
@@ -7864,6 +7868,9 @@ genPointerSet (iCode * ic)
         
         goto release;
       }
+
+  // FIXME: one case in qct_0015 stack-auto ends up in general
+  // but could be captured in abs,x
 
   // general case
   emitComment (TRACEGEN|VVDBG,"  %s - general case ", __func__);
@@ -7893,10 +7900,13 @@ genPointerSet (iCode * ic)
   else
     {
 
-      if(IS_SAME_DPTR_OP(result) && IS_AOP_A(AOP(right)) && !rematOffset && litOffset<255)
+      if(IS_SAME_DPTR_OP(result) && !rematOffset && litOffset<255)
         {
           // do nothing: no need to save a in this case
-          emitComment (TRACEGEN|VVDBG,"    %s : skip saving A", __func__ );
+          if(!IS_AOP_A(AOP(right)))
+            needloada = storeRegTempIfSurv (m6502_reg_a);
+          else
+            emitComment (TRACEGEN|VVDBG,"    %s : skip saving A", __func__ );
         }
       else if(AOP_TYPE(result)!=AOP_SOF && IS_AOP_A(AOP(right)) && !rematOffset && litOffset<255)
         {
@@ -7949,6 +7959,9 @@ genPointerSet (iCode * ic)
   else
     yoff=litOffset;
 
+  if(IS_AOP_WITH_X(AOP(result)))
+    m6502_freeReg(m6502_reg_x);
+
   if(IS_AOP_WITH_A (AOP(right)))
     if(needloada)
       loadRegTempAt(m6502_reg_a, aloc);
@@ -7975,18 +7988,16 @@ genPointerSet (iCode * ic)
 
  release:
   loadOrFreeRegTemp (m6502_reg_y, needloady);
-  loadOrFreeRegTemp (m6502_reg_x, needloadx);
 
-  if(IS_AOP_A (AOP(right)))
-    {
-      if(needloada)
+  if(!m6502_reg_x->isDead)
+    loadOrFreeRegTemp (m6502_reg_x, needloadx);
+  else if(needloadx)
         loadRegTemp(NULL);
-      m6502_freeReg(m6502_reg_a);
-    }
-  else
-    {
+
+  if(!m6502_reg_a->isDead && !IS_AOP_A (AOP(right)))
       loadOrFreeRegTemp (m6502_reg_a, needloada);
-    }
+  else if(needloada)
+        loadRegTemp(NULL);
 
   if(restore_x_from_dptr)
     loadRegFromDPTR(m6502_reg_x, 1);
