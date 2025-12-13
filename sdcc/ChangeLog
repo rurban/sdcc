@@ -4,7 +4,9 @@
 	  Improve restoring registers from DPTR.
   	* src/mos6502/gen.c:
 	  Fix structparam regressions failures in stack-auto.
-
+  	* src/mos6502/gen.c:
+	  Additional stack pointer tracking.
+	  
 2025-12-13 Philipp Klaus Krause <philipp@colecovision.eu>
 
 	* src/z80/gen.c,

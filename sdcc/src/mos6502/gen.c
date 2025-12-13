@@ -80,6 +80,8 @@ const int STACK_TOP = 0x100;
 #define IS_SAME_DPTR_OP(op) (AOP(op) && _S.DPTRAttr[0].aop && _S.DPTRAttr[1].aop \
 			     && sameRegs (AOP(op), _S.DPTRAttr[0].aop))
 
+#define ABS(a) (((a)>0)?a:-a)
+
 /**************************************************************************
  * returns the register containing the AOP or null if not found
  *
@@ -8068,7 +8070,8 @@ static void genAddrOf (iCode * ic)
   bool needloada, needloadx;
   struct dbuf_s dbuf;
 
-  emitComment (TRACEGEN, __func__);
+  emitComment (TRACEGEN, "%s - symbol: %s",
+    (sym->onStack)?"on stack":sym->rname, __func__);
 
   aopOp (result, ic);
 
@@ -8080,18 +8083,37 @@ static void genAddrOf (iCode * ic)
       needloada = storeRegTempIfSurv (m6502_reg_a);
       needloadx = storeRegTempIfSurv (m6502_reg_x);
       /* if it has an offset then we need to compute it */
+
+      emitComment (TRACEGEN|VVDBG, "  %s : sym on stack @ %d", __func__, sym->stack);
+
+      if(m6502_reg_x->aop==&tsxaop)
+        {
+          int oldOff = -(_S.stackOfs + _S.tsxStackPushes + _S.stackPushes + sym->stack +1);
+          int newOff = -(_S.stackOfs + 2 * _S.stackPushes + sym->stack + 1);
+
+          emitComment (TRACEGEN|VVDBG, "  %s : old: %d   new: %d", __func__, oldOff, newOff);
+
+          if(ABS(newOff)<4 && ABS(newOff)<ABS(oldOff))
+            m6502_dirtyReg(m6502_reg_x);
+        }
+
       emitTSX();
       offset = _S.stackOfs + _S.tsxStackPushes + _S.stackPushes + sym->stack + 1;
+
       if(smallAdjustReg(m6502_reg_x, offset))
 	offset=0;
+
       transferRegReg (m6502_reg_x, m6502_reg_a, true);
       if (offset)
 	{
 	  emitSetCarry(0);
 	  emit6502op ("adc", IMMDFMT, (unsigned int)offset & 0xffu);
 	}
+
       if(IS_AOP_XA(AOP(result)))
 	{
+          m6502_reg_a->aop=&tsxaop;
+          _S.tsxStackPushes-=offset;
 	  loadRegFromConst(m6502_reg_x, 0x01); // stack top = 0x100
 	}
       else
