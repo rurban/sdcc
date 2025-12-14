@@ -4754,16 +4754,34 @@ genFunction (iCode * ic)
   emitComment (ALWAYS, m6502_assignment_optimal ? "Register assignment is optimal." : "Register assignment might be sub-optimal.");
   emitComment (ALWAYS, "Stack space usage: %d bytes.", sym->stack);
 
+  symbol *p1 = NULL, *p2 = NULL;
+  int recvsize = 0;
+
+  
+  if(ric)
+    {
+      p1 = OP_SYMBOL (IC_RESULT (ric));
+      recvsize += p1 ? getSize (p1->type) : 0;
+      iCode *ric2 = (ric->next && ric->next->op == RECEIVE) ? ric->next : NULL;
+      if(recvsize==1 && ric2)
+        {
+          p2 = OP_SYMBOL (IC_RESULT (ric2));
+          recvsize += p2 ? getSize (p2->type) : 0;
+        }
+    }
+
+  emitComment (ALWAYS, "%s - ric rcvsize = %d", __func__, recvsize);
+
   emitcode ("", "%s:", sym->rname);
   genLine.lineCurr->isLabel = 1;
   ftype = operandType (IC_LEFT (ic));
 
-  if (sym->recvSize>0)
+  if (recvsize==1 || recvsize == 2)
     {
       m6502_useReg (m6502_reg_a);
       m6502_reg_a->isDead=0;
     }
-  if (sym->recvSize>1)
+  if (recvsize==2)
     {
       m6502_useReg (m6502_reg_x);
       m6502_reg_x->isDead=0;
