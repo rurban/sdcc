@@ -6,6 +6,8 @@
 	  genFunction improvements.
   	* src/mos6502/stackops.c:
 	  debugging logs improvements.
+  	* src/mos6502/gen.c:
+	  Fix most of the stack-auto regression failures.
 
 2025-12-13 Gabriele Gorla <gorlik@yahoo.com>
 
