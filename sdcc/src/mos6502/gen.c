@@ -1948,7 +1948,7 @@ transferAopAop (asmop *srcaop, int srcofs, asmop *dstaop, int dstofs)
   /* ignore transfers at the same byte, unless its volatile */
   if (srcaop->op && !isOperandVolatile (srcaop->op, false)
       && dstaop->op && !isOperandVolatile (dstaop->op, false)
-      && operandsEqu (srcaop->op, dstaop->op) && srcofs == dstofs && dstaop->type == srcaop->type)
+      && sameRegs (srcaop, dstaop) && srcofs == dstofs && dstaop->type == srcaop->type)
     return;
 
   if (srcaop->stacked && srcaop->stk_aop[srcofs])
@@ -4849,7 +4849,7 @@ genFunction (iCode * ic)
   _S.stackPushes = 0;
   _S.tsxStackPushes = 0;
   _S.funcHasBasePtr = 0;
-  // TODO: how to see if needed? how to count params?
+
   if ( stackAdjust || sym->stack || numStackParams || IFFUNC_ISREENT(sym->type) )
     {
       saveBasePtr();
@@ -4979,6 +4979,7 @@ static void genRet (iCode * ic)
   /* we have something to return then
      move the return value into place */
   aopOp (left, ic);
+
   size = AOP_SIZE (left);
   const bool bigreturn = IS_STRUCT (operandType (left));
 
@@ -7968,13 +7969,35 @@ genPointerSet (iCode * ic)
     if(needloada)
       loadRegTempAt(m6502_reg_a, aloc);
 
-  if(IS_AOP_WITH_X (AOP(right)))
-    if(needloadx)
-      loadRegTempAt(m6502_reg_x, xloc);
-
   if(IS_AOP_WITH_Y (AOP(right)))
     if(needloady)
       loadRegTempAt(m6502_reg_y, yloc);
+
+  if(IS_AOP_XA (AOP(right)) && m6502_reg_x->isDead)
+    {
+          loadRegFromAop (m6502_reg_a, AOP (right), 0);
+          loadRegFromConst(m6502_reg_y, yoff);
+          if(use_dptr)
+            emit6502op("sta", INDFMT_IY, "DPTR");
+          else
+            emit6502op("sta", INDFMT_IY, ptr_aop->aopu.aop_dir);
+
+        if(needloadx)
+          loadRegTempAt(m6502_reg_a, xloc);
+        else
+          loadRegFromAop (m6502_reg_a, AOP (right), 1);
+
+          loadRegFromConst(m6502_reg_y, yoff + 1);
+          if(use_dptr)
+            emit6502op("sta", INDFMT_IY, "DPTR");
+          else
+            emit6502op("sta", INDFMT_IY, ptr_aop->aopu.aop_dir);
+    }
+  else
+    {
+      if(IS_AOP_WITH_X (AOP(right)))
+        if(needloadx)
+          loadRegTempAt(m6502_reg_x, xloc);
 
   // FIXME: optimize for right==AOP_REG
   // can load A directly from the save location
@@ -7986,6 +8009,7 @@ genPointerSet (iCode * ic)
         emit6502op("sta", INDFMT_IY, "DPTR");
       else
         emit6502op("sta", INDFMT_IY, ptr_aop->aopu.aop_dir);
+        }
     }
 
  release:
@@ -8070,8 +8094,8 @@ static void genAddrOf (iCode * ic)
   bool needloada, needloadx;
   struct dbuf_s dbuf;
 
-  emitComment (TRACEGEN, "%s - symbol: %s",
-    (sym->onStack)?"on stack":sym->rname, __func__);
+  emitComment (TRACEGEN, "%s - symbol: %s %s",
+    __func__, sym->rname, (sym->onStack)?"(on stack)":"");
 
   aopOp (result, ic);
 
