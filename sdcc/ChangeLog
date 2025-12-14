@@ -4,6 +4,8 @@
 	  genPointerSet improvements.
   	* src/mos6502/gen.c:
 	  genFunction improvements.
+  	* src/mos6502/stackops.c:
+	  debugging logs improvements.
 
 2025-12-13 Gabriele Gorla <gorlik@yahoo.com>
 
