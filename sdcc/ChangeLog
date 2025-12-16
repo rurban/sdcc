@@ -2,6 +2,9 @@
 
 	* support/regression/tests/funcptrcmp.c.in:
 	  Test for function pointer comparison semantics.
+	* src/SDCCopt.c,
+	  support/valdiag/tests/_Optional.c:
+	  A bit of _Optional code cleanup and additional testing.
 
 2025-12-14 Gabriele Gorla <gorlik@yahoo.com>
 
