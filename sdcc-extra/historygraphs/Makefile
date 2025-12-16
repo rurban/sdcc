@@ -12,7 +12,8 @@
 # 4.5.0: 15246
 # Broken: 8984-9000, 9104 (bug #2280), 9106-9114 (whetstone build segfaults), 9379-9418 (SDCC build fails), 9424 (library build fails) 9477 (SDCC build fails), 9891-9946 (stdcbench build fails), 9958-10147 (Dhrystone z80 build fails) 10233-10270 (stdcbench build segfaults), 10185-10340 (stdcbench build segfaults) 10408 (stdcbench build segfaults) 10426-10462 (coremark build fails) 10682 (library build fails for mcs51) 11952 (library build fails). 14400 (build fails). 14463 (stm8 lib build fails) 14464 (coremark build fails for z80)
 # Build of large-stack-auto lib for mcs51 was enabled in 9521.
-REVISIONS_R3KA_WHETSTONE = 12891 12900 12969 13131 13200 13300 13495 13689 13699 13709 13748 13772 13800 13804 13813 13825 13845 13885 13900 14000 14184 14208 14211 14225 14235 14238 14246 14248 14253 14300 14346 14370 14398 14405 14443 14448 14453 14472 14510 14528 14648 14650 14710 14738 14817 14889 14955 14958 14996 15015 15022 15029 15032 15037 15060 15093 15104 15117 15118 15119 15172 15240 15246 15317 15418 15435 15451 15486 15550 15580 15669 15724 15725 15768 15890 15891 15944 15945 15957
+REVISIONS_R4K = 15725 15768 15890 15891 15944 15945 15957
+REVISIONS_R3KA_WHETSTONE = 12891 12900 12969 13131 13200 13300 13495 13689 13699 13709 13748 13772 13800 13804 13813 13825 13845 13885 13900 14000 14184 14208 14211 14225 14235 14238 14246 14248 14253 14300 14346 14370 14398 14405 14443 14448 14453 14472 14510 14528 14648 14650 14710 14738 14817 14889 14955 14958 14996 15015 15022 15029 15032 15037 15060 15093 15104 15117 15118 15119 15172 15240 15246 15317 15418 15435 15451 15486 15550 15580 15669 15724 $(REVISIONS_R4K)
 REVISIONS_R3KA_STDCBENCH_POST = 12392 12415 12430 12450 12464 12488 12495 12508 12642 12673 12689 12692 12746 12784 12795 12827 12862 12875  $(REVISIONS_R3KA_WHETSTONE)
 # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243. For 12121-12300, Coremark fails for z80. For 14221-14224. Whetstone fails for mcs51.
 REVISIONS_R3KA_STDCBENCH = 12001 12056 12085 12098 $(REVISIONS_R3KA_STDCBENCH_POST) # Bug #3216 resulted in wrong r3ka stdcbench scores for 12100-12243.
@@ -24,13 +25,14 @@ BENCHMARKS = whetstone dhrystone coremark stdcbench
 
 GOALS = size speed default
 
-TARGETS = stm8 mcs51 r3ka z80
+TARGETS = stm8 mcs51 r3ka r4k z80
 
-# Adjust these according to attached cables.
+# Adjust these according to attached cables!
 Z80_TTY = /dev/ttyUSB0
 STM8_TTY = /dev/ttyUSB1
 MCS51_TTY = /dev/ttyUSB2
 R3KA_TTY = /dev/ttyUSB3
+R4K_TTY = /dev/ttyUSB5
 
 COMPILERS = $(foreach revision, $(REVISIONS), sdcc-$(revision)/bin/sdcc)
 
@@ -54,6 +56,9 @@ $(BENCHMARKS_R3KA): TARGET = r3ka
 $(BENCHMARKS_R3KA): SDCCFLAGS += -mr3ka
 BENCHMARKS_R3KA_WHETSTONE = $(foreach benchmark, $(BENCHMARKS), $(foreach goal, $(GOALS), $(foreach revision, $(REVISIONS_R3KA_WHETSTONE), $(benchmark)-r3ka-$(goal)-$(revision)/image.ihx)))
 BENCHMARKS_R3KA_STDCBENCH = $(foreach benchmark, $(BENCHMARKS), $(foreach goal, $(GOALS), $(foreach revision, $(REVISIONS_R3KA_STDCBENCH), $(benchmark)-r3ka-$(goal)-$(revision)/image.ihx)))
+BENCHMARKS_R4K = $(foreach benchmark, $(BENCHMARKS), $(foreach goal, $(GOALS), $(foreach revision, $(REVISIONS_R4K), $(benchmark)-r4k-$(goal)-$(revision)/image.ihx)))
+$(BENCHMARKS_R4K): TARGET = r4k
+$(BENCHMARKS_R4K): SDCCFLAGS += -mr4k
 BENCHMARKS_Z80 = $(foreach benchmark, $(BENCHMARKS), $(foreach goal, $(GOALS), $(foreach revision, $(REVISIONS), $(benchmark)-z80-$(goal)-$(revision)/image.ihx)))
 $(BENCHMARKS_Z80): TARGET = z80
 $(BENCHMARKS_Z80): SDCCFLAGS += -mz80
@@ -85,34 +90,42 @@ BENCHMARKS_SCORES = $(BENCHMARKS_3000:image.ihx=score)
 BENCHMARKS_WHETSTONE_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_STM8)))
 BENCHMARKS_WHETSTONE_MCS51_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_MCS51)))
 BENCHMARKS_WHETSTONE_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_R3KA)))
+BENCHMARKS_WHETSTONE_R4K_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_R4K)))
 BENCHMARKS_WHETSTONE_Z80_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_Z80)))
 BENCHMARKS_DHRYSTONE_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_STM8)))
 BENCHMARKS_DHRYSTONE_MCS51_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_MCS51)))
 BENCHMARKS_DHRYSTONE_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_R3KA)))
+BENCHMARKS_DHRYSTONE_R4K_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_R4K)))
 BENCHMARKS_DHRYSTONE_Z80_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_Z80)))
 BENCHMARKS_COREMARK_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_STM8)))
 BENCHMARKS_COREMARK_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_R3KA)))
+BENCHMARKS_COREMARK_R4K_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_R4K)))
 BENCHMARKS_COREMARK_Z80_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_Z80)))
 BENCHMARKS_STDCBENCH_STM8_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_STM8)))
 BENCHMARKS_STDCBENCH_MCS51_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_MCS51)))
 BENCHMARKS_STDCBENCH_R3KA_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_R3KA)))
+BENCHMARKS_STDCBENCH_R4K_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_R4K)))
 BENCHMARKS_STDCBENCH_Z80_SIZES = $(patsubst %image.ihx, %size, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_Z80)))
 BENCHMARKS_WHETSTONE_STM8_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_STM8)))
 BENCHMARKS_WHETSTONE_MCS51_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_MCS51)))
 BENCHMARKS_WHETSTONE_R3KA_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_R3KA_WHETSTONE)))
+BENCHMARKS_WHETSTONE_R4K_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_WHETSTONE), $(BENCHMARKS_R4K)))
 BENCHMARKS_DHRYSTONE_STM8_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_STM8)))
 BENCHMARKS_DHRYSTONE_MCS51_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_MCS51)))
 BENCHMARKS_DHRYSTONE_R3KA_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_R3KA)))
+BENCHMARKS_DHRYSTONE_R4K_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_DHRYSTONE), $(BENCHMARKS_R4K)))
 BENCHMARKS_COREMARK_STM8_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_STM8)))
 BENCHMARKS_COREMARK_R3KA_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_R3KA)))
+BENCHMARKS_COREMARK_R4K_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_COREMARK), $(BENCHMARKS_R4K)))
 BENCHMARKS_STDCBENCH_STM8_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_STM8)))
 BENCHMARKS_STDCBENCH_MCS51_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_MCS51)))
 BENCHMARKS_STDCBENCH_R3KA_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_R3KA_STDCBENCH)))
+BENCHMARKS_STDCBENCH_R4K_SCORES = $(patsubst %image.ihx, %score, $(filter $(BENCHMARKS_STDCBENCH), $(BENCHMARKS_R4K)))
 
 .PHONY: all clean
 
-# Do not include Coremark (non-free) or score graphs (require STM8AF / C8051 V2.1 C8051F120 / RCM3319 boards) in all target.
-all: whetstone-stm8-size.svg whetstone-mcs51-size.svg whetstone-r3ka-size.svg dhrystone-stm8-size.svg dhrystone-mcs51-size.svg dhrystone-r3ka-size.svg dhrystone-z80-size.svg stdcbench-stm8-size.svg stdcbench-mcs51-size.svg
+# Do not include Coremark (historically non-free) or score graphs (require STM8AF / C8051 V2.1 C8051F120 / RCM3319 / RCM4110 boards) in all target.
+all: whetstone-stm8-size.svg whetstone-mcs51-size.svg whetstone-r3ka-size.svg whetstone-r4k-size.svg dhrystone-stm8-size.svg dhrystone-mcs51-size.svg dhrystone-r3ka-size.svg dhrystone-r4k-size.svg dhrystone-z80-size.svg stdcbench-stm8-size.svg stdcbench-mcs51-size.svg
 
 clean:
 	echo $(BENCHMARKS_SIZES)
@@ -172,86 +185,11 @@ stdcbench-z80: stdcbench-0.7.tar.gz Makefile.stdcbench-SDCC-Z80 portme.h.stdcben
 	cp portme.c.stdcbench-SDCC-Z80 stdcbench-z80/examples/portme.c.SDCC-Z80
 	cp crt.0.s.stdcbench-SDCC-Z80 stdcbench-z80/examples/crt0.s.SDCC-Z80
 
-whetstone-stm8-size.svg: whetstone-stm8-sizetable whetstone-stm8-sizetable.p
-	gnuplot whetstone-stm8-sizetable.p
-
-whetstone-mcs51-size.svg: whetstone-mcs51-sizetable whetstone-mcs51-sizetable.p
-	gnuplot whetstone-mcs51-sizetable.p
-
-whetstone-r3ka-size.svg: whetstone-r3ka-sizetable whetstone-r3ka-sizetable.p
-	gnuplot whetstone-r3ka-sizetable.p
-
-dhrystone-stm8-size.svg: dhrystone-stm8-sizetable dhrystone-stm8-sizetable.p
-	gnuplot dhrystone-stm8-sizetable.p
-
-dhrystone-mcs51-size.svg: dhrystone-mcs51-sizetable dhrystone-mcs51-sizetable.p
-	gnuplot dhrystone-mcs51-sizetable.p
-
-dhrystone-r3ka-size.svg: dhrystone-r3ka-sizetable dhrystone-r3ka-sizetable.p
-	gnuplot dhrystone-r3ka-sizetable.p
-
-dhrystone-z80-size.svg: dhrystone-z80-sizetable dhrystone-z80-sizetable.p
-	gnuplot dhrystone-z80-sizetable.p
-
-coremark-stm8-size.svg: coremark-stm8-sizetable coremark-stm8-sizetable.p
-	gnuplot coremark-stm8-sizetable.p
-
-coremark-r3ka-size.svg: coremark-r3ka-sizetable coremark-r3ka-sizetable.p
-	gnuplot coremark-r3ka-sizetable.p
-
-coremark-z80-size.svg: coremark-z80-sizetable coremark-z80-sizetable.p
-	gnuplot coremark-z80-sizetable.p
-
-stdcbench-stm8-size.svg: stdcbench-stm8-sizetable stdcbench-stm8-sizetable.p
-	gnuplot stdcbench-stm8-sizetable.p
-
-stdcbench-mcs51-size.svg: stdcbench-mcs51-sizetable stdcbench-mcs51-sizetable.p
-	gnuplot stdcbench-mcs51-sizetable.p
-
-stdcbench-r3ka-size.svg: stdcbench-r3ka-sizetable stdcbench-r3ka-sizetable.p
-	gnuplot stdcbench-r3ka-sizetable.p
-
-stdcbench-z80-size.svg: stdcbench-z80-sizetable stdcbench-z80-sizetable.p
-	gnuplot stdcbench-z80-sizetable.p
-
-whetstone-stm8-score.svg: whetstone-stm8-scoretable whetstone-stm8-scoretable.p
-	gnuplot whetstone-stm8-scoretable.p
-
-whetstone-mcs51-score.svg: whetstone-mcs51-scoretable whetstone-mcs51-scoretable.p
-	gnuplot whetstone-mcs51-scoretable.p
-
-whetstone-r3ka-score.svg: whetstone-r3ka-scoretable whetstone-r3ka-scoretable.p
-	gnuplot whetstone-r3ka-scoretable.p
-
-whetstone-z80-size.svg: whetstone-z80-sizetable whetstone-z80-sizetable.p
-	gnuplot whetstone-z80-sizetable.p
-
-dhrystone-stm8-score.svg: dhrystone-stm8-scoretable dhrystone-stm8-scoretable.p
-	gnuplot dhrystone-stm8-scoretable.p
-
-dhrystone-mcs51-score.svg: dhrystone-mcs51-scoretable dhrystone-mcs51-scoretable.p
-	gnuplot dhrystone-mcs51-scoretable.p
-
-dhrystone-r3ka-score.svg: dhrystone-r3ka-scoretable dhrystone-r3ka-scoretable.p
-	gnuplot dhrystone-r3ka-scoretable.p
-
-coremark-stm8-score.svg: coremark-stm8-scoretable coremark-stm8-scoretable.p
-	gnuplot coremark-stm8-scoretable.p
-
-coremark-r3ka-score.svg: coremark-r3ka-scoretable coremark-r3ka-scoretable.p
-	gnuplot coremark-r3ka-scoretable.p
-
-stdcbench-stm8-score.svg: stdcbench-stm8-scoretable stdcbench-stm8-scoretable.p
-	gnuplot stdcbench-stm8-scoretable.p
-
-stdcbench-mcs51-score.svg: stdcbench-mcs51-scoretable stdcbench-mcs51-scoretable.p
-	gnuplot stdcbench-mcs51-scoretable.p
-
-stdcbench-r3ka-score.svg: stdcbench-r3ka-scoretable stdcbench-r3ka-scoretable.p
-	gnuplot stdcbench-r3ka-scoretable.p
-
-stdcbench-z80-score.svg: stdcbench-r3ka-scoretable stdcbench-z80-scoretable.p
-	gnuplot stdcbench-z80-scoretable.p
+%-size.svg: %-sizetable %-sizetable.p
+	gnuplot $*-sizetable.p
+	
+%-score.svg: %-scoretable %-scoretable.p
+	gnuplot $*-scoretable.p
 
 whetstone-stm8-sizetable: $(BENCHMARKS_WHETSTONE_STM8_SIZES)
 	echo "#Revision size speed default" > $@
@@ -277,6 +215,15 @@ whetstone-r3ka-sizetable: $(BENCHMARKS_WHETSTONE_R3KA_SIZES)
 		SIZE_SIZE=`cat whetstone-r3ka-size-$$r/size`; \
 		SIZE_SPEED=`cat whetstone-r3ka-speed-$$r/size`; \
 		SIZE_DEFAULT=`cat whetstone-r3ka-default-$$r/size `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
+whetstone-r4k-sizetable: $(BENCHMARKS_WHETSTONE_R4K_SIZES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS_R4K); do \
+		SIZE_SIZE=`cat whetstone-r4k-size-$$r/size`; \
+		SIZE_SPEED=`cat whetstone-r4k-speed-$$r/size`; \
+		SIZE_DEFAULT=`cat whetstone-r4k-default-$$r/size `; \
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
@@ -313,6 +260,15 @@ dhrystone-r3ka-sizetable: $(BENCHMARKS_DHRYSTONE_R3KA_SIZES)
 		SIZE_SIZE=`cat dhrystone-r3ka-size-$$r/size`; \
 		SIZE_SPEED=`cat dhrystone-r3ka-speed-$$r/size`; \
 		SIZE_DEFAULT=`cat dhrystone-r3ka-default-$$r/size `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
+dhrystone-r4k-sizetable: $(BENCHMARKS_DHRYSTONE_R4K_SIZES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS_R4K); do \
+		SIZE_SIZE=`cat dhrystone-r4k-size-$$r/size`; \
+		SIZE_SPEED=`cat dhrystone-r4k-speed-$$r/size`; \
+		SIZE_DEFAULT=`cat dhrystone-r4k-default-$$r/size `; \
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
@@ -415,6 +371,15 @@ whetstone-r3ka-scoretable: $(BENCHMARKS_WHETSTONE_R3KA_SCORES)
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
+whetstone-r4k-scoretable: $(BENCHMARKS_WHETSTONE_R4K_SCORES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS_R4K); do \
+		SIZE_SIZE=`cat whetstone-r4k-size-$$r/score`; \
+		SIZE_SPEED=`cat whetstone-r4k-speed-$$r/score`; \
+		SIZE_DEFAULT=`cat whetstone-r4k-default-$$r/score `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
 dhrystone-stm8-scoretable: $(BENCHMARKS_DHRYSTONE_STM8_SCORES)
 	echo "#Revision size speed default" > $@
 	for r in $(REVISIONS); do \
@@ -439,6 +404,15 @@ dhrystone-r3ka-scoretable: $(BENCHMARKS_DHRYSTONE_R3KA_SCORES)
 		SIZE_SIZE=`cat dhrystone-r3ka-size-$$r/score`; \
 		SIZE_SPEED=`cat dhrystone-r3ka-speed-$$r/score`; \
 		SIZE_DEFAULT=`cat dhrystone-r3ka-default-$$r/score `; \
+		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
+	done
+
+dhrystone-r4k-scoretable: $(BENCHMARKS_DHRYSTONE_R4K_SCORES)
+	echo "#Revision size speed default" > $@
+	for r in $(REVISIONS_R4K); do \
+		SIZE_SIZE=`cat dhrystone-r4k-size-$$r/score`; \
+		SIZE_SPEED=`cat dhrystone-r4k-speed-$$r/score`; \
+		SIZE_DEFAULT=`cat dhrystone-r4k-default-$$r/score `; \
 		echo $$r $$SIZE_SIZE $$SIZE_SPEED $$SIZE_DEFAULT >> $@; \
 	done
 
@@ -521,6 +495,9 @@ $(BENCHMARKS_WHETSTONE_MCS51_SCORES): %/score: %/image.ihx
 $(BENCHMARKS_WHETSTONE_R3KA_SCORES): %/score: %/image.ihx
 	echo "scale=3;" 1000000 / `./execute_benchmark-r3ka $(R3KA_TTY) $< | sed -e "s/Loops: 10, Iterations: 1, Duration: //" | sed -e "s/ msec.*//"` | bc > $@
 
+$(BENCHMARKS_WHETSTONE_R4K_SCORES): %/score: %/image.ihx
+	echo "scale=3;" 1000000 / `./execute_benchmark-r4k $(R4K_TTY) $< | sed -e "s/Loops: 10, Iterations: 1, Duration: //" | sed -e "s/ msec.*//"` | bc > $@
+
 $(BENCHMARKS_DHRYSTONE_STM8_SCORES): %/score: %/image.ihx
 	./execute_benchmark-stm8 $(STM8_TTY) $< | sed -e "s/Dhrystones per Second: //" > $@
 
@@ -529,6 +506,9 @@ $(BENCHMARKS_DHRYSTONE_MCS51_SCORES): %/score: %/image.ihx
 
 $(BENCHMARKS_DHRYSTONE_R3KA_SCORES): %/score: %/image.ihx
 	./execute_benchmark-r3ka $(R3KA_TTY) $< | sed -e "s/Dhrystones per Second: //" > $@
+
+$(BENCHMARKS_DHRYSTONE_R4K_SCORES): %/score: %/image.ihx
+	./execute_benchmark-r4k $(R4K_TTY) $< | sed -e "s/Dhrystones per Second: //" > $@
 
 $(BENCHMARKS_COREMARK_STM8_SCORES): %/score: %/image.ihx
 	echo "scale=3;" 60000 / `./execute_benchmark-stm8 $(STM8_TTY) $< | sed -e "s/Total ticks : //"` | bc > $@
