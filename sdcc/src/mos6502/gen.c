@@ -414,14 +414,14 @@ regInfoStr()
   char regstring[3][10];
   char *flagreg;
 
-  if(m6502_reg_a->isLitConst) snprintf(regstring[0],10,"A:%c%c:#%02X ",
+  if(m6502_reg_a->aop == &tsxaop) snprintf(regstring[0],10,"A:%c%c:S%+-3d",
                                        (m6502_reg_a->isFree)?'-':'U',
                                        (m6502_reg_a->isDead)?'-':'L',
-                                       m6502_reg_a->litConst&0xff );
-  else if(m6502_reg_a->aop == &tsxaop) snprintf(regstring[0],10,"A:%c%c:S%+-3d",
+                                                m6502_reg_a->stackOffset);
+  else if(m6502_reg_a->isLitConst) snprintf(regstring[0],10,"A:%c%c:#%02X ",
                                                 (m6502_reg_a->isFree)?'-':'U',
                                                 (m6502_reg_a->isDead)?'-':'L',
-                                                _S.tsxStackPushes - _S.stackPushes );
+                                       m6502_reg_a->litConst&0xff );
   else if(m6502_reg_a->aop) snprintf(regstring[0],10,"A:%c%c:A%+-3d",
 				     (m6502_reg_a->isFree)?'-':'U',
 				     (m6502_reg_a->isDead)?'-':'L',
@@ -430,14 +430,14 @@ regInfoStr()
                 (m6502_reg_a->isFree)?'-':'U',
                 (m6502_reg_a->isDead)?'-':'L');
   
-  if(m6502_reg_x->isLitConst) snprintf(regstring[1],10,"X:%c%c:#%02X ",
+  if(m6502_reg_x->aop == &tsxaop) snprintf(regstring[1],10,"X:%c%c:S%+-3d",
                                        (m6502_reg_x->isFree)?'-':'U',
                                        (m6502_reg_x->isDead)?'-':'L',
-                                       m6502_reg_x->litConst&0xff  );
-  else if(m6502_reg_x->aop == &tsxaop) snprintf(regstring[1],10,"X:%c%c:S%+-3d",
+                                                m6502_reg_x->stackOffset);
+  else if(m6502_reg_x->isLitConst) snprintf(regstring[1],10,"X:%c%c:#%02X ",
                                                 (m6502_reg_x->isFree)?'-':'U',
                                                 (m6502_reg_x->isDead)?'-':'L',
-                                                _S.tsxStackPushes - _S.stackPushes );
+                                       m6502_reg_x->litConst&0xff  );
   else if(m6502_reg_x->aop) snprintf(regstring[1],10,"X:%c%c:A%+-3d",
 				     (m6502_reg_x->isFree)?'-':'U',
 				     (m6502_reg_x->isDead)?'-':'L',
@@ -446,14 +446,14 @@ regInfoStr()
                 (m6502_reg_x->isFree)?'-':'U',
                 (m6502_reg_x->isDead)?'-':'L');
   
-  if(m6502_reg_y->isLitConst) snprintf(regstring[2],10,"Y:%c%c:#%02X ",
+  if(m6502_reg_y->aop == &tsxaop) snprintf(regstring[2],10,"Y:%c%c:S%+-3d",
                                        (m6502_reg_y->isFree)?'-':'U',
                                        (m6502_reg_y->isDead)?'-':'L',
-                                       m6502_reg_y->litConst&0xff );
-  else if(m6502_reg_y->aop == &tsxaop) snprintf(regstring[2],10,"Y:%c%c:S%+-3d",
+                                                m6502_reg_y->stackOffset);
+  else if(m6502_reg_y->isLitConst) snprintf(regstring[2],10,"Y:%c%c:#%02X ",
                                                 (m6502_reg_y->isFree)?'-':'U',
                                                 (m6502_reg_y->isDead)?'-':'L',
-                                                _S.tsxStackPushes - _S.stackPushes );
+                                       m6502_reg_y->litConst&0xff );
   else if(m6502_reg_y->aop) snprintf(regstring[2],10,"Y:%c%c:A%+-3d",
 				     (m6502_reg_y->isFree)?'-':'U',
 				     (m6502_reg_y->isDead)?'-':'L',
@@ -638,7 +638,7 @@ emit6502op (const char *inst, const char *fmt, ...)
             {
               m6502_dirtyReg (m6502_reg_x);
               m6502_reg_x->aop = &tsxaop;
-              _S.tsxStackPushes = _S.stackPushes;
+              m6502_reg_x->stackOffset = -_S.stackPushes;
               break;
             }
           break;
@@ -662,7 +662,7 @@ emit6502op (const char *inst, const char *fmt, ...)
           if(dst_reg->isLitConst)
             dst_reg->litConst--;
           else if(dst_reg->aop==&tsxaop)
-            _S.tsxStackPushes++;
+            dst_reg->stackOffset--;
           else
             m6502_dirtyReg(dst_reg);
           break;
@@ -670,7 +670,7 @@ emit6502op (const char *inst, const char *fmt, ...)
           if(dst_reg->isLitConst)
             dst_reg->litConst++;
           else if(dst_reg->aop==&tsxaop)
-            _S.tsxStackPushes--;
+            dst_reg->stackOffset++;
           else
             m6502_dirtyReg(dst_reg);
           break;
@@ -1084,6 +1084,7 @@ transferRegReg (reg_info *sreg, reg_info *dreg, bool freesrc)
   else
     {
       regTrackAop(dreg, sreg->aop, sreg->aopofs);
+      dreg->stackOffset = sreg->stackOffset;
     }
 
   emitComment (REGOPS, "  %s %s", __func__, regInfoStr() );
@@ -1103,7 +1104,7 @@ updateCFA (void)
     return;
   
   if (options.debug && !regalloc_dry_run)
-    debugFile->writeFrameAddress (NULL, m6502_reg_sp, 1 + _S.stackOfs + _S.stackPushes);
+    debugFile->writeFrameAddress (NULL, m6502_reg_sp, 1 + _S.stackBase + _S.stackPushes);
 }
 
 /**************************************************************************
@@ -1445,7 +1446,7 @@ storeRegToAop (reg_info *reg, asmop * aop, int loffset)
   else if (aop->type == AOP_SOF)
     {
       // handle stack
-      //    int xofs = STACK_TOP + _S.stackOfs + _S.tsxStackPushes + aop->aopu.aop_stk + loffset + 1;
+      //    int xofs = STACK_TOP + _S.stackBase - reg->stackOffset + aop->aopu.aop_stk + loffset + 1;
 
       switch (regidx)
         {
@@ -2072,7 +2073,7 @@ static asmop * forceStackedAop (asmop * aop, bool copyOrig)
 	{
 	  m6502_pushReg (m6502_reg_a, false);
 	}
-      aopsof->aopu.aop_stk = -_S.stackOfs - _S.stackPushes;
+      aopsof->aopu.aop_stk = -_S.stackBase - _S.stackPushes;
       aopsof->op = aop->op;
       newaop->stk_aop[offset] = aopsof;
     }
@@ -2691,8 +2692,8 @@ keepTSX()
 void
 emitTSX()
 {
-  emitComment (TRACE_STACK|VVDBG, "%s: stackOfs=%d tsx=%d stackpush=%d",
-               __func__, _S.stackOfs, _S.tsxStackPushes, _S.stackPushes);
+  emitComment (TRACE_STACK|VVDBG, "%s: stackBase=%d Xofs=%d stackpush=%d",
+               __func__, _S.stackBase, m6502_reg_x->stackOffset, _S.stackPushes);
 
   // already did TSX
   if (m6502_reg_x->aop == &tsxaop)
@@ -3389,9 +3390,9 @@ static void aopAdrPrepare (asmop * aop, int loffset)
     // code for lda [BASEPTR],y
     aopPrepareStoreTemp = storeRegTemp(m6502_reg_y, false);
     // FIXME: offset is wrong
-    emitComment (TRACE_AOP, "ofs=%d base=%d tsx=%d push=%d stk=%d loffset=%d", _S.stackOfs, _S.baseStackPushes, _S.tsxStackPushes, _S.stackPushes, aop->aopu.aop_stk, loffset);
-    loadRegFromConst(m6502_reg_y, _S.stackOfs + _S.baseStackPushes + aop->aopu.aop_stk + loffset + 1);
-    // ORIG: loadRegFromConst(m6502_reg_y, _S.stackOfs - _S.baseStackPushes + aop->aopu.aop_stk + loffset + 1);
+    emitComment (TRACE_AOP, "ofs=%d base=%d tsx=%d push=%d stk=%d loffset=%d", _S.stackBase, _S.baseStackPushes, reg->stackOffset, _S.stackPushes, aop->aopu.aop_stk, loffset);
+    loadRegFromConst(m6502_reg_y, _S.stackBase + _S.baseStackPushes + aop->aopu.aop_stk + loffset + 1);
+    // ORIG: loadRegFromConst(m6502_reg_y, _S.stackBase - _S.baseStackPushes + aop->aopu.aop_stk + loffset + 1);
     m6502_reg_y->aop = &tsxaop;
 #else
     // can we get stack pointer?
@@ -3514,20 +3515,22 @@ aopAdrStr (asmop * aop, int loffset, bool bit16)
 	  // FIXME FIXME: force emit of TSX to avoid offset < 0x100
 	  // this is a workaround for the assembler incorrectly
 	  // generating ZP,x instead of ABS,x
-	  if((_S.stackOfs + _S.tsxStackPushes + aop->aopu.aop_stk + offset + 1)<0)
+	  if((_S.stackBase - m6502_reg_x->stackOffset + aop->aopu.aop_stk + offset + 1)<0)
 	    {
 	      m6502_dirtyReg(m6502_reg_x);
 	    }
           // FIXME: this is usually redundant as it is explicitly called
           // before calling aopAdrStr
 	  emitTSX();
-	  // hc08's tsx returns +1, ours returns +0
-	  //DD( emitcode( "", "; %d + %d + %d + %d + 1", _S.stackOfs, _S.tsxStackPushes, aop->aopu.aop_stk, offset ));
-	  xofs = STACK_TOP + _S.stackOfs + _S.tsxStackPushes + aop->aopu.aop_stk + offset + 1;
-	  emitComment(VVDBG|TRACE_STACK,"      op target: STACK_FRAME%+d (SP%+d [%d, %d, %d])",
-		      /*_S.tsxStackPushes + */aop->aopu.aop_stk + offset + 1,
-		      _S.stackOfs + aop->aopu.aop_stk + offset + 1,
-		      _S.tsxStackPushes, aop->aopu.aop_stk, offset);
+
+	  xofs = STACK_TOP + _S.stackBase - m6502_reg_x->stackOffset + aop->aopu.aop_stk + offset + 1;
+
+	  emitComment(ALWAYS,"      op target: SP+%d+%d [base:%d + off:%d + sym:%d - reg:%d + 1 ] -> %d (0x%02x)",
+		      _S.stackBase + aop->aopu.aop_stk + 1, offset,
+		      _S.stackBase, offset,
+                      aop->aopu.aop_stk, m6502_reg_x->stackOffset, 
+		      xofs - STACK_TOP, xofs - STACK_TOP);
+
 	  sprintf (s, IDXFMT_X, xofs);
 	  rs = Safe_calloc (1, strlen (s) + 1);
 	  strcpy (rs, s);
@@ -4791,9 +4794,9 @@ genFunction (iCode * ic)
       m6502_reg_x->isDead=0;
     }
 
-  _S.stackOfs = 0;
+  _S.stackBase = 0;
   _S.stackPushes = 0;
-  _S.tsxStackPushes = 0;
+  m6502_reg_x->stackOffset = 0;
   _S.lastflag=-1;
   _S.carryValid=0;
 
@@ -4867,9 +4870,9 @@ genFunction (iCode * ic)
   if (stackAdjust)
     adjustStack (-stackAdjust);
 
-  _S.stackOfs = sym->stack;
+  _S.stackBase = sym->stack;
   _S.stackPushes = 0;
-  _S.tsxStackPushes = 0;
+  m6502_reg_x->stackOffset = 0;
   _S.funcHasBasePtr = 0;
 
   if ( stackAdjust || sym->stack || numStackParams || IFFUNC_ISREENT(sym->type) )
@@ -7237,6 +7240,7 @@ static void genPointerGet (iCode * ic, iCode * ifx)
 
         if(idx_reg=='A' || idx_reg=='M')
 	  {
+            // FIXME: add check for S+x in A and reuse x
             if(dst_reg[2]=='x' || m6502_reg_x->aop==&tsxaop || AOP_TYPE(result)==AOP_SOF)
 	      {
 		py = storeRegTempIfSurv(m6502_reg_y);
@@ -8134,8 +8138,8 @@ static void genAddrOf (iCode * ic)
 
       if(m6502_reg_x->aop==&tsxaop)
         {
-          int oldOff = -(_S.stackOfs + _S.tsxStackPushes + _S.stackPushes + sym->stack +1);
-          int newOff = -(_S.stackOfs + 2 * _S.stackPushes + sym->stack + 1);
+          int oldOff = -(_S.stackBase - m6502_reg_x->stackOffset + _S.stackPushes + sym->stack +1);
+          int newOff = -(_S.stackBase + sym->stack + 1);
 
           emitComment (TRACEGEN|VVDBG, "  %s : old: %d   new: %d", __func__, oldOff, newOff);
 
@@ -8144,7 +8148,7 @@ static void genAddrOf (iCode * ic)
         }
 
       emitTSX();
-      offset = _S.stackOfs + _S.tsxStackPushes + _S.stackPushes + sym->stack + 1;
+      offset = _S.stackBase - m6502_reg_x->stackOffset + _S.stackPushes + sym->stack + 1;
 
       if(smallAdjustReg(m6502_reg_x, offset))
 	offset=0;
@@ -8159,7 +8163,7 @@ static void genAddrOf (iCode * ic)
       if(IS_AOP_XA(AOP(result)))
 	{
           m6502_reg_a->aop=&tsxaop;
-          _S.tsxStackPushes-=offset;
+          m6502_reg_a->stackOffset+=offset;
 	  loadRegFromConst(m6502_reg_x, 0x01); // stack top = 0x100
 	}
       else

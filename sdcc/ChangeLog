@@ -2,6 +2,7 @@
 
   	* src/mos6502/gen.c:
   	  genFunction cleanup.
+  	  refactor stack offset code.
 
 2025-12-16 Philipp Klaus Krause <philipp@colecovision.eu>
 
