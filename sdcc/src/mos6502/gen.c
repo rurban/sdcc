@@ -741,13 +741,14 @@ emit6502op (const char *inst, const char *fmt, ...)
 static void
 m6502_unimplemented(const char *msg)
 {
-  emitcode("ERROR","Unimplemented %s", msg);
 #ifndef DEBUG_UNIMPLEMENTED
   regalloc_dry_run_cost_bytes  += 500;
   regalloc_dry_run_cost_cycles += 500;
+  emitComment (ALWAYS, "%s - %s", __func__, msg);
 #else
   regalloc_dry_run_cost_bytes  = 0;
   regalloc_dry_run_cost_cycles = 0;
+  emitcode("ERROR","%s - %s", __func__, msg);
 #endif
 }
 
@@ -2281,9 +2282,9 @@ rmwWithAop (char *rmwop, asmop * aop, int loffset)
 	//        reg_info * reg = getFreeByteReg();
 	//        if (!reg)
 	//            reg = m6502_reg_a;
-        int offset = loffset; // SEH: aop->size - 1 - loffset;
-        offset += _S.stackOfs + _S.stackPushes + aop->aopu.aop_stk + 1;
 #if 0
+        int offset = _S.stackOfs + _S.stackPushes + aop->aopu.aop_stk + loffset + 1;
+
         if ((offset > 0x1ff) || (offset < 0))
 	  {
 	    emitComment (TRACE_AOP, "  rmwWithAop large offset");
@@ -4750,7 +4751,7 @@ genFunction (iCode * ic)
   sym_link *ftype;
   iCode *ric = (ic->next && ic->next->op == RECEIVE) ? ic->next : NULL;
   int stackAdjust = sym->stack;
-  //  int accIsFree = sym->recvSize == 0;
+  int recvSize = 0;
 
   /* create the function header */
   emitComment (ALWAYS, "-----------------------------------------");
@@ -4759,34 +4760,32 @@ genFunction (iCode * ic)
   emitComment (ALWAYS, m6502_assignment_optimal ? "Register assignment is optimal." : "Register assignment might be sub-optimal.");
   emitComment (ALWAYS, "Stack space usage: %d bytes.", sym->stack);
 
-  symbol *p1 = NULL, *p2 = NULL;
-  int recvsize = 0;
-
-  
   if(ric)
     {
+      symbol *p1 = NULL, *p2 = NULL;
+
       p1 = OP_SYMBOL (IC_RESULT (ric));
-      recvsize += p1 ? getSize (p1->type) : 0;
+      recvSize += p1 ? getSize (p1->type) : 0;
       iCode *ric2 = (ric->next && ric->next->op == RECEIVE) ? ric->next : NULL;
-      if(recvsize==1 && ric2)
+      if(recvSize==1 && ric2)
         {
           p2 = OP_SYMBOL (IC_RESULT (ric2));
-          recvsize += p2 ? getSize (p2->type) : 0;
+          recvSize += p2 ? getSize (p2->type) : 0;
         }
     }
 
-  emitComment (ALWAYS, "%s - ric rcvsize = %d", __func__, recvsize);
+  emitComment (ALWAYS, "%s - rcv size = %d", __func__, recvSize);
 
   emitcode ("", "%s:", sym->rname);
   genLine.lineCurr->isLabel = 1;
   ftype = operandType (IC_LEFT (ic));
 
-  if (recvsize==1 || recvsize == 2)
+  if (recvSize==1 || recvSize == 2)
     {
       m6502_useReg (m6502_reg_a);
       m6502_reg_a->isDead=0;
     }
-  if (recvsize==2)
+  if (recvSize==2)
     {
       m6502_useReg (m6502_reg_x);
       m6502_reg_x->isDead=0;
